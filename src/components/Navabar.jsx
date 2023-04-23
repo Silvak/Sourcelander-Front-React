@@ -41,7 +41,7 @@ function Navabar() {
         {/* Logo */}
         <div className="flex items-center">
           <a
-            href="/1"
+            href="https://sourcelander.org/"
             className="h-[36px] w-[211px] font-semibold text-[1.8em] cursor-pointer"
           >
             <img src="logo.png" className="h-full" alt="" />

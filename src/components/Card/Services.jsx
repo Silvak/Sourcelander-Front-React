@@ -16,7 +16,7 @@ const CardServices = (props) => {
               {title}
             </a>
             <span className="text-[0.9em] text-[#666] ml-4 font-semibold">
-              {description[0]}
+              {description[0].replaceAll("$", "KNRT ")}
             </span>
           </h3>
           <p className="text-[0.9em] text-[#333] pt-1 pb-3">{description[1]}</p>

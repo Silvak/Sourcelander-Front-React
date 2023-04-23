@@ -102,11 +102,14 @@ function Login(props) {
           <h3 className="text-[1.8em] w-full text-center font-semibold text-white">
             Grow with sourcelancer
           </h3>
-          <div className="w-[70%] h-[80%]">
+          <div className="w-[70%] h-[60%]">
             <img src="/team.png" alt="" className="object-contain w-full" />
           </div>
-          <div className="flex flex-wrap w-full h-[50px]">
-            <p className="w-full text-center font-semibold text-gray-100">
+          <div className="flex flex-wrap w-full h-auto">
+            <p className="w-full text-center font-semibold text-gray-100 mb-2">
+              Get your invitation
+            </p>
+            <p className="w-full text-center text-gray-100">
               99% Customer Satisfaction
             </p>
             <p className="w-full text-center text-gray-100">

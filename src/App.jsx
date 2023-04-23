@@ -86,7 +86,7 @@ function App() {
       <article className="flex justify-center w-full pt-5">
         <div className="flex flex-col max-w-[982px] pt-0 pb-20">
           {/* Filters */}
-          <nav className="hidden flex w-full items-center justify-between h-[52px] overflow-hidden mb-10 gap-4">
+          <nav className="hidden w-full items-center justify-between h-[52px] overflow-hidden mb-10 gap-4">
             <div className="flex items-center bg-[#FAFAFA] border border-x border-gray-300 h-full w-full lg:w-[80%]">
               <button className="hidden md:flex justify-around h-full items-center w-[22%] border-r border-gray-300 px-4 hover:bg-gray-400/20 outline-none ">
                 {" "}
@@ -122,7 +122,7 @@ function App() {
 
           {/* top */}
           <nav className="flex w-full items-center px-5 bg-[#FAFAFA] h-[52px] overflow-hidden border border-x border-gray-300">
-            <span>1,200 Results</span>
+            <span>Results</span>
           </nav>
 
           {/* list of users */}

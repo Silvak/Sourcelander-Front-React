@@ -118,7 +118,8 @@ const Card = (props) => {
                     {user.description.title || ""}
                   </a>
                   <span className="text-[0.9em] text-[#666] ml-4 font-semibold">
-                    {user.description.description[0] || ""}
+                    {user.description.description[0].replaceAll("$", "KNRT ") ||
+                      ""}
                   </span>
                 </h3>
                 <p className="text-[0.9em] text-[#333] pt-1 pb-3 pr-0 sm:pr-2">
