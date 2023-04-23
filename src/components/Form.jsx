@@ -18,14 +18,14 @@ export const typeWorkList = [
 export const paymentList = ["Fixed Price", "Hourly", "Not Sure"];
 
 export const fixedPriceList = [
-  "Under $250",
-  "$250 to $500",
-  "$500 to $1,000",
-  "$1,000 to $2,500",
-  "$2,500 to $5,000",
-  "$5,000 to $10,000",
-  "$10,000 to $25,000",
-  "Over $25,000",
+  "Under KNRT 250",
+  "KNRT 250 to KNRT 500",
+  "KNRT 500 to KNRT 1,000",
+  "KNRT 1,000 to KNRT 2,500",
+  "KNRT 2,500 to KNRT 5,000",
+  "KNRT 5,000 to KNRT 10,000",
+  "KNRT 10,000 to KNRT 25,000",
+  "Over KNRT 25,000",
   "Not sure/Confidential",
 ];
 
@@ -284,7 +284,7 @@ const Form = (props) => {
                   <input
                     type="number"
                     required
-                    placeholder="$ Minimum"
+                    placeholder="KNRT Minimum"
                     className="text-[.8em] border border-gray-300 w-full px-2 h-[33px] outline-none"
                     onChange={(event) => {
                       setRateMin(event.target.value);
@@ -297,7 +297,7 @@ const Form = (props) => {
                   <input
                     type="number"
                     required
-                    placeholder="$ Maximun"
+                    placeholder="KNRT Maximun"
                     className="text-[.8em] border border-gray-300 w-full px-2 h-[33px] outline-none"
                     onChange={(event) => {
                       setRateMax(event.target.value);

@@ -93,7 +93,7 @@ const Card = (props) => {
                 </button>
                 {/* <<<<<<<<<<<< Go to Login >>>>>>>>>>>>> */}
                 <FormData freelance={freelance}>
-                  <button className="w-[90px] sm:w-auto px-2 py-2  bg-[#3773b7] text-white sm:px-4 sm:py-3 font-medium text-[14px] sm:text-[1em]">
+                  <button className="w-[90px] sm:w-auto px-2 py-2 bg-[#3773b7] text-white sm:px-4 sm:py-3 font-medium text-[14px] sm:text-[1em]">
                     Get a Quote
                   </button>
                 </FormData>

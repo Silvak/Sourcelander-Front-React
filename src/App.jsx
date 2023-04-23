@@ -4,7 +4,7 @@ import ListUsers from "./components/ListUsers";
 import Footer from "./components/Footer";
 import { request } from "graphql-request";
 import { useParams } from "react-router-dom";
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import Pagination from "./components/Pagination";
 
 //icons
 import { CiBoxList } from "react-icons/ci";
@@ -30,13 +30,8 @@ function App() {
   const [number, setNumber] = useState(pageNumber || 1);
   const [totalPages, setTotalPage] = useState(300);
 
-  //navigate
-  const before = () => {
-    number > 1 && setNumber(number - 1);
-  };
-
-  const after = () => {
-    number < totalPages && setNumber(number + 1);
+  const onChangePage = (page) => {
+    setNumber(page);
   };
 
   useEffect(() => {
@@ -131,21 +126,11 @@ function App() {
           {/* pagination */}
           <nav className="flex w-full bg-gray-200 h-[52px] overflow-hidden border-b border-x border-gray-300">
             <ul className="flex justify-center items-center pagination w-full">
-              <button
-                className="flex justify-center items-center h-[32px] w-[32px] bg-gray-100 border border-gray-300 rounded-[3px]"
-                onClick={before}
-              >
-                <MdKeyboardArrowLeft />
-              </button>
-              <li className="text-[#666] font-semibold w-[48px] text-center">
-                {number}
-              </li>
-              <button
-                className="flex justify-center items-center h-[32px] w-[32px] bg-gray-100 border border-gray-300 rounded-[3px]"
-                onClick={after}
-              >
-                <MdKeyboardArrowRight />
-              </button>
+              <Pagination
+                currentPage={number}
+                totalPages={totalPages}
+                onChangePage={onChangePage}
+              />
             </ul>
           </nav>
         </div>

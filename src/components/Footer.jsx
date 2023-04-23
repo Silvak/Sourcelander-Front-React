@@ -1,6 +1,4 @@
 import React from "react";
-import { ImFacebook, ImTwitter } from "react-icons/im";
-import { FaLinkedinIn } from "react-icons/fa";
 
 const toSkills = [
   " Designers",
@@ -80,55 +78,33 @@ function Footer() {
             <a href="" className="hover:underline">
               Home
             </a>
-            <a href="" className="hover:underline">
+            <a href="https://sourcelander.org/" className="hover:underline">
               Jobs
             </a>
-            <a href="" className="hover:underline">
+            <a href="https://sourcelander.org/" className="hover:underline">
               Solutions
             </a>
           </div>
 
           <div className=" w-full  h-[150px] flex flex-col text-gray-200  gap-4">
             <h6 className="text-white font-semibold text-lg">Company Info</h6>
-            <a href="" className="hover:underline">
+            <a href="https://sourcelander.org/" className="hover:underline">
               About
             </a>
           </div>
 
-          <div className="hidden sm:flex w-full  h-[150px] flex flex-col text-gray-200 gap-4">
+          <div className="hidden sm:flex w-full  h-[150px] flex-col text-gray-200 gap-4">
             <h6 className="text-white font-semibold text-lg">Policies</h6>
-            <a href="" className="hover:underline">
+            <a href="https://sourcelander.org/" className="hover:underline">
               Privacy Policy
             </a>
-            <a href="" className="hover:underline">
+            <a href="https://sourcelander.org/" className="hover:underline">
               Terms of services
             </a>
           </div>
 
           <div className="w-full  h-[150px] flex flex-col text-gray-200  gap-4">
-            <h6 className="text-white font-semibold text-lg">
-              Connect With Us
-            </h6>
-            <div className="flex justify-between items-center max-w-[130px] ">
-              <a
-                href="/1"
-                className=" bg-blue-600 text-white h-[34px] w-[34px] rounded-[20px] flex justify-center items-center hover:text-[#8DBFF8]"
-              >
-                <ImFacebook />
-              </a>
-              <a
-                href="/1"
-                className="bg-blue-400 text-white h-[34px] w-[34px] rounded-[20px] flex justify-center items-center hover:text-[#8DBFF8]"
-              >
-                <ImTwitter />
-              </a>
-              <a
-                href="/1"
-                className=" bg-sky-800 text-white h-[34px] w-[34px] rounded-[20px] flex justify-center items-center hover:text-[#8DBFF8]"
-              >
-                <FaLinkedinIn />
-              </a>
-            </div>
+            {" "}
           </div>
         </article>
 
