@@ -40,9 +40,7 @@ function Pagination({ currentPage, totalPages, onChangePage }) {
           key={i}
           onClick={() => handleChangePage(i)}
           className={`flex justify-center items-center h-[32px] w-auto px-3 bg-gray-100 border border-gray-300 rounded-[3px] hover:bg-gray-400/10 hover:border-gray-400 ${
-            currentPage === i
-              ? "bg-[#3978bf] text-white hover:bg-[#336fb3] hover:border-gray-600"
-              : ""
+            currentPage === i ? "text-[#3978bf] font-semibold  " : ""
           }`}
         >
           {i}
