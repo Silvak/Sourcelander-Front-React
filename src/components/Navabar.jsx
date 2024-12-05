@@ -42,7 +42,7 @@ function Navabar() {
         <div className="flex items-center">
           <a
             href="https://sourcelander.org/"
-            className="h-[36px] w-[211px] font-semibold text-[1.8em] cursor-pointer"
+            className="h-[48px] w-[211px] font-semibold text-[1.8em] cursor-pointer"
           >
             <img src="logo.png" className="h-full" alt="" />
           </a>

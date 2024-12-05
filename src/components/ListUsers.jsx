@@ -11,7 +11,6 @@ function ListUsers({ dataList }) {
         <>{"Loading"}</>
       ) : (
         <>
-          {" "}
           {dataList.map((element) => (
             <Card key={uuid()} data={element} />
           ))}

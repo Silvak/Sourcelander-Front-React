@@ -20,6 +20,8 @@ import Loading from "./components/Loading";
 
 //
 
+const back_url = import.meta.env.VITE_BACK_URL
+
 // main component
 function App() {
   let { id } = useParams();
@@ -35,12 +37,12 @@ function App() {
   };
 
   useEffect(() => {
-    fetch(`https://node-sourcelander-api.vercel.app/api/page/1`)
+    fetch(`${back_url}/api/page/1`)
       .then((response) => response.json())
       .then((data) => setDataList(data.list))
       .catch((error) => setError(error));
 
-    fetch(`https://node-sourcelander-api.vercel.app/api/info-pages`)
+    fetch(`${back_url}/api/info-pages`)
       .then((response) => response.json())
       .then((data) => setTotalPage(data.totalPages))
       .catch((error) => setError(error));
@@ -48,7 +50,7 @@ function App() {
 
   useEffect(() => {
     //
-    fetch(`https://node-sourcelander-api.vercel.app/api/page/${id}`)
+    fetch(`${back_url}/api/page/${id}`)
       .then((response) => response.json())
       .then((data) => setDataList(data.list))
       .catch((error) => setError(error));
@@ -79,8 +81,9 @@ function App() {
         </div>
       </div>
       <article className="flex justify-center w-full pt-5">
-        <div className="flex flex-col max-w-[982px] pt-0 pb-20">
-          {/* Filters */}
+        <div className="flex flex-col max-w-[982px] w-full px-4 md:px-0 pt-0 pb-20">
+
+          {/* Filters [hidden] */}
           <nav className="hidden w-full items-center justify-between h-[52px] overflow-hidden mb-10 gap-4">
             <div className="flex items-center bg-[#FAFAFA] border border-x border-gray-300 h-full w-full lg:w-[80%]">
               <button className="hidden md:flex justify-around h-full items-center w-[22%] border-r border-gray-300 px-4 hover:bg-gray-400/20 outline-none ">
