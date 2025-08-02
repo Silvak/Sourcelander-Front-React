@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { v4 as uuid } from "uuid";
-import Card from "./Card/Card";
+import Card from "../Card/Card";
 
 //
 function ListUsers({ dataList }) {

@@ -4,7 +4,7 @@ import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { useNavigate } from "react-router-dom";
 import Form from "./Form";
 //
-import { auth } from "../firebase";
+import { auth } from "../../firebase";
 
 function FormData(props) {
   const { children } = props;

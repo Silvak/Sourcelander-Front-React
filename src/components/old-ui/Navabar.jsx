@@ -3,7 +3,7 @@ import { FiLogIn } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { AiFillBell } from "react-icons/ai";
 import LogOut from "./LogOut";
-import { auth } from "../firebase";
+import { auth } from "../../firebase";
 import { async } from "@firebase/util";
 import { CiLogin } from "react-icons/ci";
 
