@@ -1,71 +1,69 @@
-# Sourcelander Front App
+# 🛒 Next.js eCommerce + Blog
 
-This is the repository for the Sourcelander frontend application. This application is developed in React.js and uses Vite as a build tool.
+Proyecto web completo y escalable construido con Next.js 14+, arquitectura modular por dominios (features), y componentes reutilizables con shadcn/ui.
 
-## Requirements
+---
 
-To run this application on your machine, you need to have installed:
+## Iniciar servidor de desarrollo
 
-- Node.js (version 12 or higher)
-- npm or Yarn
+- `npm run dev`: Iniciar servidor de desarrollo
+- `npm run test`: Ejecutar tests unitarios
+- `npm run build`: Compilar build de producción
+- `npm run lint && npm run format`: Linter + formateo
 
-## Project setup
+---
 
-```
-git clone https://github.com/Silvak/sourcelander-front-app.git
-```
+## 🧱 Arquitectura del Proyecto
 
-```
-cd sourcelander-front-app
-```
+El proyecto sigue una arquitectura **modular por dominio (DDD)** combinada con componentes compartidos:
 
-```
-npm install
-```
+- `app/`: rutas del frontend, con layout por rol (admin, user)
+- `features/`: módulos independientes como auth, productos, carrito, etc.
+- `components/ui/`: base UI reutilizable (con shadcn/ui)
+- `hooks/`, `lib/`, `store/`, `types/`: herramientas compartidas entre features
 
-or
+Esta arquitectura permite:
 
-```
-yarn install
-```
+- Separación clara de responsabilidades
+- Escalabilidad horizontal por dominio
+- Reutilización de lógica y UI
 
-## Running the application
+---
 
-To start the application on your machine, run:
+## 🧩 Estructura de Carpetas
 
-```
-npm run dev
-```
+```txt
+.
+├── app/                     # Rutas y layouts de Next.js
+│   ├── admin/              # Panel admin (protegido)
+│   ├── user/               # Panel usuario (protegido)
+│   ├── auth/               # Login / registro
+│   ├── shop/               # Tienda pública
+│   ├── blog/               # Blog
+│   ├── api/                # Rutas API (Next.js handlers)
+│   └── layout.tsx          # Layout global
 
-or
+├── components/
+│   ├── ui/                 # Componentes base (shadcn/ui)
+│   ├── layout/             # Navbar, footer, sidebar
+│   └── icons/              # SVGs personalizados
 
-```
-yarn run dev
-```
+├── features/
+│   ├── auth/               # Módulo de autenticación
+│   ├── products/           # Módulo de productos
+│   ├── cart/               # Carrito de compras
+│   └── orders/             # Pedidos
 
-## Building the application
+├── hooks/                  # Hooks globales (useAuth, useDebounce, etc.)
+├── lib/                    # Lógica auxiliar (api.ts, auth.ts, utils.ts)
+├── store/                  # Estado global con Zustand
+├── types/                  # Tipos globales compartidos
+├── public/                 # Archivos estáticos (logos, imágenes)
+├── tests/                  # Tests de integración o flujo (opcional)
 
-To build the application on your machine, run:
-
-```
-npm run build
-```
-
-or
-
-```
-yarn run build
-```
-
-## ENV
-
-Firebase env variables
-
-```
-VITE_API_KEY=
-VITE_AUTH_DOMAIN=
-VITE_PROJECT_ID=
-VITE_BUCKET=
-VITE_SENDER_ID=
-VITE_APP_ID=
+├── middleware.ts           # Protección de rutas por rol
+├── next.config.js
+├── tailwind.config.ts
+├── vitest.config.ts
+└── README.md               # Este archivo
 ```
