@@ -160,9 +160,12 @@ const filterMockData = (filters: SearchFilters): UnifiedFreelancer[] => {
     filteredData = filteredData.filter(
       (freelancer) =>
         freelancer.name.toLowerCase().includes(query) ||
-        freelancer.title.toLowerCase().includes(query) ||
+        (freelancer.title?.toLowerCase() || "").includes(query) ||
         freelancer.description.toLowerCase().includes(query) ||
-        freelancer.skills.some((skill) => skill.toLowerCase().includes(query))
+        freelancer.skills?.some((skill) =>
+          skill.toLowerCase().includes(query)
+        ) ||
+        false
     );
   }
 
@@ -172,11 +175,12 @@ const filterMockData = (filters: SearchFilters): UnifiedFreelancer[] => {
     filteredData = filteredData.filter((freelancer) =>
       categoryKeywords.some(
         (keyword) =>
-          freelancer.title.toLowerCase().includes(keyword) ||
+          (freelancer.title?.toLowerCase() || "").includes(keyword) ||
           freelancer.description.toLowerCase().includes(keyword) ||
-          freelancer.skills.some((skill) =>
+          freelancer.skills?.some((skill) =>
             skill.toLowerCase().includes(keyword)
-          )
+          ) ||
+          false
       )
     );
   }
@@ -192,13 +196,13 @@ const filterMockData = (filters: SearchFilters): UnifiedFreelancer[] => {
   // Filtrar por rango de precios
   if (filters.minRate) {
     filteredData = filteredData.filter(
-      (freelancer) => freelancer.hourlyRate >= filters.minRate!
+      (freelancer) => (freelancer.hourlyRate || 0) >= filters.minRate!
     );
   }
 
   if (filters.maxRate) {
     filteredData = filteredData.filter(
-      (freelancer) => freelancer.hourlyRate <= filters.maxRate!
+      (freelancer) => (freelancer.hourlyRate || 0) <= filters.maxRate!
     );
   }
 
@@ -209,7 +213,7 @@ const filterMockData = (filters: SearchFilters): UnifiedFreelancer[] => {
 const mapWorkanaFreelancer = (
   freelancer: WorkanaFreelancer
 ): UnifiedFreelancer => ({
-  id: freelancer.id,
+  id: `workana-${freelancer.name.replace(/\s+/g, "-").toLowerCase()}`,
   name: freelancer.name,
   title: freelancer.name, // Usar name como title por defecto
   payRate: freelancer.hourlyRate,
@@ -221,7 +225,6 @@ const mapWorkanaFreelancer = (
   projectsCompleted: 5, // Default value
   skills: [], // Will be populated based on description analysis
   speciality: "N/A", // Valor por defecto
-  language: "English", // Valor por defecto
   // Additional properties for compatibility
   avatar: freelancer.profileImageUrl,
   reviews: 5, // Default value
@@ -234,7 +237,7 @@ const mapWorkanaFreelancer = (
 const mapHubstaffFreelancer = (
   freelancer: HubstaffFreelancer
 ): UnifiedFreelancer => ({
-  id: freelancer.id,
+  id: `hubstaff-${freelancer.name.replace(/\s+/g, "-").toLowerCase()}`,
   name: freelancer.name,
   title: freelancer.name, // Usar name como title por defecto
   payRate: freelancer.payRate,
@@ -246,7 +249,6 @@ const mapHubstaffFreelancer = (
   projectsCompleted: 5, // Default value
   skills: [], // Will be populated based on bio analysis
   speciality: "N/A", // Valor por defecto
-  language: "English", // Valor por defecto
   // Additional properties for compatibility
   avatar: freelancer.imageUrl,
   reviews: 5, // Default value
@@ -339,11 +341,12 @@ const fetchSearchResults = async (
       filteredResults = filteredResults.filter((freelancer) =>
         categoryKeywords.some(
           (keyword) =>
-            freelancer.title.toLowerCase().includes(keyword) ||
+            (freelancer.title?.toLowerCase() || "").includes(keyword) ||
             freelancer.description.toLowerCase().includes(keyword) ||
-            freelancer.skills.some((skill) =>
+            freelancer.skills?.some((skill) =>
               skill.toLowerCase().includes(keyword)
-            )
+            ) ||
+            false
         )
       );
     }

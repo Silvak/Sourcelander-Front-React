@@ -12,7 +12,7 @@ import { popularCategories } from "@/lib/searchData";
 import { Search, Users, Filter, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useInfiniteSearchResults } from "@/hooks/useInfiniteSearchResults";
-import { SearchFilters, UnifiedFreelancer } from "@/interfaces";
+import { UnifiedFreelancer } from "@/interfaces";
 
 export default function FreelancerPage() {
   const [searchQuery, setSearchQuery] = useState("");
