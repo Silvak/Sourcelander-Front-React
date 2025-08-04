@@ -183,3 +183,30 @@
     )
     1;
 }
+
+@media (min-width: 724px) {
+  /* Estilo para navegadores WebKit (Chrome, Edge, Safari) */
+  *::-webkit-scrollbar {
+    width: 6px; /* Scroll más delgado */
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #fbfbfc; /* Mismo color que el fondo de tu página */
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: rgba(
+      0,
+      0,
+      0,
+      0.2
+    ); /* Color visible pero sutil para el thumb */
+    border-radius: 10px;
+  }
+
+  /* Estilo para Firefox */
+  * {
+    scrollbar-width: thin; /* Scroll delgado */
+    scrollbar-color: rgba(0, 0, 0, 0.2) #fbfbfc;
+  }
+}

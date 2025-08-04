@@ -1,4 +1,5 @@
 import Container from "@/components/common/Container";
+import ContainerSmall from "@/components/common/ContainerSmall";
 
 export default function Home() {
   return (
@@ -8,6 +9,8 @@ export default function Home() {
           Encuentra el mejor desarrollador para tu proyecto
         </h1>
       </Container>
+
+      <ContainerSmall>s</ContainerSmall>
 
       <Container>
         <h1 className="text-4xl font-bold">

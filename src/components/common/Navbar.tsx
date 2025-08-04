@@ -26,22 +26,18 @@ const navigationConfig: {
       href: "/",
     },
     {
+      name: "Freelancers",
+      href: "/freelancer",
+    },
+    {
       name: "Top Talent",
       href: "/",
       submenu: [
         {
-          name: "Developers",
-          href: "/developers",
-        },
-        {
-          name: "Marketers",
-          href: "/marketers",
+          name: "Management",
+          href: "/talent/management",
         },
       ],
-    },
-    {
-      name: "Services",
-      href: "/services",
     },
   ],
   authMenu: [
@@ -99,11 +95,16 @@ export default function Navbar() {
 
   return (
     <header className="bg-[#FBFBFC] w-full px-4 sm:px-8 md:px-12 border-b h-[75px] sticky relative top-0 left-0 right-0 z-50">
-      <div className="bg-white border-x max-w-[1120px] mx-auto h-full px-4 sm:px-8 grid grid-cols-2 items-center gap-4  pl-4">
+      <div className="bg-white border-x max-w-[900px] xl:max-w-[1120px] mx-auto h-full px-4 sm:px-8 grid grid-cols-2 items-center gap-4  pl-4">
         {/* Logo */}
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <Link href="/" className="cursor-pointer" prefetch={true} passHref>
+            <Link
+              href="/"
+              className="cursor-pointer outline-none"
+              prefetch={true}
+              passHref
+            >
               <Image
                 src="/logo.png"
                 alt="logo"
