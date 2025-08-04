@@ -275,7 +275,7 @@ export default function FreelancerPage() {
         <div className="space-y-8">
           <div className="text-center space-y-3 px-4">
             <h2 className="text-2xl sm:text-3xl font-bold">
-              Popular Categories2
+              Popular Categories
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Browse by category to find the right talent for your project

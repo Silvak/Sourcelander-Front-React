@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { AlertCircle, Mail, Phone } from "lucide-react";
+import { AlertCircle, Mail } from "lucide-react";
 
 interface MaintenanceModalProps {
   isOpen: boolean;
@@ -51,23 +51,14 @@ export default function MaintenanceModal({
           </div>
 
           <div className="space-y-4">
-            <h4 className="font-semibold text-lg">Contact Sales Team:</h4>
+            <h4 className="font-semibold text-lg">Contact Us:</h4>
             <div className="space-y-3">
               <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-lg">
                 <Mail className="h-5 w-5 text-primary" />
                 <div>
                   <p className="font-medium">Email</p>
                   <p className="text-sm text-muted-foreground">
-                    sales@sourcelander.com
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-lg">
-                <Phone className="h-5 w-5 text-primary" />
-                <div>
-                  <p className="font-medium">Phone</p>
-                  <p className="text-sm text-muted-foreground">
-                    +1 (555) 123-4567
+                    info@sourcelander.org
                   </p>
                 </div>
               </div>

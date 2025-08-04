@@ -236,10 +236,10 @@ export default function FreelancerModal({
           </div>
           <div className="flex gap-3">
             <Button variant="outline" onClick={onClose}>
-              Cerrar
+              Close
             </Button>
             <Button onClick={() => onHire(freelancer)}>
-              Contratar {freelancer.name.split(" ")[0]}
+              Hire {freelancer.name.split(" ")[0]}
             </Button>
           </div>
         </div>

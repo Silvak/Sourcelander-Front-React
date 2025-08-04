@@ -1,0 +1,26 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+import Navbar from "@/components/common/Navbar";
+import Footer from "@/components/common/Footer";
+
+interface LayoutContentProps {
+  children: React.ReactNode;
+}
+
+export default function LayoutContent({ children }: LayoutContentProps) {
+  const pathname = usePathname();
+  const isAuthRoute = pathname?.startsWith("/auth");
+
+  return (
+    <>
+      {!isAuthRoute && <Navbar />}
+      <main
+        className={isAuthRoute ? "min-h-screen" : "min-h-[calc(100vh-75px)]"}
+      >
+        {children}
+      </main>
+      {!isAuthRoute && <Footer />}
+    </>
+  );
+}
