@@ -18,10 +18,10 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Add SSH key to known hosts
-      run: |
-        mkdir -p ~/.ssh
-        ssh-keyscan 51.222.42.143 >> $HOME/.ssh/known_hosts
+   # - name: Add SSH key to known hosts
+   #   run: |
+    #    mkdir -p ~/.ssh
+     #   ssh-keyscan 51.222.42.143 >> $HOME/.ssh/known_hosts
 
     - name: Copy files to VPS
       run: scp -P 2121 -r ./* administrator@51.222.42.143:/home/administrator/sourcelander-Front-React
