@@ -5,6 +5,7 @@ import "./globals.css";
 import { usePathname } from "next/navigation";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
+import { Providers } from "./providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,13 +30,17 @@ export default function RootLayout({
       <body
         className={`bg-[#fbfbfc] ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {!isAuthRoute && <Navbar />}
-        <main
-          className={isAuthRoute ? "min-h-screen" : "min-h-[calc(100vh-75px)]"}
-        >
-          {children}
-        </main>
-        {!isAuthRoute && <Footer />}
+        <Providers>
+          {!isAuthRoute && <Navbar />}
+          <main
+            className={
+              isAuthRoute ? "min-h-screen" : "min-h-[calc(100vh-75px)]"
+            }
+          >
+            {children}
+          </main>
+          {!isAuthRoute && <Footer />}
+        </Providers>
       </body>
     </html>
   );

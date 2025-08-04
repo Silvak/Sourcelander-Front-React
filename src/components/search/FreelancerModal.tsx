@@ -14,21 +14,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { UnifiedFreelancer } from "@/interfaces";
 
 interface FreelancerModalProps {
-  freelancer: {
-    id: number;
-    name: string;
-    title: string;
-    avatar: string;
-    rating: number;
-    reviews: number;
-    hourlyRate: number;
-    skills: string[];
-    location: string;
-    availability: string;
-    verified: boolean;
-  };
+  freelancer: UnifiedFreelancer;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -244,7 +233,9 @@ export default function FreelancerModal({
             <Button
               onClick={() => {
                 onClose();
-                window.location.href = `/hire/${freelancer.id}`;
+                if (freelancer.id) {
+                  window.location.href = `/hire/${freelancer.id}`;
+                }
               }}
             >
               Contratar {freelancer.name.split(" ")[0]}

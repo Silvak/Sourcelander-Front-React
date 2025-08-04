@@ -3,22 +3,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { UnifiedFreelancer } from "@/interfaces";
 
 interface FreelancerCardProps {
-  freelancer: {
-    id: number;
-    name: string;
-    title: string;
-    avatar: string;
-    rating: number;
-    reviews: number;
-    hourlyRate: number;
-    skills: string[];
-    location: string;
-    availability: string;
-    verified: boolean;
-  };
-  onViewProfile: (id: number) => void;
+  freelancer: UnifiedFreelancer;
+  onViewProfile: (id: string) => void;
 }
 
 export default function FreelancerCard({
@@ -48,6 +37,15 @@ export default function FreelancerCard({
               </h3>
               {freelancer.verified && (
                 <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+              )}
+              {/* Indicador de datos mockeados */}
+              {freelancer.id && freelancer.id.startsWith("MOCK-") && (
+                <Badge
+                  variant="outline"
+                  className="text-xs bg-orange-50 text-orange-700 border-orange-200"
+                >
+                  MOCK
+                </Badge>
               )}
             </div>
 
@@ -123,7 +121,7 @@ export default function FreelancerCard({
         {/* Button fijo en la parte inferior */}
         <div className="mt-auto pt-4">
           <Button
-            onClick={() => onViewProfile(freelancer.id)}
+            onClick={() => freelancer.id && onViewProfile(freelancer.id)}
             className="w-full"
           >
             View Profile

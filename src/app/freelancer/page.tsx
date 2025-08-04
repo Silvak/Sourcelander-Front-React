@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Container from "@/components/common/Container";
 import ContainerSmall from "@/components/common/ContainerSmall";
 import SearchInput from "@/components/search/SearchInput";
@@ -8,116 +8,33 @@ import CategoryCard from "@/components/search/CategoryCard";
 import FreelancerCard from "@/components/search/FreelancerCard";
 import FreelancerModal from "@/components/search/FreelancerModal";
 import { Button } from "@/components/ui/button";
-import { popularCategories, mockFreelancers } from "@/lib/searchData";
-import { Search, Users, Filter } from "lucide-react";
+import { popularCategories } from "@/lib/searchData";
+import { Search, Users, Filter, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useSearchResults } from "@/hooks/useSearchResults";
+import { SearchFilters, UnifiedFreelancer } from "@/interfaces";
 
 export default function FreelancerPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredFreelancers, setFilteredFreelancers] =
-    useState(mockFreelancers);
   const [displayedCount, setDisplayedCount] = useState(16);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<
-    (typeof mockFreelancers)[0] | null
-  >(null);
+  const [selectedFreelancer, setSelectedFreelancer] =
+    useState<UnifiedFreelancer | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Filter freelancers based on search query and category
-  useEffect(() => {
-    let filtered = mockFreelancers;
+  // Create search filters
+  const searchFilters: SearchFilters = {
+    query: searchQuery,
+    category: selectedCategory || undefined,
+  };
 
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(
-        (freelancer) =>
-          freelancer.name.toLowerCase().includes(query) ||
-          freelancer.title.toLowerCase().includes(query) ||
-          freelancer.skills.some((skill) =>
-            skill.toLowerCase().includes(query)
-          ) ||
-          freelancer.location.toLowerCase().includes(query)
-      );
-    }
-
-    if (selectedCategory) {
-      // Simple category filtering - in a real app this would be more sophisticated
-      const categoryKeywords = {
-        "web-development": [
-          "frontend",
-          "backend",
-          "full stack",
-          "react",
-          "node",
-          "javascript",
-          "typescript",
-          "php",
-          "python",
-        ],
-        "mobile-development": [
-          "mobile",
-          "ios",
-          "android",
-          "react native",
-          "flutter",
-          "swift",
-          "kotlin",
-        ],
-        design: [
-          "design",
-          "ui",
-          "ux",
-          "figma",
-          "adobe",
-          "graphic",
-          "brand",
-          "logo",
-        ],
-        marketing: [
-          "marketing",
-          "seo",
-          "social media",
-          "content",
-          "google ads",
-          "analytics",
-        ],
-        writing: [
-          "writer",
-          "content",
-          "copywriting",
-          "blog",
-          "seo",
-          "translation",
-        ],
-        video: ["video", "animation", "motion", "after effects", "premiere"],
-        "data-science": [
-          "data",
-          "machine learning",
-          "ai",
-          "python",
-          "sql",
-          "analytics",
-        ],
-        consulting: ["consultant", "strategy", "business", "management", "it"],
-      };
-
-      const keywords =
-        categoryKeywords[selectedCategory as keyof typeof categoryKeywords] ||
-        [];
-      filtered = filtered.filter((freelancer) =>
-        keywords.some(
-          (keyword) =>
-            freelancer.title.toLowerCase().includes(keyword) ||
-            freelancer.skills.some((skill) =>
-              skill.toLowerCase().includes(keyword)
-            )
-        )
-      );
-    }
-
-    setFilteredFreelancers(filtered);
-    setDisplayedCount(16); // Reset to initial count when filtering
-  }, [searchQuery, selectedCategory]);
+  // Use the search hook
+  const {
+    data: freelancers = [],
+    isLoading,
+    error,
+    refetch,
+  } = useSearchResults(searchFilters);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -127,8 +44,8 @@ export default function FreelancerPage() {
     setSelectedCategory(selectedCategory === categoryId ? null : categoryId);
   };
 
-  const handleViewProfile = (id: number) => {
-    const freelancer = mockFreelancers.find((f) => f.id === id);
+  const handleViewProfile = (id: string) => {
+    const freelancer = freelancers.find((f) => f.id && f.id === id);
     if (freelancer) {
       setSelectedFreelancer(freelancer);
       setIsModalOpen(true);
@@ -149,6 +66,10 @@ export default function FreelancerPage() {
     setSelectedCategory(null);
   };
 
+  const handleRetry = () => {
+    refetch();
+  };
+
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
@@ -165,6 +86,27 @@ export default function FreelancerPage() {
           </div>
 
           <SearchInput onSearch={handleSearch} />
+
+          {/* Data source indicator */}
+          {freelancers.length > 0 && (
+            <div className="flex items-center justify-center gap-2">
+              {freelancers.some((f) => f.id && f.id.startsWith("MOCK-")) ? (
+                <Badge
+                  variant="outline"
+                  className="bg-orange-50 text-orange-700 border-orange-200"
+                >
+                  🔄 Using Mock Data (API unavailable)
+                </Badge>
+              ) : (
+                <Badge
+                  variant="outline"
+                  className="bg-green-50 text-green-700 border-green-200"
+                >
+                  ✅ Live API Data
+                </Badge>
+              )}
+            </div>
+          )}
 
           {/* Active filters */}
           {(searchQuery || selectedCategory) && (
@@ -235,7 +177,7 @@ export default function FreelancerPage() {
               <h2 className="text-2xl font-bold">Freelancers</h2>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Users className="h-4 w-4" />
-                <span>{filteredFreelancers.length} results</span>
+                <span>{freelancers.length} results</span>
               </div>
             </div>
 
@@ -245,7 +187,35 @@ export default function FreelancerPage() {
             </Button>
           </div>
 
-          {filteredFreelancers.length === 0 ? (
+          {/* Loading State */}
+          {isLoading && (
+            <div className="text-center py-12">
+              <Loader2 className="h-12 w-12 text-primary mx-auto mb-4 animate-spin" />
+              <h3 className="text-lg font-semibold mb-2">
+                Searching for freelancers...
+              </h3>
+              <p className="text-muted-foreground">
+                Please wait while we find the best matches for you
+              </p>
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && (
+            <div className="text-center py-12">
+              <Search className="h-12 w-12 text-destructive mx-auto mb-4" />
+              <h3 className="text-lg font-semibold mb-2">
+                Error loading results
+              </h3>
+              <p className="text-muted-foreground mb-4">
+                Something went wrong while searching. Please try again.
+              </p>
+              <Button onClick={handleRetry}>Try Again</Button>
+            </div>
+          )}
+
+          {/* No Results */}
+          {!isLoading && !error && freelancers.length === 0 && (
             <div className="text-center py-12">
               <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
               <h3 className="text-lg font-semibold mb-2">
@@ -256,21 +226,22 @@ export default function FreelancerPage() {
               </p>
               <Button onClick={clearFilters}>Clear filters</Button>
             </div>
-          ) : (
+          )}
+
+          {/* Results */}
+          {!isLoading && !error && freelancers.length > 0 && (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {filteredFreelancers
-                  .slice(0, displayedCount)
-                  .map((freelancer) => (
-                    <FreelancerCard
-                      key={freelancer.id}
-                      freelancer={freelancer}
-                      onViewProfile={handleViewProfile}
-                    />
-                  ))}
+                {freelancers.slice(0, displayedCount).map((freelancer, index) => (
+                  <FreelancerCard
+                    key={freelancer.id || `freelancer-${index}`}
+                    freelancer={freelancer}
+                    onViewProfile={handleViewProfile}
+                  />
+                ))}
               </div>
 
-              {displayedCount < filteredFreelancers.length && (
+              {displayedCount < freelancers.length && (
                 <div className="text-center pt-8">
                   <Button onClick={loadMore} variant="outline">
                     Load More Freelancers
