@@ -20,12 +20,14 @@ interface FreelancerModalProps {
   freelancer: UnifiedFreelancer;
   isOpen: boolean;
   onClose: () => void;
+  onHire: (freelancer: UnifiedFreelancer) => void;
 }
 
 export default function FreelancerModal({
   freelancer,
   isOpen,
   onClose,
+  onHire,
 }: FreelancerModalProps) {
   if (!isOpen) return null;
 
@@ -50,7 +52,10 @@ export default function FreelancerModal({
           {/* Profile Header */}
           <div className="flex items-start gap-6">
             <Avatar className="h-20 w-20">
-              <AvatarImage src={freelancer.avatar} alt={freelancer.name} />
+              <AvatarImage
+                src={freelancer.avatar || freelancer.imageUrl || ""}
+                alt={freelancer.name}
+              />
               <AvatarFallback className="text-lg">
                 {freelancer.name
                   .split(" ")
@@ -233,14 +238,7 @@ export default function FreelancerModal({
             <Button variant="outline" onClick={onClose}>
               Cerrar
             </Button>
-            <Button
-              onClick={() => {
-                onClose();
-                if (freelancer.id) {
-                  window.location.href = `/hire/${freelancer.id}`;
-                }
-              }}
-            >
+            <Button onClick={() => onHire(freelancer)}>
               Contratar {freelancer.name.split(" ")[0]}
             </Button>
           </div>

@@ -1,49 +1,101 @@
 "use client";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Globe, X } from "lucide-react";
+import { AlertCircle, Mail, Phone } from "lucide-react";
 
 interface MaintenanceModalProps {
-  open: boolean;
-  onClose: () => void;
+  isOpen: boolean;
+  onClose: (open: boolean) => void;
 }
 
 export default function MaintenanceModal({
-  open,
+  isOpen,
   onClose,
 }: MaintenanceModalProps) {
-  if (!open) return null;
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-lg shadow-xl max-w-sm w-full p-8 text-center relative border border-gray-200">
-        <button
-          className="absolute top-3 right-3 text-gray-400 hover:text-gray-700"
-          onClick={onClose}
-          aria-label="Close"
-        >
-          <X className="w-5 h-5" />
-        </button>
-        <div className="flex flex-col items-center gap-4">
-          <Globe className="w-10 h-10 text-primary mb-2" />
-          <h2 className="text-xl font-semibold text-gray-900">
-            Scheduled Maintenance
-          </h2>
-          <p className="text-gray-600 text-center leading-relaxed">
-            We&apos;re currently performing scheduled maintenance to improve
-            your experience.
-          </p>
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 w-full">
-            <p className="text-sm text-blue-800">
-              💡 We&apos;ll be back soon with enhanced features and better
-              performance!
-            </p>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-lg">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2 text-xl">
+            <AlertCircle className="h-6 w-6 text-orange-500" />
+            System Maintenance
+          </DialogTitle>
+          <DialogDescription className="text-base">
+            We&apos;re currently performing system maintenance to improve your
+            experience.
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="space-y-6">
+          <div className="bg-orange-50 p-6 rounded-xl border border-orange-200">
+            <div className="flex items-start gap-4">
+              <AlertCircle className="h-6 w-6 text-orange-500 mt-1 flex-shrink-0" />
+              <div>
+                <h4 className="font-semibold text-orange-800 mb-3 text-lg">
+                  Temporary Service Unavailable
+                </h4>
+                <p className="text-orange-700 leading-relaxed">
+                  Our hiring system is currently under maintenance. Please
+                  contact our sales team directly for immediate assistance.
+                </p>
+              </div>
+            </div>
           </div>
-          <Button onClick={onClose} className="mt-4 w-full">
+
+          <div className="space-y-4">
+            <h4 className="font-semibold text-lg">Contact Sales Team:</h4>
+            <div className="space-y-3">
+              <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-lg">
+                <Mail className="h-5 w-5 text-primary" />
+                <div>
+                  <p className="font-medium">Email</p>
+                  <p className="text-sm text-muted-foreground">
+                    sales@sourcelander.com
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-lg">
+                <Phone className="h-5 w-5 text-primary" />
+                <div>
+                  <p className="font-medium">Phone</p>
+                  <p className="text-sm text-muted-foreground">
+                    +1 (555) 123-4567
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-primary/5 p-4 rounded-lg border border-primary/10">
+            <div className="flex items-start gap-3">
+              <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+              <div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  <strong>Note:</strong> Our team will respond within 2 hours
+                  during business hours (9 AM - 6 PM EST).
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <DialogFooter className="pt-4">
+          <Button
+            onClick={() => onClose(false)}
+            className="w-full bg-primary hover:bg-primary/90"
+          >
             Got it, thanks!
           </Button>
-        </div>
-      </div>
-    </div>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

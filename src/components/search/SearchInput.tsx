@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, X } from "lucide-react";
+import { Search } from "lucide-react";
 import { searchSuggestions } from "@/lib/searchData";
 
 interface SearchInputProps {
@@ -140,16 +140,10 @@ export default function SearchInput({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const clearSearch = () => {
-    setQuery("");
-    setShowSuggestions(false);
-    onSearch("");
-  };
-
   return (
     <div className="relative w-full max-w-2xl mx-auto">
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+      <div className="relative flex">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 z-10" />
         <Input
           ref={inputRef}
           type="text"
@@ -157,23 +151,20 @@ export default function SearchInput({
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => query.trim() && setShowSuggestions(true)}
           placeholder={placeholder}
-          className="pl-10 pr-10 h-12 text-base"
+          className="pl-10 pr-24 h-12 text-base rounded-r-none"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               handleSearch();
             }
           }}
         />
-        {query && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={clearSearch}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
-          >
-            <X className="h-4 w-4" />
-          </Button>
-        )}
+        <Button
+          onClick={handleSearch}
+          className="h-12 px-6 rounded-l-none bg-primary hover:bg-primary/90"
+          disabled={!query.trim()}
+        >
+          Search
+        </Button>
       </div>
 
       {/* Suggestions dropdown */}

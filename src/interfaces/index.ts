@@ -19,6 +19,12 @@ export interface UnifiedFreelancer {
   hourlyRate?: number;
   availability?: string;
   verified?: boolean;
+  // Storage-related properties
+  storedAt?: string;
+  lastViewed?: string;
+  viewCount?: number;
+  hireCount?: number;
+  lastAction?: "view" | "hire";
 }
 
 export interface RecommendedFreelancer extends UnifiedFreelancer {
@@ -29,6 +35,7 @@ export interface RecommendedFreelancer extends UnifiedFreelancer {
 
 // Interface para freelancers de Workana
 export interface WorkanaFreelancer {
+  id?: string;
   name: string;
   description: string;
   skills?: string[];
@@ -45,6 +52,7 @@ export interface WorkanaFreelancer {
 
 // Interface para freelancers de Hubstaff
 export interface HubstaffFreelancer {
+  id?: string;
   name: string;
   profileUrl: string;
   employmentType: string;

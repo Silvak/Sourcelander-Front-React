@@ -10,8 +10,9 @@ import { apiInstance } from "@/services/axiosConfig";
 
 // Mapping helpers
 const mapWorkanaFreelancer = (
-  freelancer: WorkanaFreelancer,
+  freelancer: WorkanaFreelancer
 ): UnifiedFreelancer => ({
+  id: `workana-${freelancer.id || Math.random().toString(36).substr(2, 9)}`,
   name: freelancer.name ?? "",
   payRate: freelancer.hourlyRate ?? "",
   profileUrl: freelancer.profileUrl ?? "",
@@ -22,11 +23,19 @@ const mapWorkanaFreelancer = (
   rating: freelancer.rating ?? "N/A",
   speciality: freelancer.title ?? "N/A",
   skills: freelancer.skills ?? [],
+  reviews:
+    typeof freelancer.projectsCompleted === "number"
+      ? freelancer.projectsCompleted
+      : 0,
+  hourlyRate: parseFloat(freelancer.hourlyRate?.replace(/[^\d.]/g, "")) || 0,
+  availability: "Available",
+  verified: false,
 });
 
 const mapHubstaffFreelancer = (
-  freelancer: HubstaffFreelancer,
+  freelancer: HubstaffFreelancer
 ): UnifiedFreelancer => ({
+  id: `hubstaff-${freelancer.id || Math.random().toString(36).substr(2, 9)}`,
   name: freelancer.name ?? "",
   payRate: freelancer.payRate ?? "",
   profileUrl: freelancer.profileUrl ?? "",
@@ -37,12 +46,16 @@ const mapHubstaffFreelancer = (
   rating: freelancer.rating ?? "N/A",
   projectsCompleted: freelancer.projectsCompleted ?? "N/A",
   skills: freelancer.skills ?? [],
+  reviews: freelancer.projectsCompleted || 0,
+  hourlyRate: parseFloat(freelancer.payRate?.replace(/[^\d.]/g, "")) || 0,
+  availability: "Available",
+  verified: false,
 });
 
 // Individual fetchers
 async function fetchHubstaff(query: string, page: number) {
   const url = `/hubstaff/freelancers?keywords=${encodeURIComponent(
-    query,
+    query
   )}&page=${page}`;
   try {
     const response = await apiInstance.get(url);
@@ -57,7 +70,7 @@ async function fetchHubstaff(query: string, page: number) {
 
 async function fetchWorkana(query: string, page: number) {
   const url = `/workana/freelancers?worker_type=0&query=${encodeURIComponent(
-    query,
+    query
   )}&page=${page}`;
   try {
     const response = await apiInstance.get(url);
@@ -73,7 +86,7 @@ async function fetchWorkana(query: string, page: number) {
 // Unified fetch logic
 const fetchSearchResults = async (
   query: string,
-  page: number,
+  page: number
 ): Promise<{ freelancers: UnifiedFreelancer[]; hasMore: boolean }> => {
   // Fetch both in parallel, but handle error from each independently
   const [hubstaffResult, workanaResult] = await Promise.all([
@@ -93,7 +106,7 @@ const fetchSearchResults = async (
     {
       hubstaffError: hubstaffResult.freelancers.length === 0,
       workanaError: workanaResult.freelancers.length === 0,
-    },
+    }
   );
 
   return { freelancers, hasMore };
