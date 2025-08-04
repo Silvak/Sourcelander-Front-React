@@ -19,7 +19,7 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen flex bg-[#FBFBFC]">
-      <MaintenanceModal open={modalOpen} onClose={() => setModalOpen(false)} />
+      <MaintenanceModal isOpen={modalOpen} onClose={setModalOpen} />
       {/* Left Section - Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
         <div className="w-full max-w-md space-y-8">

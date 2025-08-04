@@ -31,7 +31,7 @@ const navigationConfig: {
     },
     {
       name: "Top Talent",
-      href: "/",
+      href: "/talent/management",
       submenu: [
         {
           name: "Management",

@@ -11,30 +11,155 @@ import { Button } from "@/components/ui/button";
 import { popularCategories } from "@/lib/searchData";
 import { Search, Users, Filter, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { useSearchResults } from "@/hooks/useSearchResults";
-import { SearchFilters, UnifiedFreelancer } from "@/interfaces";
+import { useInfiniteSearchResults } from "@/hooks/useInfiniteSearchResults";
+import { useFreelancerStorage } from "@/hooks/useFreelancerStorage";
+import { UnifiedFreelancer } from "@/interfaces";
+
+// Mock data to show when there are no search results
+const mockFreelancers: UnifiedFreelancer[] = [
+  {
+    id: "mock-1",
+    name: "Sarah Johnson",
+    title: "Full Stack Developer",
+    description:
+      "Experienced developer with 5+ years in React, Node.js and Python. Specialized in scalable web applications and RESTful APIs.",
+    skills: ["React", "Node.js", "Python", "TypeScript", "MongoDB"],
+    hourlyRate: 45,
+    rating: 4.8,
+    reviews: 127,
+    avatar:
+      "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+    imageUrl:
+      "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+    location: "New York, USA",
+    profileUrl: "https://example.com/profile/sarah-johnson",
+    payRate: "$45/hr",
+  },
+  {
+    id: "mock-2",
+    name: "Michael Chen",
+    title: "UI/UX Designer",
+    description:
+      "Creative designer specialized in user interfaces and user experience. Experience with Figma, Adobe Creative Suite and responsive design.",
+    skills: ["Figma", "Adobe XD", "Sketch", "Prototyping", "User Research"],
+    hourlyRate: 35,
+    rating: 4.9,
+    reviews: 89,
+    avatar:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    imageUrl:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    location: "San Francisco, USA",
+    profileUrl: "https://example.com/profile/michael-chen",
+    payRate: "$35/hr",
+  },
+  {
+    id: "mock-3",
+    name: "Emily Rodriguez",
+    title: "Mobile App Developer",
+    description:
+      "Mobile developer with experience in React Native, Flutter and native iOS/Android development. Specialized in high-performance apps.",
+    skills: ["React Native", "Flutter", "Swift", "Kotlin", "Firebase"],
+    hourlyRate: 50,
+    rating: 4.7,
+    reviews: 156,
+    avatar:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+    imageUrl:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+    location: "Austin, USA",
+    profileUrl: "https://example.com/profile/emily-rodriguez",
+    payRate: "$50/hr",
+  },
+  {
+    id: "mock-4",
+    name: "David Thompson",
+    title: "DevOps Engineer",
+    description:
+      "DevOps engineer with experience in AWS, Docker, Kubernetes and CI/CD. Specialized in infrastructure automation and monitoring.",
+    skills: ["AWS", "Docker", "Kubernetes", "Terraform", "Jenkins"],
+    hourlyRate: 60,
+    rating: 4.6,
+    reviews: 73,
+    avatar:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    imageUrl:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    location: "Seattle, USA",
+    profileUrl: "https://example.com/profile/david-thompson",
+    payRate: "$60/hr",
+  },
+  {
+    id: "mock-5",
+    name: "Lisa Wang",
+    title: "Data Scientist",
+    description:
+      "Data scientist with experience in machine learning, statistical analysis and data visualization. Specialized in Python, R and SQL.",
+    skills: ["Python", "R", "SQL", "TensorFlow", "Tableau"],
+    hourlyRate: 55,
+    rating: 4.9,
+    reviews: 94,
+    avatar:
+      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face",
+    imageUrl:
+      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face",
+    location: "Boston, USA",
+    profileUrl: "https://example.com/profile/lisa-wang",
+    payRate: "$55/hr",
+  },
+  {
+    id: "mock-6",
+    name: "James Wilson",
+    title: "Backend Developer",
+    description:
+      "Backend developer with experience in Java, Spring Boot, microservices and databases. Specialized in scalable architectures.",
+    skills: ["Java", "Spring Boot", "PostgreSQL", "Redis", "Kafka"],
+    hourlyRate: 48,
+    rating: 4.8,
+    reviews: 112,
+    avatar:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
+    imageUrl:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
+    location: "Chicago, USA",
+    profileUrl: "https://example.com/profile/james-wilson",
+    payRate: "$48/hr",
+  },
+];
 
 export default function FreelancerPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [displayedCount, setDisplayedCount] = useState(16);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedFreelancer, setSelectedFreelancer] =
     useState<UnifiedFreelancer | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Create search filters
-  const searchFilters: SearchFilters = {
-    query: searchQuery,
-    category: selectedCategory || undefined,
-  };
+  const { saveFreelancer } = useFreelancerStorage();
 
-  // Use the search hook
+  // El query para el hook de búsqueda infinita
+  const query = selectedCategory
+    ? `${searchQuery} category:${selectedCategory}`
+    : searchQuery;
+
   const {
-    data: freelancers = [],
+    data,
     isLoading,
-    error,
+    isError,
+    fetchNextPage,
+    hasNextPage,
     refetch,
-  } = useSearchResults(searchFilters);
+    isFetchingNextPage,
+  } = useInfiniteSearchResults(query);
+
+  // Junta todos los freelancers de las páginas
+  const freelancers = data?.pages.flatMap((page) => page.freelancers) ?? [];
+
+  // Si no hay resultados y no está cargando, mostrar datos mockeados
+  const displayFreelancers =
+    !isLoading && !isError && freelancers.length === 0
+      ? mockFreelancers
+      : freelancers;
+  const showMockData = !isLoading && !isError && freelancers.length === 0;
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -45,9 +170,16 @@ export default function FreelancerPage() {
   };
 
   const handleViewProfile = (id: string) => {
-    const freelancer = freelancers.find((f) => f.id && f.id === id);
+    const freelancer = displayFreelancers.find((f) => f.id && f.id === id);
     if (freelancer) {
-      setSelectedFreelancer(freelancer);
+      // Save to storage when viewing profile with complete data
+      const freelancerWithCompleteData = {
+        ...freelancer,
+        avatar: freelancer.avatar || freelancer.imageUrl || "",
+        imageUrl: freelancer.imageUrl || freelancer.avatar || "",
+      };
+      saveFreelancer(freelancerWithCompleteData);
+      setSelectedFreelancer(freelancerWithCompleteData);
       setIsModalOpen(true);
     }
   };
@@ -57,8 +189,22 @@ export default function FreelancerPage() {
     setSelectedFreelancer(null);
   };
 
-  const loadMore = () => {
-    setDisplayedCount((prev) => prev + 8);
+  const handleHireFreelancer = (freelancer: UnifiedFreelancer) => {
+    // Save to storage when hiring with 'hire' action and complete data
+    const freelancerWithCompleteData = {
+      ...freelancer,
+      avatar: freelancer.avatar || freelancer.imageUrl || "",
+      imageUrl: freelancer.imageUrl || freelancer.avatar || "",
+    };
+    saveFreelancer(freelancerWithCompleteData, "hire");
+
+    // Close modal and redirect
+    setIsModalOpen(false);
+    setSelectedFreelancer(null);
+
+    if (freelancer.id) {
+      window.location.href = `/hire/${freelancer.id}`;
+    }
   };
 
   const clearFilters = () => {
@@ -86,27 +232,6 @@ export default function FreelancerPage() {
           </div>
 
           <SearchInput onSearch={handleSearch} />
-
-          {/* Data source indicator */}
-          {freelancers.length > 0 && (
-            <div className="flex items-center justify-center gap-2">
-              {freelancers.some((f) => f.id && f.id.startsWith("MOCK-")) ? (
-                <Badge
-                  variant="outline"
-                  className="bg-orange-50 text-orange-700 border-orange-200"
-                >
-                  🔄 Using Mock Data (API unavailable)
-                </Badge>
-              ) : (
-                <Badge
-                  variant="outline"
-                  className="bg-green-50 text-green-700 border-green-200"
-                >
-                  ✅ Live API Data
-                </Badge>
-              )}
-            </div>
-          )}
 
           {/* Active filters */}
           {(searchQuery || selectedCategory) && (
@@ -146,9 +271,9 @@ export default function FreelancerPage() {
       </Container>
 
       {/* Categories Section */}
-      <ContainerSmall>
+      <ContainerSmall className="p-0 md:p-0 pt-8 md:pt-12">
         <div className="space-y-8">
-          <div className="text-center space-y-3">
+          <div className="text-center space-y-3 px-4">
             <h2 className="text-2xl sm:text-3xl font-bold">
               Popular Categories
             </h2>
@@ -157,7 +282,7 @@ export default function FreelancerPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 -m-[1px]">
             {popularCategories.map((category) => (
               <CategoryCard
                 key={category.id}
@@ -177,7 +302,7 @@ export default function FreelancerPage() {
               <h2 className="text-2xl font-bold">Freelancers</h2>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Users className="h-4 w-4" />
-                <span>{freelancers.length} results</span>
+                <span>{displayFreelancers.length} results</span>
               </div>
             </div>
 
@@ -201,7 +326,7 @@ export default function FreelancerPage() {
           )}
 
           {/* Error State */}
-          {error && (
+          {isError && (
             <div className="text-center py-12">
               <Search className="h-12 w-12 text-destructive mx-auto mb-4" />
               <h3 className="text-lg font-semibold mb-2">
@@ -215,24 +340,27 @@ export default function FreelancerPage() {
           )}
 
           {/* No Results */}
-          {!isLoading && !error && freelancers.length === 0 && (
-            <div className="text-center py-12">
-              <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">
-                No freelancers found
-              </h3>
-              <p className="text-muted-foreground mb-4">
-                Try adjusting your search criteria or browse our categories
-              </p>
-              <Button onClick={clearFilters}>Clear filters</Button>
-            </div>
-          )}
+          {!isLoading &&
+            !isError &&
+            freelancers.length === 0 &&
+            !showMockData && (
+              <div className="text-center py-12">
+                <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-semibold mb-2">
+                  No freelancers found
+                </h3>
+                <p className="text-muted-foreground mb-4">
+                  Try adjusting your search criteria or browse our categories
+                </p>
+                <Button onClick={clearFilters}>Clear filters</Button>
+              </div>
+            )}
 
           {/* Results */}
-          {!isLoading && !error && freelancers.length > 0 && (
+          {!isLoading && !isError && displayFreelancers.length > 0 && (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {freelancers.slice(0, displayedCount).map((freelancer, index) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-6">
+                {displayFreelancers.map((freelancer, index) => (
                   <FreelancerCard
                     key={freelancer.id || `freelancer-${index}`}
                     freelancer={freelancer}
@@ -241,10 +369,16 @@ export default function FreelancerPage() {
                 ))}
               </div>
 
-              {displayedCount < freelancers.length && (
+              {hasNextPage && (
                 <div className="text-center pt-8">
-                  <Button onClick={loadMore} variant="outline">
-                    Load More Freelancers
+                  <Button
+                    onClick={() => fetchNextPage()}
+                    variant="outline"
+                    disabled={isFetchingNextPage}
+                  >
+                    {isFetchingNextPage
+                      ? "Loading more..."
+                      : "Load More Freelancers"}
                   </Button>
                 </div>
               )}
@@ -259,6 +393,7 @@ export default function FreelancerPage() {
           freelancer={selectedFreelancer}
           isOpen={isModalOpen}
           onClose={handleCloseModal}
+          onHire={handleHireFreelancer}
         />
       )}
     </div>

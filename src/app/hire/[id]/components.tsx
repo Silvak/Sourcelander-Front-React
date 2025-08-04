@@ -702,7 +702,7 @@ export const MaintenanceModal = ({
   onClose,
 }: {
   isOpen: boolean;
-  onClose: () => void;
+  onClose: (open: boolean) => void;
 }) => (
   <Dialog open={isOpen} onOpenChange={onClose}>
     <DialogContent className="max-w-lg">
@@ -772,7 +772,7 @@ export const MaintenanceModal = ({
 
       <DialogFooter className="pt-4">
         <Button
-          onClick={onClose}
+          onClick={() => onClose(false)}
           className="w-full bg-primary hover:bg-primary/90"
         >
           Got it, thanks!

@@ -20,12 +20,14 @@ interface FreelancerModalProps {
   freelancer: UnifiedFreelancer;
   isOpen: boolean;
   onClose: () => void;
+  onHire: (freelancer: UnifiedFreelancer) => void;
 }
 
 export default function FreelancerModal({
   freelancer,
   isOpen,
   onClose,
+  onHire,
 }: FreelancerModalProps) {
   if (!isOpen) return null;
 
@@ -50,7 +52,10 @@ export default function FreelancerModal({
           {/* Profile Header */}
           <div className="flex items-start gap-6">
             <Avatar className="h-20 w-20">
-              <AvatarImage src={freelancer.avatar} alt={freelancer.name} />
+              <AvatarImage
+                src={freelancer.avatar || freelancer.imageUrl || ""}
+                alt={freelancer.name}
+              />
               <AvatarFallback className="text-lg">
                 {freelancer.name
                   .split(" ")
@@ -138,7 +143,7 @@ export default function FreelancerModal({
                   <Globe className="h-6 w-6 text-primary" />
                 </div>
                 <div className="text-2xl font-bold">
-                  {freelancer.skills.length}
+                  {freelancer.skills?.length || 0}
                 </div>
                 <div className="text-sm text-muted-foreground">Skills</div>
               </CardContent>
@@ -152,11 +157,14 @@ export default function FreelancerModal({
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground leading-relaxed">
-                Experienced {freelancer.title.toLowerCase()} with{" "}
-                {freelancer.reviews}+ successful projects. Specialized in{" "}
-                {freelancer.skills.slice(0, 3).join(", ")} and delivering
-                high-quality results. Passionate about creating innovative
-                solutions and maintaining the highest standards of code quality.
+                Experienced {freelancer.title?.toLowerCase() || "professional"}{" "}
+                with {freelancer.reviews || 0}+ successful projects. Specialized
+                in{" "}
+                {freelancer.skills?.slice(0, 3).join(", ") ||
+                  "various technologies"}{" "}
+                and delivering high-quality results. Passionate about creating
+                innovative solutions and maintaining the highest standards of
+                code quality.
               </p>
             </CardContent>
           </Card>
@@ -168,11 +176,11 @@ export default function FreelancerModal({
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">
-                {freelancer.skills.map((skill, index) => (
+                {freelancer.skills?.map((skill, index) => (
                   <Badge key={index} variant="secondary" className="text-sm">
                     {skill}
                   </Badge>
-                ))}
+                )) || <p className="text-muted-foreground">No skills listed</p>}
               </div>
             </CardContent>
           </Card>
@@ -223,22 +231,15 @@ export default function FreelancerModal({
             <DollarSign className="h-4 w-4 text-muted-foreground" />
             <span className="text-sm text-muted-foreground">
               Average project value: $
-              {(freelancer.hourlyRate * 40).toLocaleString()}
+              {((freelancer.hourlyRate || 0) * 40).toLocaleString()}
             </span>
           </div>
           <div className="flex gap-3">
             <Button variant="outline" onClick={onClose}>
-              Cerrar
+              Close
             </Button>
-            <Button
-              onClick={() => {
-                onClose();
-                if (freelancer.id) {
-                  window.location.href = `/hire/${freelancer.id}`;
-                }
-              }}
-            >
-              Contratar {freelancer.name.split(" ")[0]}
+            <Button onClick={() => onHire(freelancer)}>
+              Hire {freelancer.name.split(" ")[0]}
             </Button>
           </div>
         </div>
