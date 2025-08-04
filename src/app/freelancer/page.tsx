@@ -11,30 +11,33 @@ import { Button } from "@/components/ui/button";
 import { popularCategories } from "@/lib/searchData";
 import { Search, Users, Filter, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { useSearchResults } from "@/hooks/useSearchResults";
+import { useInfiniteSearchResults } from "@/hooks/useInfiniteSearchResults";
 import { SearchFilters, UnifiedFreelancer } from "@/interfaces";
 
 export default function FreelancerPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [displayedCount, setDisplayedCount] = useState(16);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedFreelancer, setSelectedFreelancer] =
     useState<UnifiedFreelancer | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Create search filters
-  const searchFilters: SearchFilters = {
-    query: searchQuery,
-    category: selectedCategory || undefined,
-  };
+  // El query para el hook de búsqueda infinita
+  const query = selectedCategory
+    ? `${searchQuery} category:${selectedCategory}`
+    : searchQuery;
 
-  // Use the search hook
   const {
-    data: freelancers = [],
+    data,
     isLoading,
-    error,
+    isError,
+    fetchNextPage,
+    hasNextPage,
     refetch,
-  } = useSearchResults(searchFilters);
+    isFetchingNextPage,
+  } = useInfiniteSearchResults(query);
+
+  // Junta todos los freelancers de las páginas
+  const freelancers = data?.pages.flatMap((page) => page.freelancers) ?? [];
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -55,10 +58,6 @@ export default function FreelancerPage() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedFreelancer(null);
-  };
-
-  const loadMore = () => {
-    setDisplayedCount((prev) => prev + 8);
   };
 
   const clearFilters = () => {
@@ -201,7 +200,7 @@ export default function FreelancerPage() {
           )}
 
           {/* Error State */}
-          {error && (
+          {isError && (
             <div className="text-center py-12">
               <Search className="h-12 w-12 text-destructive mx-auto mb-4" />
               <h3 className="text-lg font-semibold mb-2">
@@ -215,7 +214,7 @@ export default function FreelancerPage() {
           )}
 
           {/* No Results */}
-          {!isLoading && !error && freelancers.length === 0 && (
+          {!isLoading && !isError && freelancers.length === 0 && (
             <div className="text-center py-12">
               <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
               <h3 className="text-lg font-semibold mb-2">
@@ -229,10 +228,10 @@ export default function FreelancerPage() {
           )}
 
           {/* Results */}
-          {!isLoading && !error && freelancers.length > 0 && (
+          {!isLoading && !isError && freelancers.length > 0 && (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {freelancers.slice(0, displayedCount).map((freelancer, index) => (
+                {freelancers.map((freelancer, index) => (
                   <FreelancerCard
                     key={freelancer.id || `freelancer-${index}`}
                     freelancer={freelancer}
@@ -241,10 +240,16 @@ export default function FreelancerPage() {
                 ))}
               </div>
 
-              {displayedCount < freelancers.length && (
+              {hasNextPage && (
                 <div className="text-center pt-8">
-                  <Button onClick={loadMore} variant="outline">
-                    Load More Freelancers
+                  <Button
+                    onClick={() => fetchNextPage()}
+                    variant="outline"
+                    disabled={isFetchingNextPage}
+                  >
+                    {isFetchingNextPage
+                      ? "Loading more..."
+                      : "Load More Freelancers"}
                   </Button>
                 </div>
               )}
