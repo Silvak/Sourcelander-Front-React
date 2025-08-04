@@ -712,7 +712,7 @@ export const MaintenanceModal = ({
           System Maintenance
         </DialogTitle>
         <DialogDescription className="text-base">
-          We're currently performing system maintenance to improve your
+          We&apos;re currently performing system maintenance to improve your
           experience.
         </DialogDescription>
       </DialogHeader>

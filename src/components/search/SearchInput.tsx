@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, X } from "lucide-react";
@@ -21,6 +21,22 @@ export default function SearchInput({
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
+
+  const handleSuggestionClick = useCallback(
+    (suggestion: string) => {
+      setQuery(suggestion);
+      setShowSuggestions(false);
+      onSearch(suggestion);
+    },
+    [onSearch]
+  );
+
+  const handleSearch = useCallback(() => {
+    if (query.trim()) {
+      onSearch(query.trim());
+      setShowSuggestions(false);
+    }
+  }, [query, onSearch]);
 
   // Generate suggestions based on query
   useEffect(() => {
@@ -99,7 +115,13 @@ export default function SearchInput({
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [showSuggestions, selectedIndex, suggestions]);
+  }, [
+    showSuggestions,
+    selectedIndex,
+    suggestions,
+    handleSuggestionClick,
+    handleSearch,
+  ]);
 
   // Handle click outside to close suggestions
   useEffect(() => {
@@ -117,19 +139,6 @@ export default function SearchInput({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  const handleSuggestionClick = (suggestion: string) => {
-    setQuery(suggestion);
-    setShowSuggestions(false);
-    onSearch(suggestion);
-  };
-
-  const handleSearch = () => {
-    if (query.trim()) {
-      onSearch(query.trim());
-      setShowSuggestions(false);
-    }
-  };
 
   const clearSearch = () => {
     setQuery("");
