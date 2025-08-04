@@ -24,11 +24,11 @@ jobs:
         ssh-keyscan 51.222.42.143 >> $HOME/.ssh/known_hosts
 
     - name: Copy files to VPS
-      run: scp -r ./* administrator@51.222.42.143:/home/administrator/sourcelander-Front-React
+      run: scp -P 2121 -r ./* administrator@51.222.42.143:/home/administrator/sourcelander-Front-React
 
     - name: Deploy with Docker Compose
       run: |
-        ssh administrator@51.222.42.143 << 'EOF'
+        ssh administrator@51.222.42.143 -p 2121 << 'EOF'
           cd /home/administrator/sourcelander-Front-React
           docker compose down
           docker rmi sourcelander-front-react-sourcelander
