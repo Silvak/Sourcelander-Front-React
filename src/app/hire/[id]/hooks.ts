@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { mockFreelancers } from "@/lib/searchData";
 import { Freelancer, ProjectForm } from "./types";
 
@@ -28,7 +28,7 @@ export const useProjectCalculator = (
   const [estimatedCost, setEstimatedCost] = useState(0);
   const [calculatorAnimation, setCalculatorAnimation] = useState(false);
 
-  const calculateCost = () => {
+  const calculateCost = useCallback(() => {
     if (!freelancer) return;
 
     const durationHours = {
@@ -69,7 +69,7 @@ export const useProjectCalculator = (
     setEstimatedCost(Math.round(totalCost));
     setCalculatorAnimation(true);
     setTimeout(() => setCalculatorAnimation(false), 500);
-  };
+  }, [freelancer, form]);
 
   useEffect(() => {
     calculateCost();
