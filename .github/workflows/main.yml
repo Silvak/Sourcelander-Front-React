@@ -20,7 +20,7 @@ jobs:
 
     - name: Add SSH key to known hosts
       run: |
-        mkdir -p $HOME/.ssh
+        mkdir -p ~/.ssh
         ssh-keyscan 51.222.42.143 >> $HOME/.ssh/known_hosts
 
     - name: Copy files to VPS
