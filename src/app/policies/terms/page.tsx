@@ -38,7 +38,7 @@ export default function TermsOfServicePage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-muted-foreground">
-                By accessing and using Sourcelander's talent management
+                By accessing and using Sourcelander&apos;s talent management
                 platform, you accept and agree to be bound by the terms and
                 provision of this agreement. If you do not agree to abide by the
                 above, please do not use this service.
@@ -318,7 +318,7 @@ export default function TermsOfServicePage() {
               <p className="text-muted-foreground">
                 We reserve the right to modify these terms at any time. We will
                 notify users of any material changes by posting the new terms on
-                our platform and updating the "Last Updated" date.
+                our platform and updating the &quot;Last Updated&quot; date.
               </p>
               <p className="text-muted-foreground">
                 Your continued use of our services after any changes constitutes
