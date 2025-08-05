@@ -86,7 +86,9 @@ export default function MaintenanceModal({
             onClick={() => onClose(false)}
             className="w-full bg-primary hover:bg-primary/90"
           >
-            Got it, thanks!
+            <Link href="/contact" className="w-full">
+              Got it, thanks!
+            </Link>
           </Button>
         </DialogFooter>
       </DialogContent>
