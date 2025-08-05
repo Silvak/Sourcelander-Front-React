@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { AlertCircle, Mail } from "lucide-react";
+import Link from "next/link";
 
 interface MaintenanceModalProps {
   isOpen: boolean;
@@ -57,9 +58,11 @@ export default function MaintenanceModal({
                 <Mail className="h-5 w-5 text-primary" />
                 <div>
                   <p className="font-medium">Email</p>
-                  <p className="text-sm text-muted-foreground">
-                    info@sourcelander.org
-                  </p>
+                  <Link href="/contact">
+                    <p className="text-sm text-muted-foreground hover:underline">
+                      info@sourcelander.org
+                    </p>
+                  </Link>
                 </div>
               </div>
             </div>

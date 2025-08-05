@@ -1,10 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Container from "@/components/common/Container";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -12,6 +10,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { sendMail } from "@/services/contact.request";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -38,24 +40,39 @@ export default function ContactPage() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const response = await sendMail(formData);
 
-    // Here would go the real form submission logic
-    console.log("Form data:", formData);
-
-    setIsSubmitting(false);
-    // Reset form
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      jobTitle: "",
-      companyName: "",
-      phoneNumber: "",
-      reason: "",
-      message: "",
-    });
+      if (response.success) {
+        toast("Message sent successfully!", {
+          description: response.message || "We will contact you shortly.",
+          icon: "📬",
+          duration: 4000,
+          position: "bottom-right",
+        });
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          jobTitle: "",
+          companyName: "",
+          phoneNumber: "",
+          reason: "",
+          message: "",
+        });
+      } else {
+        throw new Error(response.message || "Server rejected the request");
+      }
+    } catch (err: any) {
+      console.error("Contact error:", err);
+      toast(err.message || "Something went wrong. Please try again.", {
+        icon: "⚠️",
+        duration: 5000,
+        position: "bottom-right",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
