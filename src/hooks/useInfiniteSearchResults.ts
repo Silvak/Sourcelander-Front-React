@@ -1,125 +1,73 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { UnifiedFreelancer } from "@/interfaces";
 import {
-  HubstaffFreelancer,
-  HubstaffResponse,
-  UnifiedFreelancer,
-  WorkanaFreelancer,
-  WorkanaResponse,
-} from "@/interfaces";
-import { apiInstance } from "@/services/axiosConfig";
+  mapHubstaffFreelancer,
+  mapWorkanaFreelancer,
+} from "@/lib/mappers/freelancers.mapper";
 
-// Mapping helpers
-const mapWorkanaFreelancer = (
-  freelancer: WorkanaFreelancer
-): UnifiedFreelancer => ({
-  id: `workana-${freelancer.id || Math.random().toString(36).substr(2, 9)}`,
-  name: freelancer.name ?? "",
-  payRate: freelancer.hourlyRate ?? "",
-  profileUrl: freelancer.profileUrl ?? "",
-  imageUrl: freelancer.profileImageUrl ?? "",
-  description: freelancer.description ?? "",
-  location: freelancer.country ?? "N/A",
-  projectsCompleted: freelancer.projectsCompleted ?? "N/A",
-  rating: freelancer.rating ?? "N/A",
-  speciality: freelancer.title ?? "N/A",
-  skills: freelancer.skills ?? [],
-  reviews:
-    typeof freelancer.projectsCompleted === "number"
-      ? freelancer.projectsCompleted
-      : 0,
-  hourlyRate: parseFloat(freelancer.hourlyRate?.replace(/[^\d.]/g, "")) || 0,
-  availability: "Available",
-  verified: false,
-});
+const cleanQuery = (query: string) => query.trim().replace("category:", "");
 
-const mapHubstaffFreelancer = (
-  freelancer: HubstaffFreelancer
-): UnifiedFreelancer => ({
-  id: `hubstaff-${freelancer.id || Math.random().toString(36).substr(2, 9)}`,
-  name: freelancer.name ?? "",
-  payRate: freelancer.payRate ?? "",
-  profileUrl: freelancer.profileUrl ?? "",
-  imageUrl: freelancer.imageUrl ?? "",
-  description: freelancer.bio ?? "",
-  location: freelancer.location ?? "N/A",
-  speciality: freelancer.speciality ?? freelancer.employmentType ?? "N/A",
-  rating: freelancer.rating ?? "N/A",
-  projectsCompleted: freelancer.projectsCompleted ?? "N/A",
-  skills: freelancer.skills ?? [],
-  reviews: freelancer.projectsCompleted || 0,
-  hourlyRate: parseFloat(freelancer.payRate?.replace(/[^\d.]/g, "")) || 0,
-  availability: "Available",
-  verified: false,
-});
-
-// Individual fetchers
-async function fetchHubstaff(query: string, page: number) {
-  const url = `/hubstaff/freelancers?keywords=${encodeURIComponent(
-    query
-  )}&page=${page}`;
-  try {
-    const response = await apiInstance.get(url);
-    const data = response.data as HubstaffResponse;
-    const freelancers = (data.data || []).map(mapHubstaffFreelancer);
-    return { freelancers, hasMore: !!data.hasMore };
-  } catch (error) {
-    console.warn("Hubstaff fetch failed:", error);
-    return { freelancers: [], hasMore: false };
-  }
-}
-
-async function fetchWorkana(query: string, page: number) {
-  const url = `/workana/freelancers?worker_type=0&query=${encodeURIComponent(
-    query
-  )}&page=${page}`;
-  try {
-    const response = await apiInstance.get(url);
-    const data = response.data as WorkanaResponse;
-    const freelancers = (data.data || []).map(mapWorkanaFreelancer);
-    return { freelancers, hasMore: freelancers.length > 0 };
-  } catch (error) {
-    console.warn("Workana fetch failed:", error);
-    return { freelancers: [], hasMore: false };
-  }
-}
-
-// Unified fetch logic
 const fetchSearchResults = async (
   query: string,
-  page: number
+  page: number,
 ): Promise<{ freelancers: UnifiedFreelancer[]; hasMore: boolean }> => {
-  // Fetch both in parallel, but handle error from each independently
-  const [hubstaffResult, workanaResult] = await Promise.all([
-    fetchHubstaff(query, page),
-    fetchWorkana(query, page),
-  ]);
+  try {
+    const hubstaffURL = `https://skillmatch-back.gravitad.xyz/api/hubstaff/freelancers?keywords=${encodeURIComponent(
+      cleanQuery(query),
+    )}&page=${page}`;
 
-  // Prefer results from both, but if one failed, still return the other's data
-  const freelancers = [
-    ...hubstaffResult.freelancers,
-    ...workanaResult.freelancers,
-  ];
-  const hasMore = hubstaffResult.hasMore || workanaResult.hasMore;
+    const workanaURL = `https://skillmatch-back.gravitad.xyz/api/workana/freelancers?query=${encodeURIComponent(
+      cleanQuery(query),
+    )}&page=${page}`;
 
-  console.log(
-    `[PAGE ${page}] Hubstaff: ${hubstaffResult.freelancers.length}, Workana: ${workanaResult.freelancers.length}`,
-    {
-      hubstaffError: hubstaffResult.freelancers.length === 0,
-      workanaError: workanaResult.freelancers.length === 0,
+    const [hubstaffRes, workanaRes] = await Promise.allSettled([
+      axios.get(hubstaffURL),
+      axios.get(workanaURL),
+    ]);
+
+    const hubstaffFreelancers: UnifiedFreelancer[] =
+      hubstaffRes.status === "fulfilled"
+        ? (hubstaffRes.value.data.data.profiles || []).map(
+            mapHubstaffFreelancer,
+          )
+        : [];
+
+    const hasMoreHubstaff =
+      hubstaffRes.status === "fulfilled" &&
+      hubstaffRes.value.data.data.hasMore === true;
+
+    const workanaFreelancers: UnifiedFreelancer[] =
+      workanaRes.status === "fulfilled"
+        ? (workanaRes.value.data.data || []).map(mapWorkanaFreelancer)
+        : [];
+
+    const hasMore = hasMoreHubstaff || workanaFreelancers.length > 0;
+
+    if (hubstaffRes.status === "rejected") {
+      console.warn("Hubstaff error:", hubstaffRes.reason);
     }
-  );
+    if (workanaRes.status === "rejected") {
+      console.warn("Workana error:", workanaRes.reason);
+    }
 
-  return { freelancers, hasMore };
+    return {
+      freelancers: [...hubstaffFreelancers, ...workanaFreelancers],
+      hasMore,
+    };
+  } catch (error) {
+    console.error("Unexpected error in fetchSearchResults:", error);
+    return { freelancers: [], hasMore: false };
+  }
 };
 
 export const useInfiniteSearchResults = (query: string) => {
   return useInfiniteQuery({
     queryKey: ["search", query],
     queryFn: async ({ pageParam = 1 }) => fetchSearchResults(query, pageParam),
-    getNextPageParam: (lastPage, allPages) => {
-      return lastPage.hasMore ? allPages.length + 1 : undefined;
-    },
+    getNextPageParam: (lastPage, allPages) =>
+      lastPage.hasMore ? allPages.length + 1 : undefined,
     initialPageParam: 1,
-    enabled: !!query,
+    enabled: !!query.trim(),
   });
 };

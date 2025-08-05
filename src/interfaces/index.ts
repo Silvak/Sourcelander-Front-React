@@ -48,6 +48,7 @@ export interface WorkanaFreelancer {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   projectsCompleted?: any;
   title?: string;
+  reviews?: number;
 }
 
 // Interface para freelancers de Hubstaff
@@ -65,6 +66,7 @@ export interface HubstaffFreelancer {
   rating?: number;
   projectsCompleted?: number;
   title?: string;
+  reviews?: number;
 }
 
 // Interface para la respuesta completa de cada API

@@ -136,10 +136,11 @@ export default function FreelancerPage() {
 
   const { saveFreelancer } = useFreelancerStorage();
 
-  // El query para el hook de búsqueda infinita
-  const query = selectedCategory
-    ? `${searchQuery} category:${selectedCategory}`
-    : searchQuery;
+  const query = [searchQuery, selectedCategory]
+    .filter(Boolean)
+    .join(" ")
+    .replace(/\s+/g, " ")
+    .trim();
 
   const {
     data,
@@ -163,6 +164,7 @@ export default function FreelancerPage() {
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
+    setSelectedCategory(null);
   };
 
   const handleCategoryClick = (categoryId: string) => {
@@ -210,6 +212,7 @@ export default function FreelancerPage() {
   const clearFilters = () => {
     setSearchQuery("");
     setSelectedCategory(null);
+    refetch();
   };
 
   const handleRetry = () => {
