@@ -82,14 +82,14 @@ export default function MaintenanceModal({
         </div>
 
         <DialogFooter className="pt-4">
-          <Button
-            onClick={() => onClose(false)}
-            className="w-full bg-primary hover:bg-primary/90"
-          >
-            <Link href="/contact" className="w-full">
+          <Link href="/contact" className="w-full">
+            <Button
+              onClick={() => onClose(false)}
+              className="w-full bg-primary hover:bg-primary/90"
+            >
               Got it, thanks!
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </DialogFooter>
       </DialogContent>
     </Dialog>
