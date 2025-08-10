@@ -3,9 +3,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import { useState, useEffect } from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, User, LogOut, Settings } from "lucide-react";
 import MobileMenu from "./MobileMenu";
+import { useAuthStore } from "@/store/auth/authStore";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 // Tipos para la navegación
 interface NavigationItem {
@@ -58,6 +69,8 @@ const navigationConfig: {
 };
 
 export default function Navbar() {
+  const router = useRouter();
+  const { user, logout, isAuthenticated, isLoading } = useAuthStore();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openSubmenus, setOpenSubmenus] = useState<{ [key: string]: boolean }>(
     {}
@@ -77,6 +90,16 @@ export default function Navbar() {
       ...prev,
       [menuName]: !prev[menuName],
     }));
+  };
+
+  const handleLogout = () => {
+    logout();
+    toast.success("Logged out successfully");
+    router.push("/");
+  };
+
+  const getInitials = (username: string) => {
+    return username.substring(0, 2).toUpperCase();
   };
 
   // Bloquear scroll del body cuando el menú está abierto
@@ -176,24 +199,77 @@ export default function Navbar() {
           </div>
 
           <div className="hidden lg:flex">
-            {navigationConfig.authMenu.map((item, index) => (
-              <Link key={item.name} href={item.href}>
-                <Button
-                  variant={item.primary ? "default" : "outline"}
-                  className={`h-[40px] ${
-                    index === 0
-                      ? "rounded-l-md"
-                      : index === navigationConfig.authMenu.length - 1
-                      ? "rounded-r-md"
-                      : "rounded-none"
-                  } ${index > 0 ? "-ml-px" : ""} relative z-10 hover:z-30 ${
-                    item.primary ? "border border-primary" : ""
-                  }`}
-                >
-                  {item.name}
-                </Button>
-              </Link>
-            ))}
+            {isAuthenticated && user ? (
+              // User is authenticated - show user menu
+              <div className="flex items-center space-x-4">
+                <Link href="/contact">
+                  <Button variant="outline" className="h-[40px]">
+                    Contact
+                  </Button>
+                </Link>
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="h-[40px] px-3 flex items-center space-x-2"
+                    >
+                      <Avatar className="h-6 w-6">
+                        <AvatarImage src="" alt={user.username} />
+                        <AvatarFallback className="text-xs">
+                          {getInitials(user.username)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="text-sm font-medium">
+                        {user.username}
+                      </span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuItem asChild>
+                      <Link href="/profile" className="flex items-center">
+                        <User className="mr-2 h-4 w-4" />
+                        Profile
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/profile" className="flex items-center">
+                        <Settings className="mr-2 h-4 w-4" />
+                        Settings
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={handleLogout}
+                      className="text-red-600"
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            ) : (
+              // User is not authenticated - show auth buttons
+              navigationConfig.authMenu.map((item, index) => (
+                <Link key={item.name} href={item.href}>
+                  <Button
+                    variant={item.primary ? "default" : "outline"}
+                    className={`h-[40px] ${
+                      index === 0
+                        ? "rounded-l-md"
+                        : index === navigationConfig.authMenu.length - 1
+                        ? "rounded-r-md"
+                        : "rounded-none"
+                    } ${index > 0 ? "-ml-px" : ""} relative z-10 hover:z-30 ${
+                      item.primary ? "border border-primary" : ""
+                    }`}
+                  >
+                    {item.name}
+                  </Button>
+                </Link>
+              ))
+            )}
           </div>
 
           {/* mobile */}
@@ -232,6 +308,9 @@ export default function Navbar() {
         openSubmenus={openSubmenus}
         onToggleSubmenu={toggleSubmenu}
         mainMenu={navigationConfig.mainMenu}
+        isAuthenticated={isAuthenticated}
+        user={user}
+        onLogout={handleLogout}
       />
     </header>
   );

@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
+import { useAuthInit } from "@/hooks/useAuthInit";
 
 interface LayoutContentProps {
   children: React.ReactNode;
@@ -11,6 +12,7 @@ interface LayoutContentProps {
 export default function LayoutContent({ children }: LayoutContentProps) {
   const pathname = usePathname();
   const isAuthRoute = pathname?.startsWith("/auth");
+  const { isLoading } = useAuthInit();
 
   return (
     <>

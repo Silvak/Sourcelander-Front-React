@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { ChevronRight } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { ChevronRight, User, LogOut, Settings } from "lucide-react";
+import { User as UserType } from "@/store/auth/authStore";
 
 // Tipos para la navegación
 interface NavigationItem {
@@ -18,6 +20,9 @@ interface MobileMenuProps {
   openSubmenus: { [key: string]: boolean };
   onToggleSubmenu: (menuName: string) => void;
   mainMenu: NavigationItem[];
+  isAuthenticated?: boolean;
+  user?: UserType | null;
+  onLogout?: () => void;
 }
 
 export default function MobileMenu({
@@ -26,7 +31,21 @@ export default function MobileMenu({
   openSubmenus,
   onToggleSubmenu,
   mainMenu,
+  isAuthenticated = false,
+  user,
+  onLogout,
 }: MobileMenuProps) {
+  const getInitials = (username: string) => {
+    return username.substring(0, 2).toUpperCase();
+  };
+
+  const handleLogout = () => {
+    if (onLogout) {
+      onLogout();
+    }
+    onClose();
+  };
+
   return (
     <div
       className={`lg:hidden absolute top-[75px] left-0 w-full h-[calc(100vh-75px)] z-10 bg-[#FBFBFC]/80 backdrop-blur-sm px-4 sm:px-8 md:px-12 border-b transition-all duration-300 ease-in-out transform ${
@@ -146,23 +165,69 @@ export default function MobileMenu({
           </div>
         </div>
 
-        <div className="flex w-full gap-4 px-4 sm:px-8 py-6 border-t bg-white">
-          {/* Contact button */}
-          <Link href="/contact" className="w-full" onClick={onClose}>
-            <Button variant="outline" className="h-[40px] relative w-full">
-              Contact
-            </Button>
-          </Link>
+        <div className="flex flex-col w-full gap-4 px-4 sm:px-8 py-6 border-t bg-white">
+          {isAuthenticated && user ? (
+            // User is authenticated - show user info and logout
+            <div className="space-y-4">
+              {/* User Info */}
+              <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg">
+                <Avatar className="h-10 w-10">
+                  <AvatarImage src="" alt={user.username} />
+                  <AvatarFallback className="text-sm">
+                    {getInitials(user.username)}
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="font-medium text-sm">{user.username}</p>
+                  <p className="text-xs text-gray-500">{user.email}</p>
+                </div>
+              </div>
 
-          {/* Sign up button */}
-          <Link href="/auth/signup" className="w-full" onClick={onClose}>
-            <Button
-              variant="default"
-              className="h-[40px] relative w-full border border-primary"
-            >
-              Sign up
-            </Button>
-          </Link>
+              {/* User Actions */}
+              <div className="space-y-2">
+                <Link href="/profile" className="w-full" onClick={onClose}>
+                  <Button variant="outline" className="w-full justify-start">
+                    <User className="w-4 h-4 mr-2" />
+                    Profile
+                  </Button>
+                </Link>
+                <Link href="/profile" className="w-full" onClick={onClose}>
+                  <Button variant="outline" className="w-full justify-start">
+                    <Settings className="w-4 h-4 mr-2" />
+                    Settings
+                  </Button>
+                </Link>
+                <Button
+                  variant="destructive"
+                  className="w-full justify-start"
+                  onClick={handleLogout}
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Sign Out
+                </Button>
+              </div>
+            </div>
+          ) : (
+            // User is not authenticated - show auth buttons
+            <div className="flex w-full gap-4">
+              {/* Contact button */}
+              <Link href="/contact" className="w-full" onClick={onClose}>
+                <Button variant="outline" className="h-[40px] relative w-full">
+                  Contact
+                </Button>
+              </Link>
+
+              {/* Sign up button */}
+              <Link href="/auth/signup" className="w-full" onClick={onClose}>
+                <Button
+                  variant="default"
+                  className="h-[40px] relative w-full border border-primary"
+                >
+                  Sign up
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>

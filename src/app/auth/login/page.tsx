@@ -3,23 +3,75 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { Mail, Chrome, Building2, Users, ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { Mail, User, Lock, ArrowRight, Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import MaintenanceModal from "@/components/modals/MaintenanceModal";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/auth/authStore";
+import { toast } from "sonner";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
+  const router = useRouter();
+  const { login, isAuthenticated, isLoading, error, clearError } =
+    useAuthStore();
+  const [formData, setFormData] = useState({
+    identifier: "",
+    password: "",
+  });
 
-  const handleShowModal = (e?: React.FormEvent | React.MouseEvent) => {
-    if (e) e.preventDefault();
-    setModalOpen(true);
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push("/profile");
+    }
+  }, [isAuthenticated, router]);
+
+  // Clear error when component mounts
+  useEffect(() => {
+    clearError();
+  }, [clearError]);
+
+  // Show error toast when there's an error
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      clearError();
+    }
+  }, [error, clearError]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Validate that all fields are complete
+    if (!formData.identifier || !formData.password) {
+      toast.error("Please complete all fields");
+      return;
+    }
+
+    try {
+      await login({
+        identifier: formData.identifier,
+        password: formData.password,
+      });
+
+      toast.success("Login successful!");
+      router.push("/profile");
+    } catch (error) {
+      // Error is handled by the store and shown via toast
+      console.error("Login error:", error);
+    }
   };
 
   return (
     <div className="min-h-screen flex bg-[#FBFBFC]">
-      <MaintenanceModal isOpen={modalOpen} onClose={setModalOpen} />
       {/* Left Section - Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
         <div className="w-full max-w-md space-y-8">
@@ -45,66 +97,70 @@ export default function LoginPage() {
             <p className="text-gray-600 text-lg">Welcome back</p>
           </div>
 
-          {/* Social login options */}
-          <div className="space-y-3">
-            <Button
-              variant="outline"
-              className="w-full h-12 text-base font-medium border border-gray-200 hover:border-primary hover:bg-primary/5 transition-all duration-150"
-              onClick={handleShowModal}
-            >
-              <Chrome className="w-5 h-5 mr-3" />
-              Continue with Google
-            </Button>
-            <Button
-              variant="outline"
-              className="w-full h-12 text-base font-medium border border-gray-200 hover:border-primary hover:bg-primary/5 transition-all duration-150"
-              onClick={handleShowModal}
-            >
-              <Building2 className="w-5 h-5 mr-3" />
-              Continue with Microsoft
-            </Button>
-          </div>
-
-          {/* Separator */}
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-[#FBFBFC] text-gray-500 font-medium">
-                Or continue with your email
-              </span>
-            </div>
-          </div>
-
-          {/* Email form */}
-          <form onSubmit={handleShowModal} className="space-y-6">
+          {/* Login form */}
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <label
-                htmlFor="email"
+                htmlFor="identifier"
                 className="text-sm font-medium text-gray-700"
               >
-                Email
+                Email or Username
               </label>
               <div className="relative">
                 <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <Input
-                  id="email"
-                  type="email"
-                  placeholder="your@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  id="identifier"
+                  name="identifier"
+                  type="text"
+                  placeholder="your@example.com or username"
+                  value={formData.identifier}
+                  onChange={handleInputChange}
                   className="pl-12 h-12 text-base border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20"
                   required
+                  disabled={isLoading}
                 />
               </div>
             </div>
+
+            <div className="space-y-2">
+              <label
+                htmlFor="password"
+                className="text-sm font-medium text-gray-700"
+              >
+                Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  className="pl-12 h-12 text-base border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20"
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+            </div>
+
             <Button
               type="submit"
-              className="w-full h-12 text-base font-medium bg-primary hover:bg-primary/90 text-white transition-all duration-150 shadow-sm hover:shadow-md"
+              className="w-full h-12 text-base font-medium bg-primary hover:bg-primary/90 text-white transition-all duration-150 shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isLoading}
             >
-              Continue
-              <ArrowRight className="ml-2 w-5 h-5" />
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 w-5 h-5 animate-spin" />
+                  Signing In...
+                </>
+              ) : (
+                <>
+                  Sign In
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </>
+              )}
             </Button>
           </form>
 
@@ -112,7 +168,7 @@ export default function LoginPage() {
           <div className="text-center space-y-3 pt-4 border-t border-gray-200">
             <Link
               href="/auth/signup"
-              className="hidden text-sm text-primary hover:text-primary/80 font-medium transition-colors"
+              className="block text-sm text-primary hover:text-primary/80 font-medium transition-colors"
             >
               Don&apos;t have an account? Sign up here
             </Link>
@@ -158,12 +214,10 @@ export default function LoginPage() {
         <div className="relative z-10 flex flex-col items-center justify-center text-center text-white px-16">
           <div className="mb-8">
             <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg mb-6">
-              <Users className="w-8 h-8 text-white" />
+              <User className="w-8 h-8 text-white" />
             </div>
           </div>
-          <h1 className="text-4xl font-bold mb-4 text-white">
-            Find the perfect talent
-          </h1>
+          <h1 className="text-4xl font-bold mb-4 text-white">Welcome back</h1>
           <p className="text-lg text-white/90 mb-8 max-w-md leading-relaxed">
             Connect with the best freelancers and verified professionals
           </p>
