@@ -12,7 +12,7 @@ interface LayoutContentProps {
 export default function LayoutContent({ children }: LayoutContentProps) {
   const pathname = usePathname();
   const isAuthRoute = pathname?.startsWith("/auth");
-  const { isLoading } = useAuthInit();
+  useAuthInit(); // Initialize auth but don't use the return value
 
   return (
     <>

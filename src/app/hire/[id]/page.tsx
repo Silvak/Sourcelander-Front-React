@@ -11,6 +11,7 @@ import { Star, MapPin, Clock, CheckCircle, ArrowLeft } from "lucide-react";
 import { UnifiedFreelancer } from "@/interfaces";
 import { useFreelancerStorage } from "@/hooks/useFreelancerStorage";
 import MaintenanceModal from "@/components/modals/MaintenanceModal";
+import AddToCartButton from "@/components/search/AddToCartButton";
 
 export default function HirePage() {
   const params = useParams();
@@ -53,7 +54,7 @@ export default function HirePage() {
     }
 
     setIsLoading(false);
-  }, [freelancerId]);
+  }, [freelancerId, getStoredFreelancers]);
 
   const handleGoBack = () => {
     window.history.back();
@@ -282,6 +283,13 @@ export default function HirePage() {
                 >
                   Send Hire Request
                 </Button>
+
+                <AddToCartButton
+                  freelancer={freelancer}
+                  variant="default"
+                  size="lg"
+                  className="w-full"
+                />
 
                 <Button variant="outline" className="w-full">
                   Schedule Interview

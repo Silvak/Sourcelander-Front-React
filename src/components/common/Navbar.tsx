@@ -10,13 +10,14 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
 import { ChevronRight, User, LogOut, Settings } from "lucide-react";
 import MobileMenu from "./MobileMenu";
 import { useAuthStore } from "@/store/auth/authStore";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import CartButton from "@/components/cart/CartButton";
 
 // Tipos para la navegación
 interface NavigationItem {
@@ -70,7 +71,7 @@ const navigationConfig: {
 
 export default function Navbar() {
   const router = useRouter();
-  const { user, logout, isAuthenticated, isLoading } = useAuthStore();
+  const { user, logout, isAuthenticated } = useAuthStore();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openSubmenus, setOpenSubmenus] = useState<{ [key: string]: boolean }>(
     {}
@@ -115,6 +116,17 @@ export default function Navbar() {
       document.body.style.overflow = "";
     };
   }, [isMobileMenuOpen]);
+
+  // Asegurar que el overflow esté correcto al montar el componente
+  useEffect(() => {
+    // Reset del overflow al montar
+    document.body.style.overflow = "";
+
+    // Cleanup al desmontar
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
 
   return (
     <header className="bg-[#FBFBFC] w-full px-4 sm:px-8 md:px-12 border-b h-[75px] sticky relative top-0 left-0 right-0 z-50">
@@ -202,6 +214,8 @@ export default function Navbar() {
             {isAuthenticated && user ? (
               // User is authenticated - show user menu
               <div className="flex items-center space-x-4">
+                <CartButton />
+
                 <Link href="/contact">
                   <Button variant="outline" className="h-[40px]">
                     Contact

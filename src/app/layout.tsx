@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Sourcelander",
-  description: "Find the best talent for your projects",
+  description: "Find the best freelancers for your projects",
 };
 
 export default function RootLayout({
@@ -32,25 +32,10 @@ export default function RootLayout({
                 background: "#ffffff",
                 color: "#374151",
                 border: "1px solid #e5e7eb",
-                borderRadius: "0px",
-                boxShadow:
-                  "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
                 fontSize: "14px",
                 fontWeight: "500",
-              },
-              success: {
-                style: {
-                  background: "#f0fdf4",
-                  color: "#166534",
-                  border: "1px solid #bbf7d0",
-                },
-              },
-              error: {
-                style: {
-                  background: "#fef2f2",
-                  color: "#dc2626",
-                  border: "1px solid #fecaca",
-                },
+                borderRadius: "0px",
               },
             }}
           />

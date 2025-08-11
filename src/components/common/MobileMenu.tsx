@@ -3,8 +3,15 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { ChevronRight, User, LogOut, Settings } from "lucide-react";
+import {
+  ChevronRight,
+  User,
+  LogOut,
+  Settings,
+  ShoppingCart,
+} from "lucide-react";
 import { User as UserType } from "@/store/auth/authStore";
+import CartButton from "@/components/cart/CartButton";
 
 // Tipos para la navegación
 interface NavigationItem {
@@ -181,6 +188,11 @@ export default function MobileMenu({
                   <p className="font-medium text-sm">{user.username}</p>
                   <p className="text-xs text-gray-500">{user.email}</p>
                 </div>
+              </div>
+
+              {/* Cart Button */}
+              <div className="flex justify-center">
+                <CartButton onClick={onClose} />
               </div>
 
               {/* User Actions */}

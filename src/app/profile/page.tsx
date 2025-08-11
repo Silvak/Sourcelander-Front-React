@@ -11,21 +11,13 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import {
-  User,
-  Mail,
-  Calendar,
-  Shield,
-  LogOut,
-  Settings,
-  Edit,
-  CheckCircle,
-  Clock,
-} from "lucide-react";
+import { User, Mail, Calendar, LogOut, Edit } from "lucide-react";
 import { useAuthStore } from "@/store/auth/authStore";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import ProtectedRoute from "@/components/common/ProtectedRoute";
+import Container from "@/components/common/Container";
+import Link from "next/link";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -56,21 +48,21 @@ export default function ProfilePage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-[#FBFBFC] py-8">
-        <div className="container mx-auto px-4 max-w-4xl">
+      <div className="min-h-screen bg-[#FBFBFC]">
+        <Container className="py-12">
           {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Profile</h1>
-            <p className="text-gray-600">
-              Manage your account and view your information
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold mb-4">Your Profile</h1>
+            <p className="text-lg text-muted-foreground">
+              Manage your account and personal information
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* Profile Card */}
             <div className="lg:col-span-2">
-              <Card>
-                <CardHeader>
+              <Card className="border-0 shadow-lg">
+                <CardHeader className="pb-6">
                   <div className="flex items-center justify-between">
                     <div>
                       <CardTitle className="text-2xl">
@@ -82,105 +74,82 @@ export default function ProfilePage() {
                     </div>
                     <Button variant="outline" size="sm">
                       <Edit className="w-4 h-4 mr-2" />
-                      Edit
+                      Edit Profile
                     </Button>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-6">
+                <CardContent className="space-y-8">
                   {/* User Info */}
-                  <div className="flex items-center space-x-4">
-                    <Avatar className="h-16 w-16">
+                  <div className="flex items-center space-x-6">
+                    <Avatar className="h-20 w-20">
                       <AvatarImage src="" alt={user.username} />
-                      <AvatarFallback className="text-lg font-semibold">
+                      <AvatarFallback className="text-xl font-semibold">
                         {getInitials(user.username)}
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <h3 className="text-xl font-semibold">{user.username}</h3>
-                      <div className="flex items-center space-x-2 mt-1">
-                        <Badge
-                          variant={user.confirmed ? "default" : "secondary"}
-                        >
-                          {user.confirmed ? (
-                            <>
-                              <CheckCircle className="w-3 h-3 mr-1" />
-                              Verified
-                            </>
-                          ) : (
-                            <>
-                              <Clock className="w-3 h-3 mr-1" />
-                              Pending
-                            </>
-                          )}
-                        </Badge>
-                        <Badge
-                          variant={user.blocked ? "destructive" : "outline"}
-                        >
-                          {user.blocked ? "Blocked" : "Active"}
-                        </Badge>
-                      </div>
+                      <h3 className="text-2xl font-bold">{user.username}</h3>
+                      <p className="text-muted-foreground">
+                        Member since {formatDate(user.createdAt)}
+                      </p>
                     </div>
                   </div>
 
                   <Separator />
 
                   {/* Details */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-4">
-                      <div className="flex items-center space-x-3">
-                        <Mail className="w-5 h-5 text-gray-400" />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-6">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                          <Mail className="w-5 h-5 text-primary" />
+                        </div>
                         <div>
-                          <p className="text-sm text-gray-500">Email</p>
+                          <p className="text-sm text-muted-foreground">
+                            Email Address
+                          </p>
                           <p className="font-medium">{user.email}</p>
                         </div>
                       </div>
 
-                      <div className="flex items-center space-x-3">
-                        <User className="w-5 h-5 text-gray-400" />
-                        <div>
-                          <p className="text-sm text-gray-500">Username</p>
-                          <p className="font-medium">{user.username}</p>
+                      <div className="flex items-center space-x-4">
+                        <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                          <User className="w-5 h-5 text-primary" />
                         </div>
-                      </div>
-
-                      <div className="flex items-center space-x-3">
-                        <Shield className="w-5 h-5 text-gray-400" />
                         <div>
-                          <p className="text-sm text-gray-500">Provider</p>
-                          <p className="font-medium capitalize">
-                            {user.provider}
+                          <p className="text-sm text-muted-foreground">
+                            Username
                           </p>
+                          <p className="font-medium">{user.username}</p>
                         </div>
                       </div>
                     </div>
 
-                    <div className="space-y-4">
-                      <div className="flex items-center space-x-3">
-                        <Calendar className="w-5 h-5 text-gray-400" />
+                    <div className="space-y-6">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                          <Calendar className="w-5 h-5 text-primary" />
+                        </div>
                         <div>
-                          <p className="text-sm text-gray-500">Member Since</p>
+                          <p className="text-sm text-muted-foreground">
+                            Member Since
+                          </p>
                           <p className="font-medium">
                             {formatDate(user.createdAt)}
                           </p>
                         </div>
                       </div>
 
-                      <div className="flex items-center space-x-3">
-                        <Calendar className="w-5 h-5 text-gray-400" />
+                      <div className="flex items-center space-x-4">
+                        <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                          <Calendar className="w-5 h-5 text-primary" />
+                        </div>
                         <div>
-                          <p className="text-sm text-gray-500">Last Updated</p>
+                          <p className="text-sm text-muted-foreground">
+                            Last Updated
+                          </p>
                           <p className="font-medium">
                             {formatDate(user.updatedAt)}
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center space-x-3">
-                        <User className="w-5 h-5 text-gray-400" />
-                        <div>
-                          <p className="text-sm text-gray-500">User ID</p>
-                          <p className="font-medium font-mono text-sm">
-                            {user.id}
                           </p>
                         </div>
                       </div>
@@ -192,64 +161,69 @@ export default function ProfilePage() {
 
             {/* Sidebar */}
             <div className="space-y-6">
-              {/* Quick Actions */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Quick Actions</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <Button variant="outline" className="w-full justify-start">
-                    <Settings className="w-4 h-4 mr-2" />
-                    Account Settings
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    <Shield className="w-4 h-4 mr-2" />
-                    Security
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    <Mail className="w-4 h-4 mr-2" />
-                    Notifications
-                  </Button>
-                </CardContent>
-              </Card>
-
               {/* Account Status */}
-              <Card>
+              <Card className="border-0 shadow-lg">
                 <CardHeader>
                   <CardTitle>Account Status</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">
-                      Email Verified
-                    </span>
-                    <Badge variant={user.confirmed ? "default" : "secondary"}>
-                      {user.confirmed ? "Yes" : "No"}
-                    </Badge>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">
+                    <span className="text-sm text-muted-foreground">
                       Account Status
                     </span>
-                    <Badge variant={user.blocked ? "destructive" : "default"}>
-                      {user.blocked ? "Blocked" : "Active"}
+                    <Badge
+                      variant="default"
+                      className="bg-green-100 text-green-800 hover:bg-green-100"
+                    >
+                      Active
                     </Badge>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">Provider</span>
-                    <Badge variant="outline" className="capitalize">
-                      {user.provider}
+                    <span className="text-sm text-muted-foreground">
+                      Email Status
+                    </span>
+                    <Badge
+                      variant="default"
+                      className="bg-blue-100 text-blue-800 hover:bg-blue-100"
+                    >
+                      Verified
                     </Badge>
                   </div>
                 </CardContent>
               </Card>
 
+              {/* Quick Actions */}
+              <Card className="border-0 shadow-lg">
+                <CardHeader>
+                  <CardTitle>Quick Actions</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start h-12"
+                  >
+                    <Edit className="w-4 h-4 mr-3" />
+                    Edit Profile
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start h-12"
+                    asChild
+                  >
+                    <Link href="/contact/support">
+                      <Mail className="w-4 h-4 mr-3" />
+                      Contact Support
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+
               {/* Logout */}
-              <Card>
+              <Card className="border-0 shadow-lg">
                 <CardContent className="pt-6">
                   <Button
                     variant="destructive"
-                    className="w-full"
+                    className="w-full h-12"
                     onClick={handleLogout}
                   >
                     <LogOut className="w-4 h-4 mr-2" />
@@ -259,7 +233,7 @@ export default function ProfilePage() {
               </Card>
             </div>
           </div>
-        </div>
+        </Container>
       </div>
     </ProtectedRoute>
   );
