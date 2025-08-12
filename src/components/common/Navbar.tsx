@@ -51,12 +51,12 @@ const navigationConfig: {
       ],
     },
     {
-      name: "Contact",
-      href: "/contact",
+      name: "Support",
+      href: "/contact/support",
       submenu: [
         {
-          name: "Support",
-          href: "/contact/support",
+          name: "Contact",
+          href: "/contact",
         },
       ],
     },
@@ -225,7 +225,7 @@ export default function Navbar() {
               <div className="flex items-center space-x-4">
                 <CartButton />
 
-                <Link href="/contact">
+                <Link className="hidden" href="/contact">
                   <Button variant="outline" className="h-[40px]">
                     Contact
                   </Button>

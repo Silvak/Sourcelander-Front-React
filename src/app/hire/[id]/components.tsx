@@ -42,7 +42,7 @@ import { Freelancer, ProjectForm } from "./types";
 import { projectTypes } from "./config";
 
 export const LoadingSpinner = () => (
-  <div className="flex items-center justify-center min-h-screen">
+  <div className="flex items-center justify-center py-20">
     <div className="text-center space-y-4">
       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
       <p className="text-muted-foreground">Loading freelancer profile...</p>
@@ -51,7 +51,7 @@ export const LoadingSpinner = () => (
 );
 
 export const NotFound = () => (
-  <div className="flex items-center justify-center min-h-screen">
+  <div className="flex items-center justify-center py-20">
     <div className="text-center space-y-4">
       <h1 className="text-2xl font-bold mb-4">Freelancer not found</h1>
       <Button onClick={() => window.history.back()}>

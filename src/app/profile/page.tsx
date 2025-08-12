@@ -48,8 +48,8 @@ export default function ProfilePage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-[#FBFBFC]">
-        <Container className="py-12 min-h-[100vh]">
+      <div className="bg-[#FBFBFC]">
+        <Container className="py-12">
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold mb-4">Your Profile</h1>

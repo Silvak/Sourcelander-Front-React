@@ -17,11 +17,7 @@ export default function LayoutContent({ children }: LayoutContentProps) {
   return (
     <>
       {!isAuthRoute && <Navbar />}
-      <main
-        className={isAuthRoute ? "min-h-screen" : "min-h-[calc(100vh-75px)]"}
-      >
-        {children}
-      </main>
+      <main className={isAuthRoute ? "" : ""}>{children}</main>
       {!isAuthRoute && <Footer />}
     </>
   );

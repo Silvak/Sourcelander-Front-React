@@ -38,7 +38,7 @@ export default function ProtectedRoute({
   if (!isClient || isLoading) {
     return (
       fallback || (
-        <div className="min-h-screen flex items-center justify-center bg-[#FBFBFC]">
+        <div className="flex items-center justify-center py-20 bg-[#FBFBFC]">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
             <p className="text-gray-600">Loading...</p>

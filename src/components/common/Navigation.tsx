@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Navigation() {
   return (
-    <nav className="absolute top-0 left-0 right-0 bg-white h-[72px] border-b border-gray-200 z-100">
+    <nav className="relative bg-white h-[72px] border-b border-gray-200 z-50">
       <div className="max-w-7xl mx-auto px-4 h-full">
         <div className="flex items-center justify-between h-full">
           <div className="flex items-center">

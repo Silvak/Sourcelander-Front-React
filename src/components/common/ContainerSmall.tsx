@@ -10,10 +10,10 @@ export default function ContainerSmall({
   className?: string;
 }) {
   return (
-    <section id={id} className="w-full px-4 sm:px-8 md:px-12 h-min border-b">
+    <section id={id} className="w-full px-4 sm:px-8 md:px-12 border-b">
       <div
         className={cn(
-          "relative border-x max-w-[900px] xl:max-w-[1120px] mx-auto min-h-[80px] px-4 sm:px-8 py-4 flex items-center justify-center gap-8 md:gap-8",
+          "relative border-x max-w-[900px] xl:max-w-[1120px] mx-auto px-4 sm:px-8 py-4 flex items-center justify-center gap-8 md:gap-8",
           className,
           "bg-[radial-gradient(circle,_#E5E5E5_1px,_transparent_1px)] bg-[length:7px_7px]"
         )}

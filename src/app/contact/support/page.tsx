@@ -61,8 +61,8 @@ export default function ContactSupportPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FBFBFC]">
-      <Container className="py-12 min-h-[100vh]">
+    <div className="bg-[#FBFBFC]">
+      <Container className="py-12">
         {/* Header */}
         <div className="text-center mb-12">
           <Badge variant="secondary" className="mb-4">
@@ -127,7 +127,7 @@ export default function ContactSupportPage() {
             </Card>
 
             {/* Contact Info */}
-            <Card className="border-0 shadow-lg">
+            <Card className="hidden border-0 shadow-lg">
               <CardHeader>
                 <CardTitle>Other Ways to Reach Us</CardTitle>
               </CardHeader>
