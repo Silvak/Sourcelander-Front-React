@@ -10,7 +10,7 @@ export const apiInstance = axios.create({
 });
 
 export const apiInstanceStrapi = axios.create({
-  baseURL: `${process.env.STRAPI_URL}/api`,
+  baseURL: `${process.env.NEXT_PUBLIC_STRAPI_URL}/api`,
   timeout: 15000,
   headers: {
     "Content-Type": "application/json",
