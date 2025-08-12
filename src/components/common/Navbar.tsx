@@ -220,6 +220,9 @@ export default function Navbar() {
           </div>
 
           <div className="hidden lg:flex">
+            <div className="flex items-center space-x-4 mr-4">
+              <CartButton />
+            </div>
             {isAuthenticated && user ? (
               // User is authenticated - show user menu
               <div className="flex items-center space-x-4">
@@ -268,6 +271,7 @@ export default function Navbar() {
               </div>
             ) : (
               // User is not authenticated - show auth buttons
+
               navigationConfig.authMenu.map((item, index) => (
                 <Link key={item.name} href={item.href}>
                   <Button
