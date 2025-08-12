@@ -20,7 +20,11 @@ export default function CartButton({
 
   return (
     <Link href="/cart" onClick={onClick}>
-      <Button variant="outline" size="sm" className={`relative ${className}`}>
+      <Button
+        variant="outline"
+        size="sm"
+        className={`relative h-[40px] w-[40px] ${className}`}
+      >
         <ShoppingCart className="h-4 w-4" />
         {itemCount > 0 && (
           <Badge

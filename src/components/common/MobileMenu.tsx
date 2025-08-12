@@ -3,13 +3,7 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import {
-  ChevronRight,
-  User,
-  LogOut,
-  Settings,
-  ShoppingCart,
-} from "lucide-react";
+import { ChevronRight, User, LogOut } from "lucide-react";
 import { User as UserType } from "@/store/auth/authStore";
 import CartButton from "@/components/cart/CartButton";
 
@@ -55,13 +49,13 @@ export default function MobileMenu({
 
   return (
     <div
-      className={`lg:hidden absolute top-[75px] left-0 w-full h-[calc(100vh-75px)] z-10 bg-[#FBFBFC]/80 backdrop-blur-sm px-4 sm:px-8 md:px-12 border-b transition-all duration-300 ease-in-out transform ${
+      className={` lg:hidden absolute top-[75px] left-0 w-full h-[calc(100vh-75px)] z-10 bg-[#FBFBFC]/80 backdrop-blur-sm px-4 sm:px-8 md:px-12 border-b transition-all duration-300 ease-in-out transform ${
         isOpen
           ? "opacity-100 translate-y-0"
           : "opacity-0 -translate-y-4 pointer-events-none"
       }`}
     >
-      <div className="flex flex-col justify-between border-x max-w-[1120px] mx-auto h-full gap-4">
+      <div className="flex flex-col justify-between border-x max-w-[900px] mx-auto h-full gap-4">
         <div className="flex flex-col h-full overflow-y-auto">
           <div className="flex flex-col">
             <ul className="flex flex-col">
@@ -191,7 +185,7 @@ export default function MobileMenu({
               </div>
 
               {/* Cart Button */}
-              <div className="flex justify-center">
+              <div className="hidden  justify-center">
                 <CartButton onClick={onClose} />
               </div>
 
@@ -199,16 +193,11 @@ export default function MobileMenu({
               <div className="space-y-2">
                 <Link href="/profile" className="w-full" onClick={onClose}>
                   <Button variant="outline" className="w-full justify-start">
-                    <User className="w-4 h-4 mr-2" />
+                    <User className="w-4  h-4 mr-2" />
                     Profile
                   </Button>
                 </Link>
-                <Link href="/profile" className="w-full" onClick={onClose}>
-                  <Button variant="outline" className="w-full justify-start">
-                    <Settings className="w-4 h-4 mr-2" />
-                    Settings
-                  </Button>
-                </Link>
+
                 <Button
                   variant="destructive"
                   className="w-full justify-start"

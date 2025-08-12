@@ -62,7 +62,7 @@ export default function ContactSupportPage() {
 
   return (
     <div className="min-h-screen bg-[#FBFBFC]">
-      <Container className="py-12">
+      <Container className="py-12 min-h-[100vh]">
         {/* Header */}
         <div className="text-center mb-12">
           <Badge variant="secondary" className="mb-4">
@@ -165,8 +165,8 @@ export default function ContactSupportPage() {
               <CardHeader>
                 <CardTitle>Submit a Support Request</CardTitle>
                 <p className="text-muted-foreground">
-                  Fill out the form below and we'll get back to you as soon as
-                  possible.
+                  Fill out the form below and we&apos;ll get back to you as soon
+                  as possible.
                 </p>
               </CardHeader>
               <CardContent>
@@ -296,8 +296,8 @@ export default function ContactSupportPage() {
                     >
                       privacy policy
                     </a>
-                    . We'll use this information to provide you with the best
-                    possible support.
+                    . We&apos;ll use this information to provide you with the
+                    best possible support.
                   </p>
                 </form>
               </CardContent>

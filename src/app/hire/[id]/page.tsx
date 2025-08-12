@@ -277,7 +277,8 @@ export default function HirePage() {
                 </div>
 
                 <Button
-                  className="w-full"
+                  className="w-full "
+                  variant="outline"
                   size="lg"
                   onClick={handleSendHireRequest}
                 >
@@ -290,10 +291,6 @@ export default function HirePage() {
                   size="lg"
                   className="w-full"
                 />
-
-                <Button variant="outline" className="w-full">
-                  Schedule Interview
-                </Button>
               </CardContent>
             </Card>
 

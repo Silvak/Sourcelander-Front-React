@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UnifiedFreelancer } from "@/interfaces";
 import AddToCartButton from "./AddToCartButton";
-import { useCartStore } from "@/store/cart/cartStore";
 
 interface FreelancerCardProps {
   freelancer: UnifiedFreelancer;
@@ -137,7 +136,7 @@ export default function FreelancerCard({
 
         {/* Button fijo en la parte inferior */}
         <div className="mt-auto pt-4 border-t border-muted/20">
-          <div className="flex flex-col sm:flex-row items-center gap-2">
+          <div className="flex flex-col  items-center gap-2">
             <Button
               onClick={() => onViewProfile(id)}
               className="w-full group-hover:bg-primary/90 transition-colors"

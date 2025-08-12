@@ -8,11 +8,10 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
-import { ChevronRight, User, LogOut, Settings } from "lucide-react";
+import { ChevronRight, User, LogOut } from "lucide-react";
 import MobileMenu from "./MobileMenu";
 import { useAuthStore } from "@/store/auth/authStore";
 import { useRouter } from "next/navigation";
@@ -33,10 +32,10 @@ const navigationConfig: {
   authMenu: NavigationItem[];
 } = {
   mainMenu: [
-    {
-      name: "Home",
-      href: "/",
-    },
+    //{
+    //  name: "Home",
+    //  href: "/",
+    //},
     {
       name: "Freelancers",
       href: "/freelancer",
@@ -48,6 +47,16 @@ const navigationConfig: {
         {
           name: "Management",
           href: "/talent/management",
+        },
+      ],
+    },
+    {
+      name: "Contact",
+      href: "/contact",
+      submenu: [
+        {
+          name: "Support",
+          href: "/contact/support",
         },
       ],
     },
@@ -239,25 +248,19 @@ export default function Navbar() {
                       </span>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
-                    <DropdownMenuItem asChild>
+                  <DropdownMenuContent align="end" className="w-48 p-0">
+                    <DropdownMenuItem asChild className="border-b h-[56px]">
                       <Link href="/profile" className="flex items-center">
-                        <User className="mr-2 h-4 w-4" />
+                        <User className="mr-2 w-4" />
                         Profile
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href="/profile" className="flex items-center">
-                        <Settings className="mr-2 h-4 w-4" />
-                        Settings
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
+
                     <DropdownMenuItem
                       onClick={handleLogout}
-                      className="text-red-600"
+                      className=" h-[56px] text-red-600"
                     >
-                      <LogOut className="mr-2 h-4 w-4" />
+                      <LogOut className="mr-2 w-4" />
                       Sign Out
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -287,7 +290,8 @@ export default function Navbar() {
           </div>
 
           {/* mobile */}
-          <div className="lg:hidden">
+          <div className="lg:hidden flex items-center gap-2">
+            <CartButton />
             <Button
               variant="outline"
               className="h-[40px] p-2 min-w-[40px] hover:border-black"

@@ -60,7 +60,7 @@ export default function ContactPage() {
 
   return (
     <div>
-      <Container className="py-12 lg:min-h-[calc(100vh-75px)]">
+      <Container className="py-12 min-h-[100vh]">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Message Section */}
           <div className="flex flex-col gap-6">

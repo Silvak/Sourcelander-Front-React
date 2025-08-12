@@ -89,7 +89,7 @@ export default function AddToCartButton({
         variant={variant}
         size={size}
         onClick={() => setIsDialogOpen(true)}
-        className={className}
+        className={`${className} w-full h-[44px]`}
       >
         <ShoppingCart className="h-4 w-4 mr-2" />
         Add to Team
