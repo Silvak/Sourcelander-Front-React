@@ -45,7 +45,7 @@ export default function ProfilePage() {
   if (!user) {
     return null;
   }
-
+  //
   return (
     <ProtectedRoute>
       <div className="bg-[#FBFBFC]">
