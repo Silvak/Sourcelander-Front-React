@@ -63,8 +63,8 @@ const navigationConfig: {
   ],
   authMenu: [
     {
-      name: "Contact",
-      href: "/contact",
+      name: "Provider",
+      href: "/auth/client",
     },
     {
       name: "Log in",
