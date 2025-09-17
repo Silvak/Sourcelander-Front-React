@@ -31,7 +31,7 @@ export default function FreelancerModal({
 }: FreelancerModalProps) {
   // Console log para ver los datos del freelancer
   console.log("FreelancerModal - Datos del freelancer:", freelancer);
-  
+
   if (!isOpen) return null;
 
   return (
@@ -82,7 +82,7 @@ export default function FreelancerModal({
                 <div className="flex items-center gap-1">
                   <Calendar className="h-4 w-4 text-primary" />
                   <span className="font-medium">
-                    {freelancer.experienceYears || 5}+ años de experiencia
+                    {freelancer.experienceYears || 5}+ yrs. exp.
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
@@ -134,7 +134,9 @@ export default function FreelancerModal({
                 <div className="flex items-center justify-center mb-2">
                   <Calendar className="h-6 w-6 text-primary" />
                 </div>
-                <div className="text-2xl font-bold">5+</div>
+                <div className="text-2xl font-bold">
+                  {freelancer.experienceYears || 5}+
+                </div>
                 <div className="text-sm text-muted-foreground">Years Exp.</div>
               </CardContent>
             </Card>

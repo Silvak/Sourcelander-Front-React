@@ -25,7 +25,7 @@ export default function HirePage() {
     // Try to get freelancer from localStorage first
     const storedFreelancers = getStoredFreelancers();
     const foundFreelancer = storedFreelancers.find(
-      (f) => f.id === freelancerId
+      (f) => f.id === freelancerId,
     );
 
     if (foundFreelancer) {
@@ -130,7 +130,9 @@ export default function HirePage() {
               <div className="flex items-center gap-4 text-sm">
                 <div className="flex items-center gap-1">
                   <Calendar className="h-4 w-4 text-primary" />
-                  <span className="font-medium">{freelancer.experienceYears || 5}+ años de experiencia</span>
+                  <span className="font-medium">
+                    {freelancer.experienceYears || 5}+ yrs exp.
+                  </span>
                 </div>
                 <div className="flex items-center gap-1">
                   <MapPin className="h-4 w-4 text-muted-foreground" />
