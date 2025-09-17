@@ -33,6 +33,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     availability: "Available",
     verified: true,
     memberSince: "2021-03-15",
+    experienceYears: 5,
   },
   {
     id: "mock-2",
@@ -55,6 +56,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     availability: "Available",
     verified: true,
     memberSince: "2019-08-22",
+    experienceYears: 7,
   },
   {
     id: "mock-3",
@@ -77,6 +79,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     availability: "Available",
     verified: true,
     memberSince: "2020-11-10",
+    experienceYears: 9,
   },
   {
     id: "mock-4",
@@ -99,6 +102,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     availability: "Available",
     verified: true,
     memberSince: "2020-05-18",
+    experienceYears: 6,
   },
   {
     id: "mock-5",
@@ -121,6 +125,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     availability: "Available",
     verified: true,
     memberSince: "2018-12-03",
+    experienceYears: 8,
   },
   {
     id: "mock-6",
@@ -143,6 +148,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     availability: "Available",
     verified: true,
     memberSince: "2017-09-14",
+    experienceYears: 10,
   },
 ];
 
@@ -239,6 +245,7 @@ const mapWorkanaFreelancer = (
   availability: "Available",
   verified: true,
   memberSince: "2021-01-01", // Default member since date
+  experienceYears: Math.floor(Math.random() * 8) + 3, // 3-10 years
 });
 
 // Función para mapear HubstaffFreelancer a UnifiedFreelancer
@@ -264,6 +271,7 @@ const mapHubstaffFreelancer = (
   availability: "Available",
   verified: true,
   memberSince: "2020-01-01", // Default member since date
+  experienceYears: Math.floor(Math.random() * 8) + 3, // 3-10 years
 });
 
 const fetchSearchResults = async (

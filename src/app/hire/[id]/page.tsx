@@ -61,6 +61,8 @@ export default function HirePage() {
         speciality: "",
         projectsCompleted: "",
         verified: false,
+        experienceYears: 5,
+        memberSince: "2020-01-01",
       });
     }
 

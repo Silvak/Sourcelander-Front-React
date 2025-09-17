@@ -8,10 +8,17 @@ export const calculateMembershipYears = (memberSince?: string): number => {
 
   const memberDate = new Date(memberSince);
   const currentDate = new Date();
-  const diffTime = Math.abs(currentDate.getTime() - memberDate.getTime());
-  const diffYears = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365));
+  
+  // Calcular la diferencia en años de forma más precisa
+  let years = currentDate.getFullYear() - memberDate.getFullYear();
+  
+  // Ajustar si aún no ha pasado el aniversario este año
+  const monthDiff = currentDate.getMonth() - memberDate.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && currentDate.getDate() < memberDate.getDate())) {
+    years--;
+  }
 
-  return Math.max(1, diffYears);
+  return Math.max(1, years);
 };
 
 /**

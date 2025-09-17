@@ -5,6 +5,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import FreelancerCard from "./FreelancerCard";
 import { UnifiedFreelancer } from "@/interfaces";
+import { applyVisualFilters, IFilterOptions } from "@/components/common/FilterDropdown";
+import FilterDropdown from "@/components/common/FilterDropdown";
 
 interface RecommendedFreelancersCarouselProps {
   freelancers: UnifiedFreelancer[];
@@ -15,6 +17,14 @@ export default function RecommendedFreelancersCarousel({
   freelancers,
   onViewProfile,
 }: RecommendedFreelancersCarouselProps) {
+  const [filters, setFilters] = useState<IFilterOptions>({
+    priceRange: null,
+    experience: null,
+  });
+  
+  // Aplicar filtros visuales a los freelancers
+  const filteredFreelancers = applyVisualFilters(freelancers, filters);
+  
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -41,34 +51,39 @@ export default function RecommendedFreelancersCarousel({
   // Auto-scroll function
   const autoScroll = useCallback(() => {
     setCurrentIndex((prev) => {
-      const maxIdx = Math.max(0, freelancers.length - cardsPerView);
+      const maxIdx = Math.max(0, filteredFreelancers.length - cardsPerView);
       return prev >= maxIdx ? 0 : prev + 1;
     });
-  }, [freelancers.length, cardsPerView]);
+  }, [filteredFreelancers.length, cardsPerView]);
 
   // Function to restart auto-scroll timer
   const restartAutoScroll = useCallback(() => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
-    if (freelancers.length > cardsPerView) {
+    if (filteredFreelancers.length > cardsPerView) {
       intervalRef.current = setInterval(autoScroll, 10000);
     }
-  }, [autoScroll, freelancers.length, cardsPerView]);
+  }, [autoScroll, filteredFreelancers.length, cardsPerView]);
 
   // Auto-scroll every 10 seconds
   useEffect(() => {
-    if (freelancers.length <= cardsPerView) return; // No auto-scroll si no hay suficientes elementos
-    
+    if (filteredFreelancers.length <= cardsPerView) return; // No auto-scroll si no hay suficientes elementos
+
     intervalRef.current = setInterval(autoScroll, 10000);
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
     };
-  }, [autoScroll, freelancers.length, cardsPerView]);
+  }, [filteredFreelancers.length, cardsPerView]);
 
-  const maxIndex = Math.max(0, freelancers.length - cardsPerView);
+  // Reset currentIndex when filters change
+  useEffect(() => {
+    setCurrentIndex(0);
+  }, [filters]);
+
+  const maxIndex = Math.max(0, filteredFreelancers.length - cardsPerView);
 
   const nextSlide = () => {
     if (isTransitioning) return;
@@ -99,14 +114,24 @@ export default function RecommendedFreelancersCarousel({
     console.log("View profile:", id);
   };
 
-  if (freelancers.length === 0) return null;
+  // No ocultar la sección completa, solo mostrar mensaje cuando no hay resultados
 
   return (
     <section className="mb-16 animate-slideIn">
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">
-          Recommended Freelancers
-        </h2>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex-1"></div>
+          <h2 className="text-3xl font-bold text-gray-900">
+            Recommended Freelancers
+          </h2>
+          <div className="flex-1 flex justify-end">
+            <FilterDropdown 
+              onFiltersChange={setFilters}
+              currentFilters={filters}
+              className="ml-4"
+            />
+          </div>
+        </div>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
           Discover top-rated freelancers handpicked for your projects
         </p>
@@ -114,7 +139,7 @@ export default function RecommendedFreelancersCarousel({
 
       <div className="relative">
         {/* Botones de navegación */}
-        {freelancers.length > cardsPerView && (
+        {filteredFreelancers.length > cardsPerView && (
           <>
             <Button
               variant="outline"
@@ -140,41 +165,72 @@ export default function RecommendedFreelancersCarousel({
 
         {/* Grid de freelancers - contenido limitado al ancho del contenedor */}
         <div className="px-8">
-          <div
-            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-full transition-all duration-500 ease-in-out ${
-              isTransitioning
-                ? "opacity-75 scale-[0.98]"
-                : "opacity-100 scale-100"
-            }`}
-            style={{
-              transform: "translateX(0)",
-            }}
-          >
-            {freelancers
-              .slice(currentIndex, currentIndex + cardsPerView)
-              .map((freelancer, index) => (
-                <div
-                  key={freelancer.id}
-                  className="animate-fadeInUp"
-                  style={{
-                    animationDelay: `${index * 100}ms`,
-                    animationFillMode: "both",
-                  }}
-                >
-                  <FreelancerCard
-                    freelancer={freelancer}
-                    onViewProfile={onViewProfile}
-                    priceFormat="hourly"
-                    hideAvailability={true}
-                  />
+          {filteredFreelancers.length === 0 ? (
+            /* Mensaje cuando no hay resultados filtrados */
+            <div className="text-center py-16">
+              <div className="mb-6">
+                <div className="relative">
+                  <div className="text-gray-300 mb-4">
+                    <svg className="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </div>
+                  <div className="absolute top-0 right-1/2 translate-x-8 w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center">
+                    <span className="text-blue-600 text-xs">?</span>
+                  </div>
                 </div>
-              ))}
-          </div>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                No hay recomendaciones con estos filtros
+              </h3>
+              <p className="text-gray-600 mb-6 max-w-sm mx-auto leading-relaxed">
+                Ajusta los filtros para ver más freelancers recomendados que se adapten a tu proyecto.
+              </p>
+              <Button 
+                variant="outline" 
+                onClick={() => setFilters({ priceRange: null, experience: null })}
+                className="text-sm"
+              >
+                Limpiar filtros
+              </Button>
+            </div>
+          ) : (
+            <div
+              className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-full transition-all duration-500 ease-in-out ${
+                isTransitioning
+                  ? "opacity-75 scale-[0.98]"
+                  : "opacity-100 scale-100"
+              }`}
+              style={{
+                transform: "translateX(0)",
+              }}
+            >
+              {filteredFreelancers
+                .slice(currentIndex, currentIndex + cardsPerView)
+                .map((freelancer, index) => (
+                  <div
+                    key={freelancer.id}
+                    className="animate-fadeInUp"
+                    style={{
+                      animationDelay: `${index * 100}ms`,
+                      animationFillMode: "both",
+                    }}
+                  >
+                    <FreelancerCard
+                      freelancer={freelancer}
+                      onViewProfile={onViewProfile}
+                      priceFormat="hourly"
+                      hideAvailability={true}
+                    />
+                  </div>
+                ))}
+            </div>
+          )}
         </div>
 
         {/* Contenedor fijo para indicadores de navegación */}
         <div className="mt-8 sm:mt-12 h-16 flex flex-col justify-center">
-          {freelancers.length > cardsPerView ? (
+          {filteredFreelancers.length > cardsPerView ? (
             <>
               {/* Indicadores de puntos */}
               <div className="flex justify-center items-center gap-4 py-4">

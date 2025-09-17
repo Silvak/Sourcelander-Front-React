@@ -57,6 +57,7 @@ const mapWorkanaFreelancer = (
   availability: "Available",
   verified: false,
   memberSince: "2021-01-01", // Default member since date
+  experienceYears: parseExperienceYearsFromSkills(freelancer.skills) || Math.floor(Math.random() * 8) + 3, // 3-10 years if not found
 });
 
 const mapHubstaffFreelancer = (
@@ -78,6 +79,7 @@ const mapHubstaffFreelancer = (
   availability: "Available",
   verified: false,
   memberSince: "2020-01-01", // Default member since date
+  experienceYears: parseExperienceYearsFromSkills(freelancer.skills) || Math.floor(Math.random() * 8) + 3, // 3-10 years if not found
 });
 
 // Individual fetchers

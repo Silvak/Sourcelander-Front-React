@@ -5,18 +5,22 @@ import Container from "@/components/common/Container";
 import ContainerSmall from "@/components/common/ContainerSmall";
 import SearchInput from "@/components/search/SearchInput";
 import CategoryCard from "@/components/search/CategoryCard";
-import RecommendedFreelancersCarousel from "@/components/search/RecommendedFreelancersCarousel";
+import RecommendedFreelancersCarousel from "@/components/search/RecommendedFreelancers";
 import FreelancerCard from "@/components/search/FreelancerCard";
 import FreelancerModal from "@/components/search/FreelancerModal";
 import { Button } from "@/components/ui/button";
 import { popularCategories } from "@/lib/searchData";
-import { generateExtendedRecommendedFreelancers } from "@/lib/mockRecommendedFreelancers";
+import { generateExtendedRecommended } from "@/lib/mockRecommended";
 import { Search, Users, Filter, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useInfiniteSearchResults } from "@/hooks/useInfiniteSearchResults";
 import { useFreelancerStorage } from "@/hooks/useFreelancerStorage";
 import { useSearchStore } from "@/store/search/searchStore";
 import { UnifiedFreelancer } from "@/interfaces";
+import FilterDropdown, {
+  applyVisualFilters,
+  IFilterOptions,
+} from "@/components/common/FilterDropdown";
 
 // Mock data to show when there are no search results
 const mockFreelancers: UnifiedFreelancer[] = [
@@ -37,6 +41,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     location: "New York, USA",
     profileUrl: "https://example.com/profile/sarah-johnson",
     payRate: "$45/hr",
+    experienceYears: 8,
   },
   {
     id: "fl-michael-chen-002",
@@ -55,6 +60,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     location: "San Francisco, USA",
     profileUrl: "https://example.com/profile/michael-chen",
     payRate: "$35/hr",
+    experienceYears: 6,
   },
   {
     id: "fl-emily-rodriguez-003",
@@ -73,6 +79,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     location: "Austin, USA",
     profileUrl: "https://example.com/profile/emily-rodriguez",
     payRate: "$50/hr",
+    experienceYears: 10,
   },
   {
     id: "fl-david-thompson-004",
@@ -91,6 +98,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     location: "Seattle, USA",
     profileUrl: "https://example.com/profile/david-thompson",
     payRate: "$60/hr",
+    experienceYears: 5,
   },
   {
     id: "fl-lisa-wang-005",
@@ -109,6 +117,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     location: "Boston, USA",
     profileUrl: "https://example.com/profile/lisa-wang",
     payRate: "$55/hr",
+    experienceYears: 7,
   },
   {
     id: "fl-james-wilson-006",
@@ -127,6 +136,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     location: "Chicago, USA",
     profileUrl: "https://example.com/profile/james-wilson",
     payRate: "$48/hr",
+    experienceYears: 9,
   },
 ];
 
@@ -136,9 +146,14 @@ export default function FreelancerPage() {
     selectedCategory,
     setSearchTerm: setSearchQuery,
     setSelectedCategory,
-    clearAll
+    clearAll,
   } = useSearchStore();
-  
+
+  const [filters, setFilters] = useState<IFilterOptions>({
+    priceRange: null,
+    experience: null,
+  });
+
   const [selectedFreelancer, setSelectedFreelancer] =
     useState<UnifiedFreelancer | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -166,10 +181,13 @@ export default function FreelancerPage() {
   const freelancers = data?.pages.flatMap((page) => page.freelancers) ?? [];
 
   // Si no hay resultados y no está cargando, mostrar datos mockeados
-  const displayFreelancers =
+  const baseFreelancers =
     !isLoading && !isError && freelancers.length === 0
       ? mockFreelancers
       : freelancers;
+
+  // Aplicar filtros visuales
+  const displayFreelancers = applyVisualFilters(baseFreelancers, filters);
   const showMockData = !isLoading && !isError && freelancers.length === 0;
 
   // Check if we have any active search criteria
@@ -193,7 +211,7 @@ export default function FreelancerPage() {
 
     // Si no se encuentra, buscar en los freelancers recomendados
     if (!freelancer) {
-      const recommendedFreelancers = generateExtendedRecommendedFreelancers();
+      const recommendedFreelancers = generateExtendedRecommended();
       freelancer = recommendedFreelancers.find((f) => f.id && f.id === id);
     }
 
@@ -243,6 +261,7 @@ export default function FreelancerPage() {
 
   const clearFilters = () => {
     clearAll();
+    setFilters({ priceRange: null, experience: null });
   };
 
   const handleRetry = () => {
@@ -333,7 +352,7 @@ export default function FreelancerPage() {
       {showRecommendedFreelancers && (
         <ContainerSmall className="pt-8 md:pt-12">
           <RecommendedFreelancersCarousel
-            freelancers={generateExtendedRecommendedFreelancers()}
+            freelancers={generateExtendedRecommended()}
             onViewProfile={handleViewProfile}
           />
         </ContainerSmall>
@@ -351,10 +370,10 @@ export default function FreelancerPage() {
               </div>
             </div>
 
-            <Button variant="outline" size="sm">
-              <Filter className="h-4 w-4 mr-2" />
-              Filters
-            </Button>
+            <FilterDropdown
+              onFiltersChange={setFilters}
+              currentFilters={filters}
+            />
           </div>
 
           {/* Loading State */}
@@ -385,21 +404,32 @@ export default function FreelancerPage() {
           )}
 
           {/* No Results */}
-          {!isLoading &&
-            !isError &&
-            freelancers.length === 0 &&
-            !showMockData && (
-              <div className="text-center py-12">
-                <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">
-                  No freelancers found
-                </h3>
-                <p className="text-muted-foreground mb-4">
-                  Try adjusting your search criteria or browse our categories
-                </p>
-                <Button onClick={clearFilters}>Clear filters</Button>
+          {!isLoading && !isError && displayFreelancers.length === 0 && (
+            <div className="text-center py-16">
+              <div className="mb-6">
+                <div className="relative">
+                  <Search className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+                  <div className="absolute top-0 right-1/2 translate-x-8 w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center">
+                    <span className="text-blue-600 text-xs">?</span>
+                  </div>
+                </div>
               </div>
-            )}
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                No hay freelancers con estos filtros
+              </h3>
+              <p className="text-gray-600 mb-6 max-w-sm mx-auto leading-relaxed">
+                Ajusta los filtros para ver más freelancers que se adapten a tu
+                proyecto.
+              </p>
+              <Button
+                variant="outline"
+                onClick={clearFilters}
+                className="text-sm"
+              >
+                Limpiar filtros
+              </Button>
+            </div>
+          )}
 
           {/* Results */}
           {!isLoading && !isError && displayFreelancers.length > 0 && (

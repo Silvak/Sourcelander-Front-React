@@ -11,17 +11,19 @@ interface SearchState {
   clearAll: () => void;
 }
 
-export const useSearchStore = create<SearchState>()(persist(
-  (set) => ({
-    searchTerm: "",
-    selectedCategory: null,
-    setSearchTerm: (term) => set({ searchTerm: term }),
-    setSelectedCategory: (category) => set({ selectedCategory: category }),
-    clearSearchTerm: () => set({ searchTerm: "" }),
-    clearSelectedCategory: () => set({ selectedCategory: null }),
-    clearAll: () => set({ searchTerm: "", selectedCategory: null }),
-  }),
-  {
-    name: "search-store",
-  }
-));
+export const useSearchStore = create<SearchState>()(
+  persist(
+    (set) => ({
+      searchTerm: "",
+      selectedCategory: null,
+      setSearchTerm: (term) => set({ searchTerm: term }),
+      setSelectedCategory: (category) => set({ selectedCategory: category }),
+      clearSearchTerm: () => set({ searchTerm: "" }),
+      clearSelectedCategory: () => set({ selectedCategory: null }),
+      clearAll: () => set({ searchTerm: "", selectedCategory: null }),
+    }),
+    {
+      name: "search-store",
+    },
+  ),
+);

@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UnifiedFreelancer } from "@/interfaces";
 import AddToCartButton from "./AddToCartButton";
-import { formatMembershipYears } from "@/utils/membershipUtils";
 
 interface FreelancerCardProps {
   freelancer: UnifiedFreelancer;
@@ -75,11 +74,11 @@ export default function FreelancerCard({
               </span>
             </div>
 
-            {/* Member since */}
+            {/* Experience years */}
             <div className="flex items-center gap-2 text-xs min-w-[120px]">
               <Calendar className="h-4 w-4 text-primary" />
               <span className="font-medium">
-                {formatMembershipYears(freelancer.memberSince)}
+                {freelancer.experienceYears || 1}+ yrs. exp.
               </span>
             </div>
           </div>
