@@ -7,7 +7,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, MapPin, Clock, CheckCircle, ArrowLeft, Target } from "lucide-react";
+import {
+  Calendar,
+  MapPin,
+  Clock,
+  CheckCircle,
+  ArrowLeft,
+  Target,
+} from "lucide-react";
 import { UnifiedFreelancer } from "@/interfaces";
 import { useFreelancerStorage } from "@/hooks/useFreelancerStorage";
 import MaintenanceModal from "@/components/modals/MaintenanceModal";
@@ -96,6 +103,11 @@ export default function HirePage() {
     );
   }
 
+  // Normalize availability to avoid showing N/A or empty
+  const availabilityRaw = (freelancer.availability ?? "").toString().trim();
+  const hasAvailability =
+    availabilityRaw.length > 0 && availabilityRaw.toUpperCase() !== "N/A";
+
   return (
     <div className="bg-gray-50">
       <Container className="py-8">
@@ -144,11 +156,14 @@ export default function HirePage() {
                     {freelancer.location}
                   </span>
                 </div>
-                <div className="flex items-center gap-1">
+                <div
+                  className="flex items-center gap-1"
+                  title={hasAvailability ? availabilityRaw : undefined}
+                >
                   <Clock className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-muted-foreground">
-                    {freelancer.availability}
-                  </span>
+                  {hasAvailability && (
+                    <span className="text-muted-foreground">{availabilityRaw}</span>
+                  )}
                 </div>
               </div>
             </div>
@@ -218,15 +233,13 @@ export default function HirePage() {
                     const title = freelancer.title || "Developer";
 
                     // Generar experiencias basadas en la antigüedad en la app
-                    const experiences = [];
+                    const experiences = [] as Array<{ position: string; period: string; isCurrent: boolean }>;
 
                     // Experiencia actual (Senior) - si tiene más de 3 años en la app
                     if (membershipYears >= 3) {
                       experiences.push({
                         position: `Senior ${title}`,
-                        period: `${
-                          currentYear - Math.min(3, membershipYears)
-                        } - Present`,
+                        period: `${currentYear - Math.min(3, membershipYears)} - Present`,
                         isCurrent: true,
                       });
                     }
@@ -234,10 +247,7 @@ export default function HirePage() {
                     // Experiencia intermedia - si tiene más de 2 años en la app
                     if (membershipYears >= 2) {
                       const startYear = currentYear - membershipYears;
-                      const endYear =
-                        membershipYears >= 3
-                          ? currentYear - 3
-                          : currentYear - 1;
+                      const endYear = membershipYears >= 3 ? currentYear - 3 : currentYear - 1;
                       experiences.push({
                         position: title,
                         period: `${startYear} - ${endYear}`,
@@ -249,9 +259,7 @@ export default function HirePage() {
                     if (experiences.length === 0) {
                       return (
                         <div className="text-base text-muted-foreground">
-                          {membershipYears < 2
-                            ? "Starting career"
-                            : "Experience details not available"}
+                          {membershipYears < 2 ? "Starting career" : "Experience details not available"}
                         </div>
                       );
                     }
@@ -295,19 +303,26 @@ export default function HirePage() {
                 <div className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="p-4 bg-muted/30 rounded-lg">
-                      <h4 className="font-semibold mb-2 text-sm">Methodology</h4>
+                      <h4 className="font-semibold mb-2 text-sm">
+                        Methodology
+                      </h4>
                       <p className="text-sm text-muted-foreground">
-                        Agile development with regular check-ins and iterative delivery
+                        Agile development with regular check-ins and iterative
+                        delivery
                       </p>
                     </div>
                     <div className="p-4 bg-muted/30 rounded-lg">
-                      <h4 className="font-semibold mb-2 text-sm">Communication</h4>
+                      <h4 className="font-semibold mb-2 text-sm">
+                        Communication
+                      </h4>
                       <p className="text-sm text-muted-foreground">
                         Daily updates and transparent progress reporting
                       </p>
                     </div>
                     <div className="p-4 bg-muted/30 rounded-lg">
-                      <h4 className="font-semibold mb-2 text-sm">Quality Focus</h4>
+                      <h4 className="font-semibold mb-2 text-sm">
+                        Quality Focus
+                      </h4>
                       <p className="text-sm text-muted-foreground">
                         Code reviews, testing, and documentation included
                       </p>
@@ -428,9 +443,9 @@ export default function HirePage() {
                   <MapPin className="h-4 w-4 text-muted-foreground" />
                   <span className="text-sm">{freelancer.location}</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2" title={hasAvailability ? availabilityRaw : undefined}>
                   <Clock className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm">{freelancer.availability}</span>
+                  {hasAvailability && <span className="text-sm">{availabilityRaw}</span>}
                 </div>
                 {freelancer.profileUrl && (
                   <div className="flex items-center gap-2">

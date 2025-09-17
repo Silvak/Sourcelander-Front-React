@@ -68,71 +68,81 @@ export const FreelancerHeader = ({
   freelancer,
 }: {
   freelancer: Freelancer;
-}) => (
-  <Container>
-    <div className="flex flex-col gap-6">
-      <Button
-        variant="ghost"
-        onClick={() => window.history.back()}
-        className="w-fit"
-      >
-        <ArrowLeft className="h-4 w-4 mr-2" />
-        Back to Search
-      </Button>
+}) => {
+  // Normalize availability to avoid showing N/A or empty
+  const availabilityRaw = (freelancer.availability ?? "").toString().trim();
+  const hasAvailability =
+    availabilityRaw.length > 0 && availabilityRaw.toUpperCase() !== "N/A";
 
-      <div className="flex items-center gap-6">
-        <Avatar className="h-16 w-16">
-          <AvatarImage src={freelancer.avatar} alt={freelancer.name} />
-          <AvatarFallback className="text-lg">
-            {freelancer.name
-              .split(" ")
-              .map((n) => n[0])
-              .join("")}
-          </AvatarFallback>
-        </Avatar>
+  return (
+    <Container>
+      <div className="flex flex-col gap-6">
+        <Button
+          variant="ghost"
+          onClick={() => window.history.back()}
+          className="w-fit"
+        >
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back to Search
+        </Button>
 
-        <div className="flex-1">
-          <div className="flex items-center gap-3 mb-2">
-            <h1 className="text-3xl font-bold">Hire {freelancer.name}</h1>
-            {freelancer.verified && (
-              <CheckCircle className="h-5 w-5 text-primary" />
-            )}
+        <div className="flex items-center gap-6">
+          <Avatar className="h-16 w-16">
+            <AvatarImage src={freelancer.avatar} alt={freelancer.name} />
+            <AvatarFallback className="text-lg">
+              {freelancer.name
+                .split(" ")
+                .map((n) => n[0])
+                .join("")}
+            </AvatarFallback>
+          </Avatar>
+
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-2">
+              <h1 className="text-3xl font-bold">Hire {freelancer.name}</h1>
+              {freelancer.verified && (
+                <CheckCircle className="h-5 w-5 text-primary" />
+              )}
+            </div>
+            <p className="text-lg text-muted-foreground mb-3">
+              {freelancer.title}
+            </p>
+
+            <div className="flex items-center gap-6 text-sm">
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-primary" />
+                <span className="font-medium">
+                  {formatMembershipYears(freelancer.memberSince)}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-muted-foreground" />
+                <span className="text-muted-foreground">
+                  {freelancer.location}
+                </span>
+              </div>
+              <div
+                className="flex items-center gap-2"
+                title={hasAvailability ? availabilityRaw : undefined}
+              >
+                <Clock className="h-4 w-4 text-muted-foreground" />
+                {hasAvailability && (
+                  <span className="text-muted-foreground">{availabilityRaw}</span>
+                )}
+              </div>
+            </div>
           </div>
-          <p className="text-lg text-muted-foreground mb-3">
-            {freelancer.title}
-          </p>
 
-          <div className="flex items-center gap-6 text-sm">
-            <div className="flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-primary" />
-              <span className="font-medium">
-                {formatMembershipYears(freelancer.memberSince)}
-              </span>
+          <div className="text-right">
+            <div className="text-2xl font-bold text-primary">
+              ${freelancer.hourlyRate}/hr
             </div>
-            <div className="flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-muted-foreground" />
-              <span className="text-muted-foreground">
-                {freelancer.location}
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-muted-foreground" />
-              <span className="text-muted-foreground">
-                {freelancer.availability}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className="text-right">
-          <div className="text-2xl font-bold text-primary">
-            ${freelancer.hourlyRate}/hr
           </div>
         </div>
       </div>
-    </div>
-  </Container>
-);
+    </Container>
+  );
+};
 
 export const ProjectDetailsForm = ({
   form,
@@ -298,115 +308,107 @@ export const ProjectDetailsForm = ({
                 <SelectContent>
                   <SelectItem value="1-2 weeks">1-2 weeks</SelectItem>
                   <SelectItem value="2-4 weeks">2-4 weeks</SelectItem>
-                  <SelectItem value="1-2 months">1-2 months</SelectItem>
-                  <SelectItem value="2-3 months">2-3 months</SelectItem>
-                  <SelectItem value="3+ months">3+ months</SelectItem>
+                  <SelectItem value="1-3 months">1-3 months</SelectItem>
+                  <SelectItem value="3-6 months">3-6 months</SelectItem>
+                  <SelectItem value="6+ months">6+ months</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">
-                Complexity
-              </label>
+              <label className="block text-sm font-medium mb-2">Priority</label>
               <Select
-                value={form.complexity}
-                onValueChange={(value) =>
-                  setForm({ ...form, complexity: value })
-                }
+                value={form.priority}
+                onValueChange={(value) => setForm({ ...form, priority: value })}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select complexity" />
+                  <SelectValue placeholder="Select priority" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="simple">Simple</SelectItem>
+                  <SelectItem value="low">Low</SelectItem>
                   <SelectItem value="medium">Medium</SelectItem>
-                  <SelectItem value="complex">Complex</SelectItem>
-                  <SelectItem value="very-complex">Very Complex</SelectItem>
+                  <SelectItem value="high">High</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Technologies
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {currentProjectType.technologies.map((tech) => (
+                <Badge
+                  key={tech}
+                  variant={
+                    form.technologies.includes(tech) ? "default" : "secondary"
+                  }
+                  className="cursor-pointer select-none"
+                  onClick={() => handleTechnologyToggle(tech)}
+                >
+                  {tech}
+                </Badge>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">Features</label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {currentProjectType.features.map((feature) => (
+                <label key={feature} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={form.features.includes(feature)}
+                    onChange={() => handleFeatureToggle(feature)}
+                  />
+                  <span>{feature}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Additional Deliverables
+            </label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {currentProjectType.deliverables.map((deliverable) => (
+                <label key={deliverable} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={form.deliverables.includes(deliverable)}
+                    onChange={() => handleDeliverableToggle(deliverable)}
+                  />
+                  <span>{deliverable}</span>
+                </label>
+              ))}
             </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* Project Features */}
+      {/* Contact Information */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Target className="h-5 w-5" />
-            Project Features
+            <Users className="h-5 w-5" />
+            Contact Information
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {currentProjectType.features.map((feature: string) => (
-              <button
-                key={feature}
-                onClick={() => handleFeatureToggle(feature)}
-                className={`p-3 rounded-lg border-2 transition-colors duration-200 hover:border-primary/50 ${
-                  form.features.includes(feature)
-                    ? "border-primary bg-primary/10 text-primary"
-                    : "border-gray-200"
-                }`}
-              >
-                <span className="text-sm font-medium">{feature}</span>
-              </button>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Technologies */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+        <CardContent className="space-y-3">
+          <div className="flex items-center gap-3">
             <Globe className="h-5 w-5" />
-            Technologies & Tools
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {currentProjectType.technologies.map((tech: string) => (
-              <button
-                key={tech}
-                onClick={() => handleTechnologyToggle(tech)}
-                className={`p-3 rounded-lg border-2 transition-colors duration-200 hover:border-primary/50 ${
-                  form.technologies.includes(tech)
-                    ? "border-primary bg-primary/10 text-primary"
-                    : "border-gray-200"
-                }`}
-              >
-                <span className="text-sm font-medium">{tech}</span>
-              </button>
-            ))}
+            <span className="text-sm">Timezone aligned communication</span>
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Deliverables */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Shield className="h-5 w-5" />
-            Deliverables
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {currentProjectType.deliverables.map((deliverable: string) => (
-              <button
-                key={deliverable}
-                onClick={() => handleDeliverableToggle(deliverable)}
-                className={`p-3 rounded-lg border-2 transition-colors duration-200 hover:border-primary/50 ${
-                  form.deliverables.includes(deliverable)
-                    ? "border-primary bg-primary/10 text-primary"
-                    : "border-gray-200"
-                }`}
-              >
-                <span className="text-sm font-medium">{deliverable}</span>
-              </button>
-            ))}
+            <span className="text-sm">Secure NDA available</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <Star className="h-5 w-5" />
+            <span className="text-sm">Top-rated professional</span>
           </div>
         </CardContent>
       </Card>
@@ -425,97 +427,87 @@ export const PriceCalculator = ({
   freelancer: Freelancer;
   form: ProjectForm;
 }) => {
-  const getDurationHours = (duration: string) => {
-    const hours = {
-      "1-2 weeks": "40",
-      "2-4 weeks": "80",
-      "1-2 months": "160",
-      "2-3 months": "240",
-      "3+ months": "320",
-    };
-    return hours[duration as keyof typeof hours] || "80";
+  const hourlyRate = Number(freelancer.hourlyRate) || 0;
+  const hoursPerWeekOptions: Record<ProjectForm["duration"], number> = {
+    "1-2 weeks": 20,
+    "2-4 weeks": 20,
+    "1-3 months": 15,
+    "3-6 months": 15,
+    "6+ months": 10,
   };
 
-  const getComplexityMultiplier = (complexity: string) => {
-    const multipliers = {
-      simple: "0.8x",
-      medium: "1.0x",
-      complex: "1.5x",
-      "very-complex": "2.0x",
-    };
-    return multipliers[complexity as keyof typeof multipliers] || "1.0x";
+  const weeksForDuration: Record<ProjectForm["duration"], number> = {
+    "1-2 weeks": 2,
+    "2-4 weeks": 4,
+    "1-3 months": 8,
+    "3-6 months": 16,
+    "6+ months": 24,
   };
 
-  const getTeamMultiplier = (teamSize: string) => {
-    const multipliers = {
-      "1": "1.0x",
-      "2-3": "1.3x",
-      "4-5": "1.6x",
-      "6+": "2.0x",
-    };
-    return multipliers[teamSize as keyof typeof multipliers] || "1.0x";
-  };
+  const hoursPerWeek = hoursPerWeekOptions[form.duration] || 10;
+  const weeks = weeksForDuration[form.duration] || 8;
+
+  const baseCost = hourlyRate * hoursPerWeek * weeks;
+  const featureMultiplier = 1 + form.features.length * 0.1;
+  const complexityMultiplier =
+    form.priority === "high" ? 1.3 : form.priority === "medium" ? 1.15 : 1;
+
+  const estimatedTotal = Math.round(baseCost * featureMultiplier * complexityMultiplier);
 
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Calculator className="h-5 w-5" />
-          Price Calculator
+          Project Cost Estimate
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div
-          className={`bg-primary/10 p-4 rounded-lg transition-all duration-300 ${
-            calculatorAnimation ? "scale-105 bg-primary/20" : ""
-          }`}
-        >
-          <div className="text-center">
-            <div
-              className={`text-3xl font-bold text-primary transition-all duration-300 ${
-                calculatorAnimation ? "scale-110" : ""
-              }`}
-            >
-              ${estimatedCost.toLocaleString()}
-            </div>
-            <div className="text-sm text-muted-foreground">
-              Estimated project cost
-            </div>
-          </div>
-        </div>
-
-        <div className="space-y-3">
-          <div className="flex justify-between text-sm">
-            <span>Hourly Rate:</span>
-            <span className="font-medium">${freelancer.hourlyRate}</span>
-          </div>
-
-          <div className="flex justify-between text-sm">
-            <span>Estimated Hours:</span>
-            <span className="font-medium">
-              {getDurationHours(form.duration)}
+      <CardContent>
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <span className="text-muted-foreground">Estimated Cost</span>
+            <span className="text-2xl font-bold text-primary">
+              ${estimatedTotal.toLocaleString()}
             </span>
           </div>
 
-          <div className="flex justify-between text-sm">
-            <span>Complexity Multiplier:</span>
-            <span className="font-medium">
-              {getComplexityMultiplier(form.complexity)}
-            </span>
-          </div>
-
-          <div className="flex justify-between text-sm">
-            <span>Team Size Multiplier:</span>
-            <span className="font-medium">
-              {getTeamMultiplier(form.teamSize)}
-            </span>
-          </div>
-
-          <div className="border-t pt-3">
-            <div className="flex justify-between text-sm font-medium">
-              <span>Minimum Guaranteed:</span>
-              <span className="text-primary">$2,800</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div className="p-3 bg-muted/30 rounded-lg">
+              <div className="flex items-center justify-between">
+                <span>Hourly Rate</span>
+                <span className="font-medium">${hourlyRate}/hr</span>
+              </div>
+              <div className="flex items-center justify-between mt-2">
+                <span>Hours/Week</span>
+                <span className="font-medium">{hoursPerWeek}</span>
+              </div>
+              <div className="flex items-center justify-between mt-2">
+                <span>Duration</span>
+                <span className="font-medium">{form.duration}</span>
+              </div>
             </div>
+
+            <div className="p-3 bg-muted/30 rounded-lg">
+              <div className="flex items-center justify-between">
+                <span>Base Cost</span>
+                <span className="font-medium">${baseCost.toLocaleString()}</span>
+              </div>
+              <div className="flex items-center justify-between mt-2">
+                <span>Features ({form.features.length})</span>
+                <span className="font-medium">x{featureMultiplier.toFixed(1)}</span>
+              </div>
+              <div className="flex items-center justify-between mt-2">
+                <span>Priority</span>
+                <span className="font-medium">{form.priority}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-4 bg-primary/5 rounded-lg border border-primary/10">
+            <p className="text-sm text-muted-foreground">
+              This is a rough estimate. Final cost may vary based on detailed
+              requirements and scope discussions.
+            </p>
           </div>
         </div>
       </CardContent>
@@ -551,32 +543,41 @@ export const FreelancerSkills = ({
   </Card>
 );
 
-export const FreelancerInfo = ({ freelancer }: { freelancer: Freelancer }) => (
-  <Card>
-    <CardHeader>
-      <CardTitle className="flex items-center gap-2">
-        <TrendingUp className="h-5 w-5" />
-        Freelancer Info
-      </CardTitle>
-    </CardHeader>
-    <CardContent className="space-y-3">
-      <div className="flex items-center justify-between">
-        <span className="text-sm">Location:</span>
-        <span className="text-sm font-medium">{freelancer.location}</span>
-      </div>
-      <div className="flex items-center justify-between">
-        <span className="text-sm">Availability:</span>
-        <span className="text-sm font-medium">{freelancer.availability}</span>
-      </div>
-      <div className="flex items-center justify-between">
-        <span className="text-sm">Experience:</span>
-        <span className="text-sm font-medium">
-          {formatMembershipYears(freelancer.memberSince, "años miembro")}
-        </span>
-      </div>
-    </CardContent>
-  </Card>
-);
+export const FreelancerInfo = ({ freelancer }: { freelancer: Freelancer }) => {
+  // Normalize availability to avoid showing N/A or empty
+  const availabilityRaw = (freelancer.availability ?? "").toString().trim();
+  const hasAvailability =
+    availabilityRaw.length > 0 && availabilityRaw.toUpperCase() !== "N/A";
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <TrendingUp className="h-5 w-5" />
+          Freelancer Info
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <div className="flex items-center justify-between">
+          <span className="text-sm">Location:</span>
+          <span className="text-sm font-medium">{freelancer.location}</span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-sm">Availability:</span>
+          <span className="text-sm font-medium" title={hasAvailability ? availabilityRaw : undefined}>
+            {hasAvailability ? availabilityRaw : "—"}
+          </span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-sm">Experience:</span>
+          <span className="text-sm font-medium">
+            {formatMembershipYears(freelancer.memberSince, "años miembro")}
+          </span>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
 
 export const TermsModal = ({
   isOpen,
@@ -677,19 +678,19 @@ export const TermsModal = ({
             </div>
           </div>
         </div>
-      </div>
 
-      <DialogFooter className="gap-3 pt-4">
-        <Button variant="outline" onClick={onClose} className="flex-1">
-          Cancel
-        </Button>
-        <Button
-          onClick={onAccept}
-          className="flex-1 bg-primary hover:bg-primary/90"
-        >
-          Accept Terms & Continue
-        </Button>
-      </DialogFooter>
+        <DialogFooter className="gap-3 pt-4">
+          <Button variant="outline" onClick={onClose} className="flex-1">
+            Cancel
+          </Button>
+          <Button
+            onClick={onAccept}
+            className="flex-1 bg-primary hover:bg-primary/90"
+          >
+            Accept Terms & Continue
+          </Button>
+        </DialogFooter>
+      </div>
     </DialogContent>
   </Dialog>
 );
@@ -752,29 +753,29 @@ export const MaintenanceModal = ({
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="bg-primary/5 p-4 rounded-lg border border-primary/10">
-          <div className="flex items-start gap-3">
-            <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-            <div>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                <strong>Note:</strong> Our team will respond within 2 hours
-                during business hours (9 AM - 6 PM EST).
-              </p>
+          <div className="bg-primary/5 p-4 rounded-lg border border-primary/10">
+            <div className="flex items-start gap-3">
+              <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+              <div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  <strong>Note:</strong> Our team will respond within 2 hours
+                  during business hours (9 AM - 6 PM EST).
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <DialogFooter className="pt-4">
-        <Button
-          onClick={() => onClose(false)}
-          className="w-full bg-primary hover:bg-primary/90"
-        >
-          Got it, thanks!
-        </Button>
-      </DialogFooter>
+        <DialogFooter className="pt-4">
+          <Button
+            onClick={() => onClose(false)}
+            className="w-full bg-primary hover:bg-primary/90"
+          >
+            Got it, thanks!
+          </Button>
+        </DialogFooter>
+      </div>
     </DialogContent>
   </Dialog>
 );
