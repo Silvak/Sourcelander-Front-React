@@ -15,6 +15,7 @@ import { Search, Users, Filter, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useInfiniteSearchResults } from "@/hooks/useInfiniteSearchResults";
 import { useFreelancerStorage } from "@/hooks/useFreelancerStorage";
+import { useSearchStore } from "@/store/search/searchStore";
 import { UnifiedFreelancer } from "@/interfaces";
 
 // Mock data to show when there are no search results
@@ -130,8 +131,14 @@ const mockFreelancers: UnifiedFreelancer[] = [
 ];
 
 export default function FreelancerPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const {
+    searchTerm: searchQuery,
+    selectedCategory,
+    setSearchTerm: setSearchQuery,
+    setSelectedCategory,
+    clearAll
+  } = useSearchStore();
+  
   const [selectedFreelancer, setSelectedFreelancer] =
     useState<UnifiedFreelancer | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -235,8 +242,7 @@ export default function FreelancerPage() {
   };
 
   const clearFilters = () => {
-    setSearchQuery("");
-    setSelectedCategory(null);
+    clearAll();
   };
 
   const handleRetry = () => {
@@ -258,7 +264,7 @@ export default function FreelancerPage() {
             </p>
           </div>
 
-          <SearchInput onSearch={handleSearch} />
+          <SearchInput onSearch={handleSearch} initialValue={searchQuery} />
 
           {/* Active filters */}
           {(searchQuery || selectedCategory) && (
@@ -269,7 +275,7 @@ export default function FreelancerPage() {
               {searchQuery && (
                 <Badge variant="secondary" className="gap-1">
                   Search: {searchQuery}
-                  <button onClick={() => setSearchQuery("")} className="ml-1">
+                  <button onClick={() => handleSearch("")} className="ml-1">
                     ×
                   </button>
                 </Badge>

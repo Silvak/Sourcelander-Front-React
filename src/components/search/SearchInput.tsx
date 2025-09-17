@@ -9,18 +9,25 @@ import { searchSuggestions } from "@/lib/searchData";
 interface SearchInputProps {
   onSearch: (query: string) => void;
   placeholder?: string;
+  initialValue?: string;
 }
 
 export default function SearchInput({
   onSearch,
   placeholder = "Search for freelancers, skills, or services...",
+  initialValue = "",
 }: SearchInputProps) {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(initialValue);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
+
+  // Sync with external value changes
+  useEffect(() => {
+    setQuery(initialValue);
+  }, [initialValue]);
 
   const handleSuggestionClick = useCallback(
     (suggestion: string) => {
