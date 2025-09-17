@@ -19,7 +19,8 @@ export interface UnifiedFreelancer {
   hourlyRate?: number;
   availability?: string;
   verified?: boolean;
-  experienceYears?: number; // Años de experiencia profesional
+  experienceYears?: number;
+  memberSince?: string; // Antigüedad en la app (fecha de registro)
   // Storage-related properties
   storedAt?: string;
   lastViewed?: string;

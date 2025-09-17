@@ -18,6 +18,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UnifiedFreelancer } from "@/interfaces";
+import {
+  formatMembershipYears,
+  calculateMembershipYears,
+} from "@/utils/membershipUtils";
 
 interface FreelancerModalProps {
   freelancer: UnifiedFreelancer;
@@ -91,7 +95,7 @@ export default function FreelancerModal({
                 <div className="flex items-center gap-1">
                   <Calendar className="h-4 w-4 text-primary" />
                   <span className="font-medium">
-                    {freelancer.experienceYears || 5}+ yrs. exp.
+                    {formatMembershipYears(freelancer.memberSince)}
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
@@ -144,9 +148,11 @@ export default function FreelancerModal({
                   <Calendar className="h-6 w-6 text-primary" />
                 </div>
                 <div className="text-lg font-bold">
-                  {freelancer.experienceYears || 5}+
+                  {calculateMembershipYears(freelancer.memberSince)}+
                 </div>
-                <div className="text-xs text-muted-foreground">Years Exp.</div>
+                <div className="text-xs text-muted-foreground">
+                  Years Member
+                </div>
               </CardContent>
             </Card>
 
@@ -202,8 +208,6 @@ export default function FreelancerModal({
 
                   // Generar experiencias basadas en los datos del freelancer
                   const experiences = [];
-
-
 
                   // Experiencia actual (Senior)
                   if (experienceYears >= 3) {
@@ -266,7 +270,45 @@ export default function FreelancerModal({
             </CardContent>
           </Card>
 
-
+          {/* Work Approach Section */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Target className="h-5 w-5 text-primary" />
+                Work Approach
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="p-4 bg-muted/30 rounded-lg">
+                    <h4 className="font-semibold mb-2 text-sm">Methodology</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Agile development with regular check-ins and iterative delivery
+                    </p>
+                  </div>
+                  <div className="p-4 bg-muted/30 rounded-lg">
+                    <h4 className="font-semibold mb-2 text-sm">Communication</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Daily updates and transparent progress reporting
+                    </p>
+                  </div>
+                  <div className="p-4 bg-muted/30 rounded-lg">
+                    <h4 className="font-semibold mb-2 text-sm">Quality Focus</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Code reviews, testing, and documentation included
+                    </p>
+                  </div>
+                  <div className="p-4 bg-muted/30 rounded-lg">
+                    <h4 className="font-semibold mb-2 text-sm">Timeline</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Realistic estimates with buffer time for revisions
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* Skills Section */}
           <Card>

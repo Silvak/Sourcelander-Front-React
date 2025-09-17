@@ -7,11 +7,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, MapPin, Clock, CheckCircle, ArrowLeft } from "lucide-react";
+import { Calendar, MapPin, Clock, CheckCircle, ArrowLeft, Target } from "lucide-react";
 import { UnifiedFreelancer } from "@/interfaces";
 import { useFreelancerStorage } from "@/hooks/useFreelancerStorage";
 import MaintenanceModal from "@/components/modals/MaintenanceModal";
 import AddToCartButton from "@/components/search/AddToCartButton";
+import {
+  formatMembershipYears,
+  calculateMembershipYears,
+} from "@/utils/membershipUtils";
 
 export default function HirePage() {
   const params = useParams();
@@ -128,10 +132,10 @@ export default function HirePage() {
               </p>
 
               <div className="flex items-center gap-4 text-sm">
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4 text-primary" />
                   <span className="font-medium">
-                    {freelancer.experienceYears || 5}+ yrs exp.
+                    {formatMembershipYears(freelancer.memberSince)}
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
@@ -207,30 +211,31 @@ export default function HirePage() {
                 <div className="space-y-2">
                   {(() => {
                     const currentYear = new Date().getFullYear();
-                    const experienceYears = freelancer.experienceYears || 5;
+                    // Calcular años de membresía en la app
+                    const membershipYears = calculateMembershipYears(
+                      freelancer.memberSince,
+                    );
                     const title = freelancer.title || "Developer";
 
-                    // Generar experiencias basadas en los datos del freelancer
+                    // Generar experiencias basadas en la antigüedad en la app
                     const experiences = [];
 
-
-
-                    // Experiencia actual (Senior)
-                    if (experienceYears >= 3) {
+                    // Experiencia actual (Senior) - si tiene más de 3 años en la app
+                    if (membershipYears >= 3) {
                       experiences.push({
                         position: `Senior ${title}`,
                         period: `${
-                          currentYear - Math.min(3, experienceYears)
+                          currentYear - Math.min(3, membershipYears)
                         } - Present`,
                         isCurrent: true,
                       });
                     }
 
-                    // Experiencia intermedia
-                    if (experienceYears >= 2) {
-                      const startYear = currentYear - experienceYears;
+                    // Experiencia intermedia - si tiene más de 2 años en la app
+                    if (membershipYears >= 2) {
+                      const startYear = currentYear - membershipYears;
                       const endYear =
-                        experienceYears >= 3
+                        membershipYears >= 3
                           ? currentYear - 3
                           : currentYear - 1;
                       experiences.push({
@@ -240,11 +245,11 @@ export default function HirePage() {
                       });
                     }
 
-                    // Si no hay suficiente experiencia, mostrar mensaje
+                    // Si no hay suficiente antigüedad, mostrar mensaje
                     if (experiences.length === 0) {
                       return (
                         <div className="text-base text-muted-foreground">
-                          {experienceYears < 2
+                          {membershipYears < 2
                             ? "Starting career"
                             : "Experience details not available"}
                         </div>
@@ -278,7 +283,45 @@ export default function HirePage() {
               </CardContent>
             </Card>
 
-
+            {/* Work Approach */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Target className="h-5 w-5 text-primary" />
+                  Work Approach
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="p-4 bg-muted/30 rounded-lg">
+                      <h4 className="font-semibold mb-2 text-sm">Methodology</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Agile development with regular check-ins and iterative delivery
+                      </p>
+                    </div>
+                    <div className="p-4 bg-muted/30 rounded-lg">
+                      <h4 className="font-semibold mb-2 text-sm">Communication</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Daily updates and transparent progress reporting
+                      </p>
+                    </div>
+                    <div className="p-4 bg-muted/30 rounded-lg">
+                      <h4 className="font-semibold mb-2 text-sm">Quality Focus</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Code reviews, testing, and documentation included
+                      </p>
+                    </div>
+                    <div className="p-4 bg-muted/30 rounded-lg">
+                      <h4 className="font-semibold mb-2 text-sm">Timeline</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Realistic estimates with buffer time for revisions
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
             {/* Project Details Form */}
             <Card>

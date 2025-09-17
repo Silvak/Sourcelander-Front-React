@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UnifiedFreelancer } from "@/interfaces";
 import AddToCartButton from "./AddToCartButton";
+import { formatMembershipYears } from "@/utils/membershipUtils";
 
 interface FreelancerCardProps {
   freelancer: UnifiedFreelancer;
@@ -46,107 +47,119 @@ export default function FreelancerCard({
           <div className="flex-1 min-w-0">
             {/* Nombre y verificación */}
             <div className="flex items-center gap-2 mb-2 min-w-0">
-              <h3 className="font-semibold text-lg leading-tight text-foreground truncate" title={name}>
+              <h3
+                className="font-semibold text-lg leading-tight text-foreground truncate"
+                title={name}
+              >
                 {name}
               </h3>
-               {freelancer.verified && (
-                 <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
-               )}
-               {/* Indicador de datos mockeados */}
-               {id && id.startsWith("MOCK-") && (
-                 <Badge
-                   variant="outline"
-                   className="text-xs bg-orange-50 text-orange-700 border-orange-200 flex-shrink-0"
-                 >
-                   MOCK
-                 </Badge>
-               )}
-             </div>
+              {freelancer.verified && (
+                <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+              )}
+              {/* Indicador de datos mockeados */}
+              {id && id.startsWith("MOCK-") && (
+                <Badge
+                  variant="outline"
+                  className="text-xs bg-orange-50 text-orange-700 border-orange-200 flex-shrink-0"
+                >
+                  MOCK
+                </Badge>
+              )}
+            </div>
 
-             {/* Título */}
-             <p className="text-muted-foreground text-sm mb-3 leading-relaxed truncate" title={title}>
-               {title}
-             </p>
+            {/* Título */}
+            <p
+              className="text-muted-foreground text-sm mb-3 leading-relaxed truncate"
+              title={title}
+            >
+              {title}
+            </p>
 
-             {/* Ubicación */}
-             <div className="flex items-center gap-1 mb-3 text-sm text-muted-foreground">
-               <MapPin className="h-4 w-4 flex-shrink-0" />
-               <span className="truncate">{location}</span>
-             </div>
+            {/* Ubicación */}
+            <div className="flex items-center gap-1 mb-3 text-sm text-muted-foreground">
+              <MapPin className="h-4 w-4 flex-shrink-0" />
+              <span className="truncate">{location}</span>
+            </div>
 
-             {/* yrs. exp. */}
-             <div className="flex items-center gap-1 text-sm">
-               <Calendar className="h-4 w-4 text-primary" />
-               <span className="font-medium">
-                 {freelancer.experienceYears || 5}+ yrs. exp.
-               </span>
-             </div>
-           </div>
+            {/* Member since */}
+            <div className="flex items-center gap-2 text-xs min-w-[120px]">
+              <Calendar className="h-4 w-4 text-primary" />
+              <span className="font-medium">
+                {formatMembershipYears(freelancer.memberSince)}
+              </span>
+            </div>
+          </div>
 
-           {/* Precio y disponibilidad */}
-           <div className="text-right flex-shrink-0">
-             <div className="text-xl font-bold text-primary">
-               ${hourlyRate}/hr
-             </div>
-             <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                <Clock className="h-3 w-3" />
-                <span className="truncate max-w-[120px] block" title={availability}>{availability}</span>
-              </div>
-           </div>
-         </div>
+          {/* Precio y disponibilidad */}
+          <div className="text-right flex-shrink-0">
+            <div className="text-xl font-bold text-primary">
+              ${hourlyRate}/hr
+            </div>
+            <div className="flex items-center gap-1 text-sm text-muted-foreground">
+              <Clock className="h-3 w-3" />
+              <span
+                className="truncate max-w-[120px] block"
+                title={availability}
+              >
+                {availability}
+              </span>
+            </div>
+          </div>
+        </div>
 
-         {/* Descripción */}
-         <div className="mb-6 flex-1">
-           <p
-             className="text-sm text-muted-foreground leading-relaxed"
-             style={{
-               display: "-webkit-box",
-               WebkitLineClamp: 3,
-               WebkitBoxOrient: "vertical",
-               overflow: "hidden",
-             }}
-           >
-             Experienced {title?.toLowerCase?.() ?? "freelancer"} with {reviews}+
-             successful projects. Specialized in {skills.slice(0, 2).join(", ")} {""}
-             and delivering high-quality results.
-           </p>
-         </div>
+        {/* Descripción */}
+        <div className="mb-6 flex-1">
+          <p
+            className="text-sm text-muted-foreground leading-relaxed"
+            style={{
+              display: "-webkit-box",
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }}
+          >
+            Experienced {title?.toLowerCase?.() ?? "freelancer"} with {reviews}+
+            successful projects. Specialized in {skills.slice(0, 2).join(", ")}{" "}
+            {""}
+            and delivering high-quality results.
+          </p>
+        </div>
 
-         {/* Skills section */}
-         <div className="mb-6">
-           <div className="flex flex-wrap gap-2">
-             {skills.slice(0, 3).map((skill: string, index: number) => (
-               <Badge
-                 key={index}
-                 variant="secondary"
-                 className="text-xs hover:bg-secondary/80 transition-colors max-w-[160px] truncate"
-               >
-                 {skill.replace(/\s*\(.+?\)$/, "").trim()}
-               </Badge>
-             ))}
-             {skills.length > 3 && (
-               <Badge
-                 variant="outline"
-                 className="text-xs text-muted-foreground"
-               >
-                 +{skills.length - 3} more
-               </Badge>
-             )}
-           </div>
-         </div>
+        {/* Skills section */}
+        <div className="mb-6">
+          <div className="flex flex-wrap gap-2">
+            {skills.slice(0, 3).map((skill: string, index: number) => (
+              <Badge
+                key={index}
+                variant="secondary"
+                className="text-xs hover:bg-secondary/80 transition-colors max-w-[160px] truncate"
+              >
+                {skill.replace(/\s*\(.+?\)$/, "").trim()}
+              </Badge>
+            ))}
+            {skills.length > 3 && (
+              <Badge
+                variant="outline"
+                className="text-xs text-muted-foreground"
+              >
+                +{skills.length - 3} more
+              </Badge>
+            )}
+          </div>
+        </div>
 
-         {/* Button fijo en la parte inferior */}
-         <div className="mt-auto pt-4 border-t border-muted/20">
-           <div className="flex flex-col  items-center gap-2">
-             <Button
-               onClick={() => onViewProfile(id)}
-               className="w-full group-hover:bg-primary/90 transition-colors"
-             >
-               View Profile
-             </Button>
-             <AddToCartButton freelancer={freelancer} />
-           </div>
-         </div>
+        {/* Button fijo en la parte inferior */}
+        <div className="mt-auto pt-4 border-t border-muted/20">
+          <div className="flex flex-col  items-center gap-2">
+            <Button
+              onClick={() => onViewProfile(id)}
+              className="w-full group-hover:bg-primary/90 transition-colors"
+            >
+              View Profile
+            </Button>
+            <AddToCartButton freelancer={freelancer} />
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

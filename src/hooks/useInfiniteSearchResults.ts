@@ -36,7 +36,7 @@ function parseExperienceYearsFromSkills(skills?: string[]): number | undefined {
 
 // Mapping helpers
 const mapWorkanaFreelancer = (
-  freelancer: WorkanaFreelancer
+  freelancer: WorkanaFreelancer,
 ): UnifiedFreelancer => ({
   id: `workana-${freelancer.id || Math.random().toString(36).substr(2, 9)}`,
   name: freelancer.name ?? "",
@@ -56,11 +56,11 @@ const mapWorkanaFreelancer = (
   hourlyRate: parseFloat(freelancer.hourlyRate?.replace(/[^\d.]/g, "")) || 0,
   availability: "Available",
   verified: false,
-  experienceYears: parseExperienceYearsFromSkills(freelancer.skills),
+  memberSince: "2021-01-01", // Default member since date
 });
 
 const mapHubstaffFreelancer = (
-  freelancer: HubstaffFreelancer
+  freelancer: HubstaffFreelancer,
 ): UnifiedFreelancer => ({
   id: `hubstaff-${freelancer.id || Math.random().toString(36).substr(2, 9)}`,
   name: freelancer.name ?? "",
@@ -77,13 +77,15 @@ const mapHubstaffFreelancer = (
   hourlyRate: parseFloat(freelancer.payRate?.replace(/[^\d.]/g, "")) || 0,
   availability: "Available",
   verified: false,
-  experienceYears: 6, // Default experience years
+  memberSince: "2020-01-01", // Default member since date
 });
 
 // Individual fetchers
 async function fetchHubstaff(query: string, page: number) {
   const safeQuery = query.trim();
-  const url = `/hubstaff/freelancers?keywords=${encodeURIComponent(safeQuery)}&page=${page}`;
+  const url = `/hubstaff/freelancers?keywords=${encodeURIComponent(
+    safeQuery,
+  )}&page=${page}`;
   try {
     const response = await apiInstance.get(url);
     const data = response.data as HubstaffResponse;
@@ -93,24 +95,29 @@ async function fetchHubstaff(query: string, page: number) {
     return { freelancers, hasMore: !!data.hasMore };
   } catch (error) {
     console.warn("Hubstaff fetch failed:", error);
-    
+
     // Log more detailed error information
     if (error instanceof Error) {
       console.error("Hubstaff Error Details:", {
         message: error.message,
         name: error.name,
-        stack: error.stack
+        stack: error.stack,
       });
     }
-    
+
     // Check if it's a network error
-    if (error && typeof error === 'object' && 'code' in error) {
+    if (error && typeof error === "object" && "code" in error) {
       console.error("Network Error Code:", (error as any).code);
     }
-    
-    console.log("💡 To fix this, ensure your backend is running and NEXT_PUBLIC_API_URL is configured correctly");
-    console.log("💡 Current API URL:", process.env.NEXT_PUBLIC_API_URL || "NOT CONFIGURED");
-    
+
+    console.log(
+      "💡 To fix this, ensure your backend is running and NEXT_PUBLIC_API_URL is configured correctly",
+    );
+    console.log(
+      "💡 Current API URL:",
+      process.env.NEXT_PUBLIC_API_URL || "NOT CONFIGURED",
+    );
+
     return { freelancers: [], hasMore: false };
   }
 }
@@ -138,7 +145,10 @@ async function fetchWorkana(query: string, page: number) {
       const data = response.data as WorkanaResponse;
       const dataArray = Array.isArray(data.data) ? data.data : [];
       const freelancers = dataArray.map(mapWorkanaFreelancer);
-      return { ok: true as const, result: { freelancers, hasMore: freelancers.length > 0 } };
+      return {
+        ok: true as const,
+        result: { freelancers, hasMore: freelancers.length > 0 },
+      };
     } catch (error: any) {
       // Axios error details
       if (error && error.response) {
@@ -159,7 +169,9 @@ async function fetchWorkana(query: string, page: number) {
   } catch (error: any) {
     // Si el backend responde 400, reintentamos sin worker_type
     if (error && error.response && error.response.status === 400) {
-      console.warn("Workana 400 with worker_type=0, retrying without worker_type...");
+      console.warn(
+        "Workana 400 with worker_type=0, retrying without worker_type...",
+      );
       try {
         const second = await tryRequest(false);
         return second.result;
@@ -182,8 +194,13 @@ async function fetchWorkana(query: string, page: number) {
       console.error("Network Error Code:", (error as any).code);
     }
 
-    console.log("💡 To fix this, ensure your backend is running and NEXT_PUBLIC_API_URL is configured correctly");
-    console.log("💡 Current API URL:", process.env.NEXT_PUBLIC_API_URL || "NOT CONFIGURED");
+    console.log(
+      "💡 To fix this, ensure your backend is running and NEXT_PUBLIC_API_URL is configured correctly",
+    );
+    console.log(
+      "💡 Current API URL:",
+      process.env.NEXT_PUBLIC_API_URL || "NOT CONFIGURED",
+    );
 
     return { freelancers: [], hasMore: false };
   }
@@ -192,7 +209,7 @@ async function fetchWorkana(query: string, page: number) {
 // Unified fetch logic
 const fetchSearchResults = async (
   query: string,
-  page: number
+  page: number,
 ): Promise<{ freelancers: UnifiedFreelancer[]; hasMore: boolean }> => {
   // Fetch both in parallel, but handle error from each independently
   const [hubstaffResult, workanaResult] = await Promise.all([
@@ -212,7 +229,7 @@ const fetchSearchResults = async (
     {
       hubstaffError: hubstaffResult.freelancers.length === 0,
       workanaError: workanaResult.freelancers.length === 0,
-    }
+    },
   );
 
   return { freelancers, hasMore };

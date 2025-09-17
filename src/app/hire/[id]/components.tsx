@@ -41,6 +41,7 @@ import {
 } from "lucide-react";
 import { Freelancer, ProjectForm } from "./types";
 import { projectTypes } from "./config";
+import { formatMembershipYears } from "@/utils/membershipUtils";
 
 export const LoadingSpinner = () => (
   <div className="flex items-center justify-center py-20">
@@ -104,7 +105,9 @@ export const FreelancerHeader = ({
           <div className="flex items-center gap-6 text-sm">
             <div className="flex items-center gap-2">
               <Calendar className="h-4 w-4 text-primary" />
-              <span className="font-medium">{(freelancer.experienceYears || 5)}+ yrs exp.</span>
+              <span className="font-medium">
+                {formatMembershipYears(freelancer.memberSince)}
+              </span>
             </div>
             <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4 text-muted-foreground" />
@@ -567,7 +570,9 @@ export const FreelancerInfo = ({ freelancer }: { freelancer: Freelancer }) => (
       </div>
       <div className="flex items-center justify-between">
         <span className="text-sm">Experience:</span>
-        <span className="text-sm font-medium">{freelancer.experienceYears || 5}+ años</span>
+        <span className="text-sm font-medium">
+          {formatMembershipYears(freelancer.memberSince, "años miembro")}
+        </span>
       </div>
     </CardContent>
   </Card>

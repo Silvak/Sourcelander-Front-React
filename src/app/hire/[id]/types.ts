@@ -10,7 +10,7 @@ export interface Freelancer {
   location: string;
   availability: string;
   verified: boolean;
-  experienceYears?: number;
+  memberSince?: string;
 }
 
 export interface ProjectForm {
