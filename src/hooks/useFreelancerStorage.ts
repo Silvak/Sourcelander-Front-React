@@ -1,5 +1,6 @@
 import { UnifiedFreelancer } from "@/interfaces";
 import { useMemo } from "react";
+import { generateFreelancerExperience } from "@/utils/experienceGenerator";
 
 const STORAGE_KEY = "sourcelander_freelancers";
 
@@ -23,11 +24,22 @@ export const useFreelancerStorage = () => {
           (f: UnifiedFreelancer) => f.id === freelancer.id
         );
         if (!exists) {
+          const computedExperience =
+            freelancer.professionalExperience &&
+            freelancer.professionalExperience.length > 0
+              ? freelancer.professionalExperience
+              : generateFreelancerExperience({
+                  skills: freelancer.skills ?? [],
+                  experienceYears: freelancer.experienceYears ?? 5,
+                  title: freelancer.title ?? freelancer.speciality,
+                });
+
           freelancers.push({
             ...freelancer,
             // Ensure we store both avatar and imageUrl for compatibility
             avatar: freelancer.avatar || freelancer.imageUrl,
             imageUrl: freelancer.imageUrl || freelancer.avatar,
+            professionalExperience: computedExperience,
             storedAt: new Date().toISOString(),
             viewCount: 1,
             hireCount: action === "hire" ? 1 : 0,
@@ -38,6 +50,26 @@ export const useFreelancerStorage = () => {
           const index = freelancers.findIndex(
             (f: UnifiedFreelancer) => f.id === freelancer.id
           );
+
+          const incomingExperience = freelancer.professionalExperience;
+          const existingExperience = freelancers[index].professionalExperience;
+          const mergedExperience =
+            (existingExperience && existingExperience.length > 0)
+              ? existingExperience
+              : (incomingExperience && incomingExperience.length > 0)
+                ? incomingExperience
+                : generateFreelancerExperience({
+                    skills: freelancer.skills ?? freelancers[index].skills ?? [],
+                    experienceYears:
+                      freelancer.experienceYears ??
+                      freelancers[index].experienceYears ??
+                      5,
+                    title:
+                      freelancer.title ??
+                      freelancers[index].title ??
+                      freelancers[index].speciality,
+                  });
+
           freelancers[index] = {
             ...freelancers[index],
             // Update image fields if they exist
@@ -49,6 +81,7 @@ export const useFreelancerStorage = () => {
               freelancer.imageUrl ||
               freelancer.avatar ||
               freelancers[index].imageUrl,
+            professionalExperience: mergedExperience,
             lastViewed: new Date().toISOString(),
             viewCount:
               (freelancers[index].viewCount || 0) + (action === "view" ? 1 : 0),

@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { popularCategories } from "@/lib/searchData";
 import { generateExtendedRecommended } from "@/lib/mockRecommended";
 import { Search, Users, Filter, Loader2 } from "lucide-react";
+import { generateFreelancerExperience } from "@/utils/experienceGenerator";
 import { Badge } from "@/components/ui/badge";
 import { useInfiniteSearchResults } from "@/hooks/useInfiniteSearchResults";
 import { useFreelancerStorage } from "@/hooks/useFreelancerStorage";
@@ -42,6 +43,11 @@ const mockFreelancers: UnifiedFreelancer[] = [
     profileUrl: "https://example.com/profile/sarah-johnson",
     payRate: "$45/hr",
     experienceYears: 8,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["React", "Node.js", "Python", "TypeScript", "MongoDB"],
+      experienceYears: 8,
+      title: "Full Stack Developer",
+    }),
   },
   {
     id: "fl-michael-chen-002",
@@ -61,6 +67,11 @@ const mockFreelancers: UnifiedFreelancer[] = [
     profileUrl: "https://example.com/profile/michael-chen",
     payRate: "$35/hr",
     experienceYears: 6,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["Figma", "Adobe XD", "Sketch", "Prototyping", "User Research"],
+      experienceYears: 6,
+      title: "UI/UX Designer",
+    }),
   },
   {
     id: "fl-emily-rodriguez-003",
@@ -80,6 +91,11 @@ const mockFreelancers: UnifiedFreelancer[] = [
     profileUrl: "https://example.com/profile/emily-rodriguez",
     payRate: "$50/hr",
     experienceYears: 10,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["React Native", "Flutter", "Swift", "Kotlin", "Firebase"],
+      experienceYears: 10,
+      title: "Mobile App Developer",
+    }),
   },
   {
     id: "fl-david-thompson-004",
@@ -99,6 +115,11 @@ const mockFreelancers: UnifiedFreelancer[] = [
     profileUrl: "https://example.com/profile/david-thompson",
     payRate: "$60/hr",
     experienceYears: 5,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["AWS", "Docker", "Kubernetes", "Terraform", "Jenkins"],
+      experienceYears: 5,
+      title: "DevOps Engineer",
+    }),
   },
   {
     id: "fl-lisa-wang-005",
@@ -118,6 +139,11 @@ const mockFreelancers: UnifiedFreelancer[] = [
     profileUrl: "https://example.com/profile/lisa-wang",
     payRate: "$55/hr",
     experienceYears: 7,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["Python", "R", "SQL", "TensorFlow", "Tableau"],
+      experienceYears: 7,
+      title: "Data Scientist",
+    }),
   },
   {
     id: "fl-james-wilson-006",
@@ -137,6 +163,11 @@ const mockFreelancers: UnifiedFreelancer[] = [
     profileUrl: "https://example.com/profile/james-wilson",
     payRate: "$48/hr",
     experienceYears: 9,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["Java", "Spring Boot", "PostgreSQL", "Redis", "Kafka"],
+      experienceYears: 9,
+      title: "Backend Developer",
+    }),
   },
 ];
 

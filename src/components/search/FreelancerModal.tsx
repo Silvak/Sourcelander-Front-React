@@ -37,7 +37,7 @@ export default function FreelancerModal({
   onHire,
 }: FreelancerModalProps) {
   // Console log para ver los datos del freelancer
-  console.log("FreelancerModal - Datos del freelancer:", freelancer);
+
 
   if (!isOpen) return null;
 
@@ -128,7 +128,9 @@ export default function FreelancerModal({
                 <div className="flex items-center justify-center mb-2">
                   <Award className="h-6 w-6 text-primary" />
                 </div>
-                <div className="text-lg font-bold">{freelancer.completedProjects || freelancer.reviews}+</div>
+                <div className="text-lg font-bold">
+                  {freelancer.completedProjects || freelancer.reviews}+
+                </div>
                 <div className="text-xs text-muted-foreground">Projects</div>
               </CardContent>
             </Card>
@@ -204,56 +206,16 @@ export default function FreelancerModal({
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                {(() => {
-                  const currentYear = new Date().getFullYear();
-                  const experienceYears = freelancer.experienceYears || 5;
-                  const title = freelancer.title || "Developer";
-
-                  // Generar experiencias basadas en los datos del freelancer
-                  const experiences = [];
-
-                  // Experiencia actual (Senior)
-                  if (experienceYears >= 3) {
-                    experiences.push({
-                      position: `Senior ${title}`,
-                      period: `${
-                        currentYear - Math.min(3, experienceYears)
-                      } - Present`,
-                      isCurrent: true,
-                    });
-                  }
-
-                  // Experiencia intermedia
-                  if (experienceYears >= 2) {
-                    const startYear = currentYear - experienceYears;
-                    const endYear =
-                      experienceYears >= 3 ? currentYear - 3 : currentYear - 1;
-                    experiences.push({
-                      position: title,
-                      period: `${startYear} - ${endYear}`,
-                      isCurrent: false,
-                    });
-                  }
-
-                  // Si no hay suficiente experiencia, mostrar mensaje
-                  if (experiences.length === 0) {
-                    return (
-                      <div className="text-base text-muted-foreground">
-                        {experienceYears < 2
-                          ? "Starting career"
-                          : "Experience details not available"}
-                      </div>
-                    );
-                  }
-
-                  return experiences.map((exp, index) => (
+                {freelancer.professionalExperience &&
+                freelancer.professionalExperience.length > 0 ? (
+                  freelancer.professionalExperience.map((exp, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border-l-4 border-primary/20"
+                      className="flex items-center justify-between p-3 py-2 bg-muted/30 rounded-lg border-l-4 border-primary/20"
                     >
                       <div className="flex-1">
-                        <div className="flex items-center gap-2">
-                          <span className="font-semibold text-foreground">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-semibold text-sm">
                             {exp.position}
                           </span>
                           {exp.isCurrent && (
@@ -262,13 +224,20 @@ export default function FreelancerModal({
                             </span>
                           )}
                         </div>
+                        <div className="text-sm text-muted-foreground">
+                          {exp.company}
+                        </div>
                       </div>
-                      <div className="text-base font-medium text-muted-foreground">
+                      <div className="text-sm font-medium text-muted-foreground">
                         {exp.period}
                       </div>
                     </div>
-                  ));
-                })()}
+                  ))
+                ) : (
+                  <div className="text-base text-muted-foreground">
+                    No professional experience available
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
