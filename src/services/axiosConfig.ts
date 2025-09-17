@@ -5,7 +5,9 @@ export const apiInstance = axios.create({
   timeout: 15000, // Increased timeout to 15 seconds
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+    ...(process.env.NEXT_PUBLIC_API_KEY
+      ? { Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}` }
+      : {}),
   },
 });
 
@@ -14,6 +16,8 @@ export const apiInstanceStrapi = axios.create({
   timeout: 15000,
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+    ...(process.env.NEXT_PUBLIC_API_KEY
+      ? { Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}` }
+      : {}),
   },
 });

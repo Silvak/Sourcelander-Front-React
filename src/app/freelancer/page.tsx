@@ -137,9 +137,11 @@ export default function FreelancerPage() {
   const { saveFreelancer } = useFreelancerStorage();
 
   // El query para el hook de búsqueda infinita
-  const query = selectedCategory
-    ? `${searchQuery} category:${selectedCategory}`
-    : searchQuery;
+  const query = (
+    selectedCategory
+      ? [searchQuery, `category:${selectedCategory}`].filter(Boolean).join(" ")
+      : searchQuery
+  ).trim();
 
   const {
     data,
