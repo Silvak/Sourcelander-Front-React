@@ -10,18 +10,22 @@ import { formatMembershipYears } from "@/utils/membershipUtils";
 interface FreelancerCardProps {
   freelancer: UnifiedFreelancer;
   onViewProfile: (id: string) => void;
+  showAvailabilityLabel?: boolean;
+  priceFormat?: "absolute" | "hourly";
 }
 
 export default function FreelancerCard({
   freelancer,
   onViewProfile,
+  showAvailabilityLabel = true,
+  priceFormat = "hourly",
 }: FreelancerCardProps) {
   // Fallbacks para campos potencialmente undefined
   const name = freelancer.name ?? "N/A";
   const avatar = freelancer.avatar ?? freelancer.imageUrl ?? "";
   const title = freelancer.title ?? freelancer.speciality ?? "Freelancer";
   const location = freelancer.location ?? "N/A";
-  const rating = freelancer.rating ?? "N/A";
+  // const rating = freelancer.rating ?? "N/A";
   const reviews = freelancer.reviews ?? "N/A";
   const hourlyRate = freelancer.hourlyRate ?? freelancer.payRate ?? "N/A";
   const availability = freelancer.availability ?? "N/A";
@@ -48,28 +52,16 @@ export default function FreelancerCard({
             {/* Nombre y verificación */}
             <div className="flex items-center gap-2 mb-2 min-w-0">
               <h3
-                className="font-semibold text-lg leading-tight text-foreground truncate"
+                className="font-semibold text-lg leading-snug text-foreground"
                 title={name}
               >
                 {name}
               </h3>
-              {freelancer.verified && (
-                <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
-              )}
-              {/* Indicador de datos mockeados */}
-              {id && id.startsWith("MOCK-") && (
-                <Badge
-                  variant="outline"
-                  className="text-xs bg-orange-50 text-orange-700 border-orange-200 flex-shrink-0"
-                >
-                  MOCK
-                </Badge>
-              )}
             </div>
 
             {/* Título */}
             <p
-              className="text-muted-foreground text-sm mb-3 leading-relaxed truncate"
+              className="text-muted-foreground text-sm mb-3 leading-snug"
               title={title}
             >
               {title}
@@ -78,7 +70,9 @@ export default function FreelancerCard({
             {/* Ubicación */}
             <div className="flex items-center gap-1 mb-3 text-sm text-muted-foreground">
               <MapPin className="h-4 w-4 flex-shrink-0" />
-              <span className="truncate">{location}</span>
+              <span className="whitespace-normal break-words" title={location}>
+                {location}
+              </span>
             </div>
 
             {/* Member since */}
@@ -92,17 +86,18 @@ export default function FreelancerCard({
 
           {/* Precio y disponibilidad */}
           <div className="text-right flex-shrink-0">
-            <div className="text-xl font-bold text-primary">
-              ${hourlyRate}/hr
+            <div className="text-base font-semibold text-primary leading-none">
+              {`$${hourlyRate}/hr`}
             </div>
-            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-              <Clock className="h-3 w-3" />
-              <span
-                className="truncate max-w-[120px] block"
-                title={availability}
-              >
-                {availability}
-              </span>
+            <div className="flex items-center justify-end gap-1 text-xs text-muted-foreground mt-1">
+              {showAvailabilityLabel && (
+                <>
+                  <Clock className="h-3 w-3" />
+                  <span className="block" title={availability}>
+                    {availability}
+                  </span>
+                </>
+              )}
             </div>
           </div>
         </div>
