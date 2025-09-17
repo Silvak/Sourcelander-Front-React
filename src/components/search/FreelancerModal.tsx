@@ -9,6 +9,9 @@ import {
   Award,
   Users,
   Globe,
+  Briefcase,
+  Target,
+  BookUser,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -35,11 +38,17 @@ export default function FreelancerModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-background rounded-lg shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      onClick={onClose}
+    >
+      <div
+        className="bg-background rounded-lg shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b">
-          <h2 className="text-xl font-semibold">Freelancer Profile</h2>
+          <h2 className="text-xl font-bold">Freelancer Profile</h2>
           <Button
             variant="ghost"
             size="sm"
@@ -69,12 +78,12 @@ export default function FreelancerModal({
 
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
-                <h3 className="text-2xl font-bold">{freelancer.name}</h3>
+                <h3 className="text-lg font-bold">{freelancer.name}</h3>
                 {freelancer.verified && (
                   <CheckCircle className="h-5 w-5 text-primary" />
                 )}
               </div>
-              <p className="text-lg text-muted-foreground mb-3">
+              <p className="text-base text-muted-foreground mb-3">
                 {freelancer.title}
               </p>
 
@@ -95,7 +104,7 @@ export default function FreelancerModal({
             </div>
 
             <div className="text-right">
-              <div className="text-2xl font-bold text-primary">
+              <div className="text-lg font-bold text-primary">
                 ${freelancer.hourlyRate}/hr
               </div>
               <div className="flex items-center gap-1 text-sm text-muted-foreground">
@@ -112,8 +121,8 @@ export default function FreelancerModal({
                 <div className="flex items-center justify-center mb-2">
                   <Award className="h-6 w-6 text-primary" />
                 </div>
-                <div className="text-2xl font-bold">{freelancer.reviews}+</div>
-                <div className="text-sm text-muted-foreground">Projects</div>
+                <div className="text-lg font-bold">{freelancer.reviews}+</div>
+                <div className="text-xs text-muted-foreground">Projects</div>
               </CardContent>
             </Card>
 
@@ -122,8 +131,8 @@ export default function FreelancerModal({
                 <div className="flex items-center justify-center mb-2">
                   <Users className="h-6 w-6 text-primary" />
                 </div>
-                <div className="text-2xl font-bold">98%</div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-lg font-bold">98%</div>
+                <div className="text-xs text-muted-foreground">
                   Success Rate
                 </div>
               </CardContent>
@@ -134,10 +143,10 @@ export default function FreelancerModal({
                 <div className="flex items-center justify-center mb-2">
                   <Calendar className="h-6 w-6 text-primary" />
                 </div>
-                <div className="text-2xl font-bold">
+                <div className="text-lg font-bold">
                   {freelancer.experienceYears || 5}+
                 </div>
-                <div className="text-sm text-muted-foreground">Years Exp.</div>
+                <div className="text-xs text-muted-foreground">Years Exp.</div>
               </CardContent>
             </Card>
 
@@ -146,10 +155,10 @@ export default function FreelancerModal({
                 <div className="flex items-center justify-center mb-2">
                   <Globe className="h-6 w-6 text-primary" />
                 </div>
-                <div className="text-2xl font-bold">
+                <div className="text-lg font-bold">
                   {freelancer.skills?.length || 0}
                 </div>
-                <div className="text-sm text-muted-foreground">Skills</div>
+                <div className="text-xs text-muted-foreground">Skills</div>
               </CardContent>
             </Card>
           </div>
@@ -157,7 +166,10 @@ export default function FreelancerModal({
           {/* About Section */}
           <Card>
             <CardHeader>
-              <CardTitle>About</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <BookUser className="h-5 w-5 text-primary" />
+                About
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground leading-relaxed">
@@ -173,6 +185,89 @@ export default function FreelancerModal({
             </CardContent>
           </Card>
 
+          {/* Professional Experience Section */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Briefcase className="h-5 w-5 text-primary" />
+                Professional Experience
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {(() => {
+                  const currentYear = new Date().getFullYear();
+                  const experienceYears = freelancer.experienceYears || 5;
+                  const title = freelancer.title || "Developer";
+
+                  // Generar experiencias basadas en los datos del freelancer
+                  const experiences = [];
+
+
+
+                  // Experiencia actual (Senior)
+                  if (experienceYears >= 3) {
+                    experiences.push({
+                      position: `Senior ${title}`,
+                      period: `${
+                        currentYear - Math.min(3, experienceYears)
+                      } - Present`,
+                      isCurrent: true,
+                    });
+                  }
+
+                  // Experiencia intermedia
+                  if (experienceYears >= 2) {
+                    const startYear = currentYear - experienceYears;
+                    const endYear =
+                      experienceYears >= 3 ? currentYear - 3 : currentYear - 1;
+                    experiences.push({
+                      position: title,
+                      period: `${startYear} - ${endYear}`,
+                      isCurrent: false,
+                    });
+                  }
+
+                  // Si no hay suficiente experiencia, mostrar mensaje
+                  if (experiences.length === 0) {
+                    return (
+                      <div className="text-base text-muted-foreground">
+                        {experienceYears < 2
+                          ? "Starting career"
+                          : "Experience details not available"}
+                      </div>
+                    );
+                  }
+
+                  return experiences.map((exp, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border-l-4 border-primary/20"
+                    >
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold text-foreground">
+                            {exp.position}
+                          </span>
+                          {exp.isCurrent && (
+                            <span className="px-2 py-1 text-xs bg-green-100 text-green-700 rounded-full font-medium">
+                              Current
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="text-base font-medium text-muted-foreground">
+                        {exp.period}
+                      </div>
+                    </div>
+                  ));
+                })()}
+              </div>
+            </CardContent>
+          </Card>
+
+
+
           {/* Skills Section */}
           <Card>
             <CardHeader>
@@ -184,7 +279,11 @@ export default function FreelancerModal({
                   <Badge key={index} variant="secondary" className="text-sm">
                     {skill}
                   </Badge>
-                )) || <p className="text-muted-foreground">No skills listed</p>}
+                )) || (
+                  <p className="text-sm text-muted-foreground">
+                    No skills listed
+                  </p>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -198,28 +297,30 @@ export default function FreelancerModal({
               <div className="space-y-3">
                 <div className="flex items-center justify-between p-3 border rounded-lg">
                   <div>
-                    <h4 className="font-medium">E-commerce Platform</h4>
+                    <h4 className="text-sm font-medium">E-commerce Platform</h4>
                     <p className="text-sm text-muted-foreground">
                       React, Node.js, MongoDB
                     </p>
                   </div>
                   <div className="text-right">
                     <div className="text-sm font-medium">$8,500</div>
-                    <div className="text-xs text-muted-foreground">
+                    <div className="text-sm text-muted-foreground">
                       Completed
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center justify-between p-3 border rounded-lg">
                   <div>
-                    <h4 className="font-medium">Mobile App Development</h4>
+                    <h4 className="text-sm font-medium">
+                      Mobile App Development
+                    </h4>
                     <p className="text-sm text-muted-foreground">
                       React Native, Firebase
                     </p>
                   </div>
                   <div className="text-right">
                     <div className="text-sm font-medium">$12,000</div>
-                    <div className="text-xs text-muted-foreground">
+                    <div className="text-sm text-muted-foreground">
                       Completed
                     </div>
                   </div>

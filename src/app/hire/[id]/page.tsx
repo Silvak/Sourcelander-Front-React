@@ -166,7 +166,7 @@ export default function HirePage() {
                 <CardTitle>About</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-base text-muted-foreground leading-relaxed">
                   {freelancer.description ||
                     `Experienced ${
                       freelancer.title?.toLowerCase() || "professional"
@@ -197,6 +197,88 @@ export default function HirePage() {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Professional Experience Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Professional Experience</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {(() => {
+                    const currentYear = new Date().getFullYear();
+                    const experienceYears = freelancer.experienceYears || 5;
+                    const title = freelancer.title || "Developer";
+
+                    // Generar experiencias basadas en los datos del freelancer
+                    const experiences = [];
+
+
+
+                    // Experiencia actual (Senior)
+                    if (experienceYears >= 3) {
+                      experiences.push({
+                        position: `Senior ${title}`,
+                        period: `${
+                          currentYear - Math.min(3, experienceYears)
+                        } - Present`,
+                        isCurrent: true,
+                      });
+                    }
+
+                    // Experiencia intermedia
+                    if (experienceYears >= 2) {
+                      const startYear = currentYear - experienceYears;
+                      const endYear =
+                        experienceYears >= 3
+                          ? currentYear - 3
+                          : currentYear - 1;
+                      experiences.push({
+                        position: title,
+                        period: `${startYear} - ${endYear}`,
+                        isCurrent: false,
+                      });
+                    }
+
+                    // Si no hay suficiente experiencia, mostrar mensaje
+                    if (experiences.length === 0) {
+                      return (
+                        <div className="text-base text-muted-foreground">
+                          {experienceYears < 2
+                            ? "Starting career"
+                            : "Experience details not available"}
+                        </div>
+                      );
+                    }
+
+                    return experiences.map((exp, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border-l-4 border-primary/20"
+                      >
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-semibold text-foreground">
+                              {exp.position}
+                            </span>
+                            {exp.isCurrent && (
+                              <span className="px-2 py-1 text-xs bg-green-100 text-green-700 rounded-full font-medium">
+                                Current
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="text-base font-medium text-muted-foreground">
+                          {exp.period}
+                        </div>
+                      </div>
+                    ));
+                  })()}
+                </div>
+              </CardContent>
+            </Card>
+
+
 
             {/* Project Details Form */}
             <Card>
