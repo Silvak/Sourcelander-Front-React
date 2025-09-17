@@ -77,7 +77,7 @@ export default function FreelancerCard({
             {/* Años de experiencia */}
             <div className="flex items-center gap-1 text-sm">
               <Calendar className="h-4 w-4 text-primary" />
-              <span className="font-medium">{freelancer.experienceYears || 5}+ años de experiencia</span>
+              <span className="font-medium">{freelancer.experienceYears || 5}+ yrs exp.</span>
             </div>
           </div>
 

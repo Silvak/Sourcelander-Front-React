@@ -8,6 +8,32 @@ import {
 } from "@/interfaces";
 import { apiInstance } from "@/services/axiosConfig";
 
+// Extract experience years from Workana skill strings like "SEO (5 to 10 years)" or "Graphic Design (+10 years)"
+function parseExperienceYearsFromSkills(skills?: string[]): number | undefined {
+  if (!skills || skills.length === 0) return undefined;
+  const candidates: number[] = [];
+
+  for (const s of skills) {
+    // e.g., "(5 to 10 years)" or "5 to 10 years"
+    const rangeMatch = s.match(/(?:\(|\b)(\d+)\s*to\s*(\d+)\s*years(?:\)|\b)/i);
+    if (rangeMatch) {
+      const lower = parseInt(rangeMatch[1], 10);
+      if (!Number.isNaN(lower)) candidates.push(lower);
+    }
+
+    // e.g., "(+10 years)" or "+10 years" or "10 years"
+    const plusMatch = s.match(/(?:\(|\b)\+?(\d+)\s*years(?:\)|\b)/i);
+    if (plusMatch) {
+      const val = parseInt(plusMatch[1], 10);
+      if (!Number.isNaN(val)) candidates.push(val);
+    }
+  }
+
+  if (candidates.length === 0) return undefined;
+  // Use the max lower-bound as a conservative indicator of experience
+  return Math.max(...candidates);
+}
+
 // Mapping helpers
 const mapWorkanaFreelancer = (
   freelancer: WorkanaFreelancer
@@ -30,7 +56,7 @@ const mapWorkanaFreelancer = (
   hourlyRate: parseFloat(freelancer.hourlyRate?.replace(/[^\d.]/g, "")) || 0,
   availability: "Available",
   verified: false,
-  experienceYears: 5, // Default experience years
+  experienceYears: parseExperienceYearsFromSkills(freelancer.skills),
 });
 
 const mapHubstaffFreelancer = (
