@@ -1,5 +1,8 @@
+import { IProfessionalExperience } from '../types';
+
 // Unified Freelancer type
 export interface UnifiedFreelancer {
+  id?: string;
   name: string;
   profileUrl: string;
   payRate: string;
@@ -13,6 +16,31 @@ export interface UnifiedFreelancer {
   projectsCompleted?: any;
   title?: string;
   skills?: string[];
+  avatar?: string;
+  reviews?: number;
+  hourlyRate?: number;
+  availability?: string;
+  verified?: boolean;
+  experienceYears?: number;
+  professionalExperience?: IProfessionalExperience[]; // Array de experiencias profesionales
+  memberSince?: string; // Antigüedad en la app (fecha de registro)
+  // Storage-related properties
+  storedAt?: string;
+  lastViewed?: string;
+  viewCount?: number;
+  hireCount?: number;
+  reviewCount?: number;
+  profileImage?: string;
+  isOnline?: boolean;
+  responseTime?: string;
+  completedProjects?: number;
+  successRate?: number;
+  languages?: string[];
+  topRated?: boolean;
+  category?: string;
+  subcategory?: string;
+  experience?: string;
+  lastAction?: "view" | "hire";
 }
 
 export interface RecommendedFreelancer extends UnifiedFreelancer {

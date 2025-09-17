@@ -7,6 +7,8 @@ import {
   WorkanaResponse,
 } from "@/interfaces";
 import { apiInstance } from "@/services/axiosConfig";
+import { getRandomCompanies } from "@/lib/mockCompanies";
+import { generateFreelancerExperience } from "@/utils/experienceGenerator";
 
 // Extract experience years from Workana skill strings like "SEO (5 to 10 years)" or "Graphic Design (+10 years)"
 function parseExperienceYearsFromSkills(skills?: string[]): number | undefined {
@@ -58,6 +60,11 @@ const mapWorkanaFreelancer = (
   verified: false,
   memberSince: "2021-01-01", // Default member since date
   experienceYears: parseExperienceYearsFromSkills(freelancer.skills) || Math.floor(Math.random() * 8) + 3, // 3-10 years if not found
+  professionalExperience: generateFreelancerExperience({
+    skills: freelancer.skills,
+    experienceYears: parseExperienceYearsFromSkills(freelancer.skills) || Math.floor(Math.random() * 8) + 3,
+    title: freelancer.title
+  })
 });
 
 const mapHubstaffFreelancer = (
@@ -80,6 +87,11 @@ const mapHubstaffFreelancer = (
   verified: false,
   memberSince: "2020-01-01", // Default member since date
   experienceYears: parseExperienceYearsFromSkills(freelancer.skills) || Math.floor(Math.random() * 8) + 3, // 3-10 years if not found
+  professionalExperience: generateFreelancerExperience({
+    skills: freelancer.skills,
+    experienceYears: parseExperienceYearsFromSkills(freelancer.skills) || Math.floor(Math.random() * 8) + 3,
+    title: freelancer.speciality || freelancer.employmentType
+  })
 });
 
 // Individual fetchers

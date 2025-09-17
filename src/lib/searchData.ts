@@ -1,3 +1,5 @@
+import { getRandomCompanies } from './mockCompanies';
+
 // Search suggestions and related terms for intelligent search
 export const searchSuggestions = {
   designer: [
@@ -204,6 +206,7 @@ export const recommendedFreelancers = [
     verified: true,
     profileUrl: "https://example.com/profile/sarah-johnson",
     payRate: "$85/hr",
+    professionalExperience: getRandomCompanies(4),
   },
   {
     id: "rec-2",
@@ -230,6 +233,7 @@ export const recommendedFreelancers = [
     verified: true,
     profileUrl: "https://example.com/profile/michael-chen",
     payRate: "$75/hr",
+    professionalExperience: getRandomCompanies(3),
   },
   {
     id: "rec-3",
@@ -250,6 +254,7 @@ export const recommendedFreelancers = [
     verified: true,
     profileUrl: "https://example.com/profile/emily-rodriguez",
     payRate: "$90/hr",
+    professionalExperience: getRandomCompanies(5),
   },
   {
     id: "rec-4",
@@ -270,6 +275,7 @@ export const recommendedFreelancers = [
     verified: true,
     profileUrl: "https://example.com/profile/david-kim",
     payRate: "$80/hr",
+    professionalExperience: getRandomCompanies(4),
   },
   {
     id: "rec-5",
@@ -290,6 +296,7 @@ export const recommendedFreelancers = [
     verified: true,
     profileUrl: "https://example.com/profile/james-wilson",
     payRate: "$95/hr",
+    professionalExperience: getRandomCompanies(3),
   },
   {
     id: "rec-6",
@@ -310,6 +317,7 @@ export const recommendedFreelancers = [
     verified: true,
     profileUrl: "https://example.com/profile/alex-thompson",
     payRate: "$88/hr",
+    professionalExperience: getRandomCompanies(4),
   },
 ];
 
@@ -329,6 +337,7 @@ export const mockFreelancers = [
     location: "San Francisco, CA",
     availability: "Available now",
     verified: true,
+    professionalExperience: getRandomCompanies(4),
   },
   {
     id: 2,
@@ -344,6 +353,7 @@ export const mockFreelancers = [
     location: "New York, NY",
     availability: "Available now",
     verified: true,
+    professionalExperience: getRandomCompanies(3),
   },
   {
     id: 3,
@@ -359,6 +369,7 @@ export const mockFreelancers = [
     location: "Austin, TX",
     availability: "Available now",
     verified: true,
+    professionalExperience: getRandomCompanies(5),
   },
   {
     id: 4,
@@ -374,6 +385,7 @@ export const mockFreelancers = [
     location: "Seattle, WA",
     availability: "Available now",
     verified: true,
+    professionalExperience: getRandomCompanies(6),
   },
   {
     id: 5,
@@ -389,6 +401,7 @@ export const mockFreelancers = [
     location: "Los Angeles, CA",
     availability: "Available now",
     verified: true,
+    professionalExperience: getRandomCompanies(3),
   },
   {
     id: 6,
@@ -404,6 +417,7 @@ export const mockFreelancers = [
     location: "Denver, CO",
     availability: "Available now",
     verified: true,
+    professionalExperience: getRandomCompanies(4),
   },
   {
     id: 7,
@@ -419,6 +433,7 @@ export const mockFreelancers = [
     location: "Miami, FL",
     availability: "Available now",
     verified: true,
+    professionalExperience: getRandomCompanies(2),
   },
   {
     id: 8,
@@ -434,6 +449,7 @@ export const mockFreelancers = [
     location: "Boston, MA",
     availability: "Available now",
     verified: true,
+    professionalExperience: getRandomCompanies(5),
   },
   {
     id: 9,
@@ -449,6 +465,7 @@ export const mockFreelancers = [
     location: "Portland, OR",
     availability: "Available now",
     verified: true,
+    professionalExperience: getRandomCompanies(2),
   },
   {
     id: 10,
@@ -464,6 +481,7 @@ export const mockFreelancers = [
     location: "Chicago, IL",
     availability: "Available now",
     verified: true,
+    professionalExperience: getRandomCompanies(4),
   },
   {
     id: 11,
@@ -484,6 +502,7 @@ export const mockFreelancers = [
     location: "Nashville, TN",
     availability: "Available now",
     verified: true,
+    professionalExperience: getRandomCompanies(3),
   },
   {
     id: 12,
@@ -499,6 +518,7 @@ export const mockFreelancers = [
     location: "Phoenix, AZ",
     availability: "Available now",
     verified: true,
+    professionalExperience: getRandomCompanies(3),
   },
   {
     id: 13,
@@ -514,6 +534,7 @@ export const mockFreelancers = [
     location: "Atlanta, GA",
     availability: "Available now",
     verified: true,
+    professionalExperience: getRandomCompanies(4),
   },
   {
     id: 14,
@@ -529,6 +550,7 @@ export const mockFreelancers = [
     location: "San Diego, CA",
     availability: "Available now",
     verified: true,
+    professionalExperience: getRandomCompanies(4),
   },
   {
     id: 15,
@@ -544,6 +566,7 @@ export const mockFreelancers = [
     location: "Orlando, FL",
     availability: "Available now",
     verified: true,
+    professionalExperience: getRandomCompanies(2),
   },
   {
     id: 16,
@@ -559,5 +582,6 @@ export const mockFreelancers = [
     location: "Austin, TX",
     availability: "Available now",
     verified: true,
+    professionalExperience: getRandomCompanies(5),
   },
 ];

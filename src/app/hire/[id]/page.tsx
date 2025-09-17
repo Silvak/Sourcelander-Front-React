@@ -23,6 +23,7 @@ import {
   formatMembershipYears,
   calculateMembershipYears,
 } from "@/utils/membershipUtils";
+import { generateFreelancerExperience } from "@/utils/experienceGenerator";
 
 export default function HirePage() {
   const params = useParams();
@@ -43,7 +44,7 @@ export default function HirePage() {
       setFreelancer(foundFreelancer);
     } else {
       // If not found in storage, create a mock freelancer with the ID
-      setFreelancer({
+      const mockFreelancer: UnifiedFreelancer = {
         id: freelancerId,
         name: "Freelancer",
         title: "Professional",
@@ -52,7 +53,7 @@ export default function HirePage() {
         reviews: 0,
         hourlyRate: 0,
         availability: "N/A",
-        skills: [],
+        skills: ["JavaScript", "React", "Node.js"],
         avatar: "",
         imageUrl: "",
         profileUrl: "",
@@ -63,7 +64,13 @@ export default function HirePage() {
         verified: false,
         experienceYears: 5,
         memberSince: "2020-01-01",
-      });
+        professionalExperience: generateFreelancerExperience({
+          skills: ["JavaScript", "React", "Node.js"],
+          experienceYears: 5,
+          title: "Professional"
+        })
+      };
+      setFreelancer(mockFreelancer);
     }
 
     setIsLoading(false);
@@ -218,61 +225,16 @@ export default function HirePage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  {(() => {
-                    const currentYear = new Date().getFullYear();
-                    // Calcular años de membresía en la app
-                    const membershipYears = calculateMembershipYears(
-                      freelancer.memberSince,
-                    );
-                    const title = freelancer.title || "Developer";
-
-                    // Generar experiencias basadas en la antigüedad en la app
-                    const experiences = [];
-
-                    // Experiencia actual (Senior) - si tiene más de 3 años en la app
-                    if (membershipYears >= 3) {
-                      experiences.push({
-                        position: `Senior ${title}`,
-                        period: `${
-                          currentYear - Math.min(3, membershipYears)
-                        } - Present`,
-                        isCurrent: true,
-                      });
-                    }
-
-                    // Experiencia intermedia - si tiene más de 2 años en la app
-                    if (membershipYears >= 2) {
-                      const startYear = currentYear - membershipYears;
-                      const endYear =
-                        membershipYears >= 3
-                          ? currentYear - 3
-                          : currentYear - 1;
-                      experiences.push({
-                        position: title,
-                        period: `${startYear} - ${endYear}`,
-                        isCurrent: false,
-                      });
-                    }
-
-                    // Si no hay suficiente antigüedad, mostrar mensaje
-                    if (experiences.length === 0) {
-                      return (
-                        <div className="text-base text-muted-foreground">
-                          {membershipYears < 2
-                            ? "Starting career"
-                            : "Experience details not available"}
-                        </div>
-                      );
-                    }
-
-                    return experiences.map((exp, index) => (
+                  {freelancer.professionalExperience &&
+                  freelancer.professionalExperience.length > 0 ? (
+                    freelancer.professionalExperience.map((exp, index) => (
                       <div
                         key={index}
-                        className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border-l-4 border-primary/20"
+                        className="flex items-center justify-between p-3 py-2 bg-muted/30 rounded-lg border-l-4 border-primary/20"
                       >
                         <div className="flex-1">
-                          <div className="flex items-center gap-2">
-                            <span className="font-semibold text-foreground">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="font-semibold text-base">
                               {exp.position}
                             </span>
                             {exp.isCurrent && (
@@ -281,13 +243,20 @@ export default function HirePage() {
                               </span>
                             )}
                           </div>
+                          <div className="text-sm text-muted-foreground">
+                            {exp.company}
+                          </div>
                         </div>
                         <div className="text-base font-medium text-muted-foreground">
                           {exp.period}
                         </div>
                       </div>
-                    ));
-                  })()}
+                    ))
+                  ) : (
+                    <div className="text-base text-muted-foreground">
+                      No professional experience available
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
