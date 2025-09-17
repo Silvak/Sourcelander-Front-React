@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import FreelancerCard from "./FreelancerCard";
@@ -17,6 +17,7 @@ export default function RecommendedFreelancersCarousel({
 }: RecommendedFreelancersCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Número de cards visibles por dispositivo - igual que el grid de resultados
   const getCardsPerView = () => {
@@ -37,14 +38,35 @@ export default function RecommendedFreelancersCarousel({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Auto-scroll function
+  const autoScroll = useCallback(() => {
+    setCurrentIndex((prev) => {
+      const maxIdx = Math.max(0, freelancers.length - cardsPerView);
+      return prev >= maxIdx ? 0 : prev + 1;
+    });
+  }, [freelancers.length, cardsPerView]);
+
+  // Function to restart auto-scroll timer
+  const restartAutoScroll = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+    if (freelancers.length > cardsPerView) {
+      intervalRef.current = setInterval(autoScroll, 10000);
+    }
+  }, [autoScroll, freelancers.length, cardsPerView]);
+
   // Auto-scroll every 10 seconds
   useEffect(() => {
-    const interval = setInterval(() => {
-      nextSlide();
-    }, 10000);
-
-    return () => clearInterval(interval);
-  }, [currentIndex, cardsPerView, freelancers.length]);
+    if (freelancers.length <= cardsPerView) return; // No auto-scroll si no hay suficientes elementos
+    
+    intervalRef.current = setInterval(autoScroll, 10000);
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [autoScroll, freelancers.length, cardsPerView]);
 
   const maxIndex = Math.max(0, freelancers.length - cardsPerView);
 
@@ -52,6 +74,7 @@ export default function RecommendedFreelancersCarousel({
     if (isTransitioning) return;
     setIsTransitioning(true);
     setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    restartAutoScroll(); // Reiniciar auto-scroll
     setTimeout(() => setIsTransitioning(false), 300);
   };
 
@@ -59,6 +82,7 @@ export default function RecommendedFreelancersCarousel({
     if (isTransitioning) return;
     setIsTransitioning(true);
     setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
+    restartAutoScroll(); // Reiniciar auto-scroll
     setTimeout(() => setIsTransitioning(false), 300);
   };
 
@@ -66,6 +90,7 @@ export default function RecommendedFreelancersCarousel({
     if (isTransitioning) return;
     setIsTransitioning(true);
     setCurrentIndex(Math.min(index, maxIndex));
+    restartAutoScroll(); // Reiniciar auto-scroll
     setTimeout(() => setIsTransitioning(false), 300);
   };
 
@@ -147,101 +172,47 @@ export default function RecommendedFreelancersCarousel({
           </div>
         </div>
 
-        {/* Paginación con números */}
-        {freelancers.length > cardsPerView && (
-          <div className="flex justify-center mt-12 gap-1">
-            {/* Botón anterior */}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={prevSlide}
-              disabled={currentIndex === 0}
-              className="px-3 py-1 text-sm"
-            >
-              ‹
-            </Button>
+        {/* Contenedor fijo para indicadores de navegación */}
+        <div className="mt-8 sm:mt-12 h-16 flex flex-col justify-center">
+          {freelancers.length > cardsPerView ? (
+            <>
+              {/* Indicadores de puntos */}
+              <div className="flex justify-center items-center gap-4 py-4">
+                {Array.from({ length: maxIndex + 1 }, (_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToSlide(index)}
+                    className={`
+                      transition-all duration-300 rounded-full
+                      ${
+                        index === currentIndex
+                          ? "w-8 h-2 bg-primary shadow-md"
+                          : "w-2 h-2 bg-gray-300 hover:bg-gray-400"
+                      }
+                    `}
+                    aria-label={`Ir a la página ${index + 1}`}
+                  />
+                ))}
+              </div>
 
-            {/* Números de página */}
-            {(() => {
-              const totalPages = maxIndex + 1;
-              const currentPage = currentIndex + 1;
-              const pages = [];
-
-              if (totalPages <= 7) {
-                // Mostrar todas las páginas si son pocas
-                for (let i = 1; i <= totalPages; i++) {
-                  pages.push(i);
-                }
-              } else {
-                // Lógica de elipsis para muchas páginas
-                if (currentPage <= 4) {
-                  pages.push(1, 2, 3, 4, 5, "...", totalPages);
-                } else if (currentPage >= totalPages - 3) {
-                  pages.push(
-                    1,
-                    "...",
-                    totalPages - 4,
-                    totalPages - 3,
-                    totalPages - 2,
-                    totalPages - 1,
-                    totalPages,
-                  );
-                } else {
-                  pages.push(
-                    1,
-                    "...",
-                    currentPage - 1,
-                    currentPage,
-                    currentPage + 1,
-                    "...",
-                    totalPages,
-                  );
-                }
-              }
-
-              return pages.map((page, idx) => {
-                if (page === "...") {
-                  return (
-                    <span
-                      key={`ellipsis-${idx}`}
-                      className="px-3 py-1 text-sm text-gray-500"
-                    >
-                      ...
-                    </span>
-                  );
-                }
-
-                const pageNumber = page as number;
-                const isActive = pageNumber === currentPage;
-
-                return (
-                  <Button
-                    key={pageNumber}
-                    variant={isActive ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => goToSlide(pageNumber - 1)}
-                    className={`px-3 py-1 text-sm ${
-                      isActive ? "bg-primary text-white" : "hover:bg-gray-50"
-                    }`}
-                  >
-                    {pageNumber}
-                  </Button>
-                );
-              });
-            })()}
-
-            {/* Botón siguiente */}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={nextSlide}
-              disabled={currentIndex >= maxIndex}
-              className="px-3 py-1 text-sm"
-            >
-              ›
-            </Button>
-          </div>
-        )}
+              {/* Contador de páginas */}
+              <div className="flex justify-center">
+                <div className="inline-flex items-center gap-1 px-3 py-1.5 bg-transparent">
+                  <span className="text-sm font-semibold text-primary">
+                    {currentIndex + 1}
+                  </span>
+                  <span className="text-xs text-gray-400 font-medium">de</span>
+                  <span className="text-sm font-medium text-gray-600">
+                    {maxIndex + 1}
+                  </span>
+                </div>
+              </div>
+            </>
+          ) : (
+            /* Espacio vacío para mantener la altura cuando no hay paginación */
+            <div className="h-full"></div>
+          )}
+        </div>
       </div>
     </section>
   );
