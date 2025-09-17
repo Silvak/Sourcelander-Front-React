@@ -26,6 +26,17 @@ export interface UnifiedFreelancer {
   lastViewed?: string;
   viewCount?: number;
   hireCount?: number;
+  reviewCount?: number;
+  profileImage?: string;
+  isOnline?: boolean;
+  responseTime?: string;
+  completedProjects?: number;
+  successRate?: number;
+  languages?: string[];
+  topRated?: boolean;
+  category?: string;
+  subcategory?: string;
+  experience?: string;
   lastAction?: "view" | "hire";
 }
 

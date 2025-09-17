@@ -9,7 +9,8 @@ import RecommendedFreelancersCarousel from "@/components/search/RecommendedFreel
 import FreelancerCard from "@/components/search/FreelancerCard";
 import FreelancerModal from "@/components/search/FreelancerModal";
 import { Button } from "@/components/ui/button";
-import { popularCategories, recommendedFreelancers } from "@/lib/searchData";
+import { popularCategories } from "@/lib/searchData";
+import { generateExtendedRecommendedFreelancers } from "@/lib/mockRecommendedFreelancers";
 import { Search, Users, Filter, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useInfiniteSearchResults } from "@/hooks/useInfiniteSearchResults";
@@ -180,13 +181,29 @@ export default function FreelancerPage() {
   };
 
   const handleViewProfile = (id: string) => {
-    const freelancer = displayFreelancers.find((f) => f.id && f.id === id);
+    // Buscar primero en los resultados de búsqueda
+    let freelancer = displayFreelancers.find((f) => f.id && f.id === id);
+
+    // Si no se encuentra, buscar en los freelancers recomendados
+    if (!freelancer) {
+      const recommendedFreelancers = generateExtendedRecommendedFreelancers();
+      freelancer = recommendedFreelancers.find((f) => f.id && f.id === id);
+    }
+
     if (freelancer) {
       // Save to storage when viewing profile with complete data
       const freelancerWithCompleteData = {
         ...freelancer,
-        avatar: freelancer.avatar || freelancer.imageUrl || "",
-        imageUrl: freelancer.imageUrl || freelancer.avatar || "",
+        avatar:
+          freelancer.avatar ||
+          freelancer.imageUrl ||
+          freelancer.profileImage ||
+          "",
+        imageUrl:
+          freelancer.imageUrl ||
+          freelancer.avatar ||
+          freelancer.profileImage ||
+          "",
       };
       saveFreelancer(freelancerWithCompleteData);
       setSelectedFreelancer(freelancerWithCompleteData);
@@ -310,7 +327,7 @@ export default function FreelancerPage() {
       {showRecommendedFreelancers && (
         <ContainerSmall className="pt-8 md:pt-12">
           <RecommendedFreelancersCarousel
-            freelancers={recommendedFreelancers}
+            freelancers={generateExtendedRecommendedFreelancers()}
             onViewProfile={handleViewProfile}
           />
         </ContainerSmall>

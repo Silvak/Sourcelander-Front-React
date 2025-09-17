@@ -34,7 +34,7 @@ export default function FreelancerCard({
     freelancer.id || `freelancer-${Math.random().toString(36).substr(2, 9)}`;
 
   return (
-    <Card className="hover:border-primary transition-all rounded-[0px] duration-200 h-full flex flex-col group cursor-pointer">
+    <Card className="hover:border-primary transition-all rounded-[0px] duration-200 h-full flex flex-col group cursor-pointer hover-lift">
       <CardContent className="p-6 flex flex-col h-full">
         {/* Header con avatar y información principal */}
         <div className="flex items-start gap-4 mb-6">

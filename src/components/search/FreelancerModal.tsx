@@ -128,7 +128,7 @@ export default function FreelancerModal({
                 <div className="flex items-center justify-center mb-2">
                   <Award className="h-6 w-6 text-primary" />
                 </div>
-                <div className="text-lg font-bold">{freelancer.reviews}+</div>
+                <div className="text-lg font-bold">{freelancer.completedProjects || freelancer.reviews}+</div>
                 <div className="text-xs text-muted-foreground">Projects</div>
               </CardContent>
             </Card>
@@ -151,10 +151,10 @@ export default function FreelancerModal({
                   <Calendar className="h-6 w-6 text-primary" />
                 </div>
                 <div className="text-lg font-bold">
-                  {calculateMembershipYears(freelancer.memberSince)}+
+                  {freelancer.experienceYears || 5}+
                 </div>
                 <div className="text-xs text-muted-foreground">
-                  Years Member
+                  Years Experience
                 </div>
               </CardContent>
             </Card>
