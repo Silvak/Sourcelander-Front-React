@@ -36,23 +36,47 @@ export default function FreelancerModal({
   onClose,
   onHire,
 }: FreelancerModalProps) {
+  // Console log para ver los datos del freelancer
+  console.log("FreelancerModal - Datos del freelancer:", freelancer);
+
   if (!isOpen) return null;
 
-  // Normalización de availability para evitar mostrar N/A o vacío
-  const availabilityRaw = (freelancer.availability ?? "").toString().trim();
-  const hasAvailability =
-    availabilityRaw.length > 0 && availabilityRaw.toUpperCase() !== "N/A";
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-background rounded-lg shadow-lg w-full max-w-4xl p-6">
+    <div
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      onClick={onClose}
+    >
+      <div
+        className="bg-background rounded-lg shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
-        <div className="flex items-start justify-between mb-6">
-          <div className="flex items-start gap-4">
-            <Avatar className="h-16 w-16">
-              <AvatarImage src={freelancer.avatar || freelancer.imageUrl} alt={freelancer.name} />
-              <AvatarFallback>
-                {freelancer.name?.split(" ").map((n) => n[0]).join("")}
+        <div className="flex items-center justify-between p-6 border-b">
+          <h2 className="text-xl font-bold">Freelancer Profile</h2>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onClose}
+            className="h-8 w-8 p-0"
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
+
+        {/* Content */}
+        <div className="p-6 space-y-6">
+          {/* Profile Header */}
+          <div className="flex items-start gap-6">
+            <Avatar className="h-20 w-20">
+              <AvatarImage
+                src={freelancer.avatar || freelancer.imageUrl || ""}
+                alt={freelancer.name}
+              />
+              <AvatarFallback className="text-lg">
+                {freelancer.name
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")}
               </AvatarFallback>
             </Avatar>
 
@@ -83,16 +107,16 @@ export default function FreelancerModal({
               </div>
             </div>
 
-            <div className="flex justify-end items-center gap-2">
-              <div
-                title={hasAvailability ? availabilityRaw : undefined}
-                className="flex items-center gap-1 text-sm text-muted-foreground"
-              >
-                <Clock className="h-3 w-3" />
-                {hasAvailability && <span>{availabilityRaw}</span>}
-              </div>
+            <div className="flex flex-col justify-end items-center gap-2">
               <div className="text-lg font-bold text-primary">
                 ${freelancer.hourlyRate}/hr
+              </div>
+              <div
+                title={freelancer.availability}
+                className="flex items-center gap-1 text-xs text-muted-foreground"
+              >
+                <Clock className="h-3 w-3" />
+                <span className="text-xs">Available</span>
               </div>
             </div>
           </div>
@@ -159,8 +183,13 @@ export default function FreelancerModal({
             <CardContent>
               <p className="text-muted-foreground leading-relaxed">
                 Experienced {freelancer.title?.toLowerCase() || "professional"}{" "}
-                with {freelancer.reviews || 0}+ successful projects. Specialized in {freelancer.skills?.slice(0, 3).join(", ") || "various technologies"}{" "}
-                and delivering high-quality results. Passionate about creating innovative solutions and maintaining the highest standards of code quality.
+                with {freelancer.reviews || 0}+ successful projects. Specialized
+                in{" "}
+                {freelancer.skills?.slice(0, 3).join(", ") ||
+                  "various technologies"}{" "}
+                and delivering high-quality results. Passionate about creating
+                innovative solutions and maintaining the highest standards of
+                code quality.
               </p>
             </CardContent>
           </Card>
@@ -180,19 +209,25 @@ export default function FreelancerModal({
                   const experienceYears = freelancer.experienceYears || 5;
                   const title = freelancer.title || "Developer";
 
-                  const experiences: Array<{ position: string; period: string; isCurrent: boolean }> = [];
+                  // Generar experiencias basadas en los datos del freelancer
+                  const experiences = [];
 
+                  // Experiencia actual (Senior)
                   if (experienceYears >= 3) {
                     experiences.push({
                       position: `Senior ${title}`,
-                      period: `${currentYear - Math.min(3, experienceYears)} - Present`,
+                      period: `${
+                        currentYear - Math.min(3, experienceYears)
+                      } - Present`,
                       isCurrent: true,
                     });
                   }
 
+                  // Experiencia intermedia
                   if (experienceYears >= 2) {
                     const startYear = currentYear - experienceYears;
-                    const endYear = experienceYears >= 3 ? currentYear - 3 : currentYear - 1;
+                    const endYear =
+                      experienceYears >= 3 ? currentYear - 3 : currentYear - 1;
                     experiences.push({
                       position: title,
                       period: `${startYear} - ${endYear}`,
@@ -200,10 +235,13 @@ export default function FreelancerModal({
                     });
                   }
 
+                  // Si no hay suficiente experiencia, mostrar mensaje
                   if (experiences.length === 0) {
                     return (
                       <div className="text-base text-muted-foreground">
-                        {experienceYears < 2 ? "Starting career" : "Experience details not available"}
+                        {experienceYears < 2
+                          ? "Starting career"
+                          : "Experience details not available"}
                       </div>
                     );
                   }
@@ -279,13 +317,86 @@ export default function FreelancerModal({
               </div>
             </CardContent>
           </Card>
+
+          {/* Skills Section */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Skills & Technologies</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap gap-2">
+                {freelancer.skills?.map((skill, index) => (
+                  <Badge key={index} variant="secondary" className="text-sm">
+                    {skill}
+                  </Badge>
+                )) || (
+                  <p className="text-sm text-muted-foreground">
+                    No skills listed
+                  </p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Recent Projects */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Recent Projects</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div>
+                    <h4 className="text-sm font-medium">E-commerce Platform</h4>
+                    <p className="text-sm text-muted-foreground">
+                      React, Node.js, MongoDB
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-sm font-medium">$8,500</div>
+                    <div className="text-sm text-muted-foreground">
+                      Completed
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div>
+                    <h4 className="text-sm font-medium">
+                      Mobile App Development
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                      React Native, Firebase
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-sm font-medium">$12,000</div>
+                    <div className="text-sm text-muted-foreground">
+                      Completed
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
-        <div className="mt-6 flex justify-end gap-2">
-          <Button variant="outline" onClick={onClose}>
-            Close
-          </Button>
-          <Button onClick={() => onHire(freelancer)}>Hire</Button>
+        {/* Footer */}
+        <div className="flex items-center justify-between p-6 border-t">
+          <div className="flex items-center gap-2">
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <span className="text-sm text-muted-foreground">
+              Average project value: $
+              {((freelancer.hourlyRate || 0) * 40).toLocaleString()}
+            </span>
+          </div>
+          <div className="flex gap-3">
+            <Button variant="outline" onClick={onClose}>
+              Close
+            </Button>
+            <Button onClick={() => onHire(freelancer)}>
+              Hire {freelancer.name.split(" ")[0]}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

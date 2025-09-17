@@ -5,10 +5,11 @@ import Container from "@/components/common/Container";
 import ContainerSmall from "@/components/common/ContainerSmall";
 import SearchInput from "@/components/search/SearchInput";
 import CategoryCard from "@/components/search/CategoryCard";
+import RecommendedFreelancersCarousel from "@/components/search/RecommendedFreelancersCarousel";
 import FreelancerCard from "@/components/search/FreelancerCard";
 import FreelancerModal from "@/components/search/FreelancerModal";
 import { Button } from "@/components/ui/button";
-import { popularCategories } from "@/lib/searchData";
+import { popularCategories, recommendedFreelancers } from "@/lib/searchData";
 import { Search, Users, Filter, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useInfiniteSearchResults } from "@/hooks/useInfiniteSearchResults";
@@ -18,7 +19,7 @@ import { UnifiedFreelancer } from "@/interfaces";
 // Mock data to show when there are no search results
 const mockFreelancers: UnifiedFreelancer[] = [
   {
-    id: "mock-1",
+    id: "fl-sarah-johnson-001",
     name: "Sarah Johnson",
     title: "Full Stack Developer",
     description:
@@ -36,7 +37,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     payRate: "$45/hr",
   },
   {
-    id: "mock-2",
+    id: "fl-michael-chen-002",
     name: "Michael Chen",
     title: "UI/UX Designer",
     description:
@@ -54,7 +55,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     payRate: "$35/hr",
   },
   {
-    id: "mock-3",
+    id: "fl-emily-rodriguez-003",
     name: "Emily Rodriguez",
     title: "Mobile App Developer",
     description:
@@ -72,7 +73,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     payRate: "$50/hr",
   },
   {
-    id: "mock-4",
+    id: "fl-david-thompson-004",
     name: "David Thompson",
     title: "DevOps Engineer",
     description:
@@ -90,7 +91,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     payRate: "$60/hr",
   },
   {
-    id: "mock-5",
+    id: "fl-lisa-wang-005",
     name: "Lisa Wang",
     title: "Data Scientist",
     description:
@@ -108,7 +109,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     payRate: "$55/hr",
   },
   {
-    id: "mock-6",
+    id: "fl-james-wilson-006",
     name: "James Wilson",
     title: "Backend Developer",
     description:
@@ -162,6 +163,13 @@ export default function FreelancerPage() {
       ? mockFreelancers
       : freelancers;
   const showMockData = !isLoading && !isError && freelancers.length === 0;
+
+  // Check if we have any active search criteria
+  const hasActiveSearch =
+    searchQuery.trim() !== "" || selectedCategory !== null;
+
+  // Show recommended freelancers carousel when searching
+  const showRecommendedFreelancers = hasActiveSearch;
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -272,29 +280,41 @@ export default function FreelancerPage() {
         </div>
       </Container>
 
-      {/* Categories Section */}
-      <ContainerSmall className="p-0 md:p-0 pt-8 md:pt-12">
-        <div className="space-y-8">
-          <div className="text-center space-y-3 px-4">
-            <h2 className="text-2xl sm:text-3xl font-bold">
-              Popular Categories
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Browse by category to find the right talent for your project
-            </p>
-          </div>
+      {/* Categories Section - Hidden during search */}
+      {!showRecommendedFreelancers && (
+        <ContainerSmall className="p-0 md:p-0 pt-8 md:pt-12">
+          <div className="space-y-8">
+            <div className="text-center space-y-3 px-4">
+              <h2 className="text-2xl sm:text-3xl font-bold">
+                Popular Categories
+              </h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Browse by category to find the right talent for your project
+              </p>
+            </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 -m-[1px]">
-            {popularCategories.map((category) => (
-              <CategoryCard
-                key={category.id}
-                category={category}
-                onClick={handleCategoryClick}
-              />
-            ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 -m-[1px]">
+              {popularCategories.map((category) => (
+                <CategoryCard
+                  key={category.id}
+                  category={category}
+                  onClick={handleCategoryClick}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      </ContainerSmall>
+        </ContainerSmall>
+      )}
+
+      {/* Recommended Freelancers Carousel - Shown during search */}
+      {showRecommendedFreelancers && (
+        <ContainerSmall className="pt-8 md:pt-12">
+          <RecommendedFreelancersCarousel
+            freelancers={recommendedFreelancers}
+            onViewProfile={handleViewProfile}
+          />
+        </ContainerSmall>
+      )}
 
       {/* Results Section */}
       <Container>

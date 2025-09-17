@@ -103,11 +103,6 @@ export default function HirePage() {
     );
   }
 
-  // Normalize availability to avoid showing N/A or empty
-  const availabilityRaw = (freelancer.availability ?? "").toString().trim();
-  const hasAvailability =
-    availabilityRaw.length > 0 && availabilityRaw.toUpperCase() !== "N/A";
-
   return (
     <div className="bg-gray-50">
       <Container className="py-8">
@@ -156,14 +151,11 @@ export default function HirePage() {
                     {freelancer.location}
                   </span>
                 </div>
-                <div
-                  className="flex items-center gap-1"
-                  title={hasAvailability ? availabilityRaw : undefined}
-                >
+                <div className="flex items-center gap-1">
                   <Clock className="h-4 w-4 text-muted-foreground" />
-                  {hasAvailability && (
-                    <span className="text-muted-foreground">{availabilityRaw}</span>
-                  )}
+                  <span className="text-muted-foreground text-xs">
+                    Available
+                  </span>
                 </div>
               </div>
             </div>
@@ -233,13 +225,15 @@ export default function HirePage() {
                     const title = freelancer.title || "Developer";
 
                     // Generar experiencias basadas en la antigüedad en la app
-                    const experiences = [] as Array<{ position: string; period: string; isCurrent: boolean }>;
+                    const experiences = [];
 
                     // Experiencia actual (Senior) - si tiene más de 3 años en la app
                     if (membershipYears >= 3) {
                       experiences.push({
                         position: `Senior ${title}`,
-                        period: `${currentYear - Math.min(3, membershipYears)} - Present`,
+                        period: `${
+                          currentYear - Math.min(3, membershipYears)
+                        } - Present`,
                         isCurrent: true,
                       });
                     }
@@ -247,7 +241,10 @@ export default function HirePage() {
                     // Experiencia intermedia - si tiene más de 2 años en la app
                     if (membershipYears >= 2) {
                       const startYear = currentYear - membershipYears;
-                      const endYear = membershipYears >= 3 ? currentYear - 3 : currentYear - 1;
+                      const endYear =
+                        membershipYears >= 3
+                          ? currentYear - 3
+                          : currentYear - 1;
                       experiences.push({
                         position: title,
                         period: `${startYear} - ${endYear}`,
@@ -259,7 +256,9 @@ export default function HirePage() {
                     if (experiences.length === 0) {
                       return (
                         <div className="text-base text-muted-foreground">
-                          {membershipYears < 2 ? "Starting career" : "Experience details not available"}
+                          {membershipYears < 2
+                            ? "Starting career"
+                            : "Experience details not available"}
                         </div>
                       );
                     }
@@ -443,9 +442,9 @@ export default function HirePage() {
                   <MapPin className="h-4 w-4 text-muted-foreground" />
                   <span className="text-sm">{freelancer.location}</span>
                 </div>
-                <div className="flex items-center gap-2" title={hasAvailability ? availabilityRaw : undefined}>
+                <div className="flex items-center gap-2">
                   <Clock className="h-4 w-4 text-muted-foreground" />
-                  {hasAvailability && <span className="text-sm">{availabilityRaw}</span>}
+                  <span className="text-xs">Available</span>
                 </div>
                 {freelancer.profileUrl && (
                   <div className="flex items-center gap-2">

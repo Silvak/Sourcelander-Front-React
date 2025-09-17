@@ -8,10 +8,12 @@ import { UnifiedFreelancer } from "@/interfaces";
 
 interface RecommendedFreelancersCarouselProps {
   freelancers: UnifiedFreelancer[];
+  onViewProfile: (id: string) => void;
 }
 
 export default function RecommendedFreelancersCarousel({
   freelancers,
+  onViewProfile,
 }: RecommendedFreelancersCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -101,9 +103,9 @@ export default function RecommendedFreelancersCarousel({
                 <FreelancerCard
                   key={freelancer.id}
                   freelancer={freelancer}
-                  onViewProfile={handleViewProfile}
-                  showAvailabilityLabel={false}
+                  onViewProfile={onViewProfile}
                   priceFormat="absolute"
+                  hideAvailability={true}
                 />
               ))}
           </div>

@@ -10,15 +10,15 @@ import { formatMembershipYears } from "@/utils/membershipUtils";
 interface FreelancerCardProps {
   freelancer: UnifiedFreelancer;
   onViewProfile: (id: string) => void;
-  showAvailabilityLabel?: boolean;
   priceFormat?: "absolute" | "hourly";
+  hideAvailability?: boolean;
 }
 
 export default function FreelancerCard({
   freelancer,
   onViewProfile,
-  showAvailabilityLabel = true,
   priceFormat = "hourly",
+  hideAvailability = false,
 }: FreelancerCardProps) {
   // Fallbacks para campos potencialmente undefined
   const name = freelancer.name ?? "N/A";
@@ -28,12 +28,8 @@ export default function FreelancerCard({
   // const rating = freelancer.rating ?? "N/A";
   const reviews = freelancer.reviews ?? "N/A";
   const hourlyRate = freelancer.hourlyRate ?? freelancer.payRate ?? "N/A";
-  // Normalización de availability: evitar mostrar "N/A" y textos vacíos
-  const availabilityRaw = (freelancer.availability ?? "").toString().trim();
-  const hasAvailability =
-    availabilityRaw.length > 0 && availabilityRaw.toUpperCase() !== "N/A";
-  const priceText =
-    priceFormat === "absolute" ? `$${hourlyRate}` : `$${hourlyRate}/hr`;
+  const availability = freelancer.availability ?? "N/A";
+  const skills = freelancer.skills ?? [];
   const id =
     freelancer.id || `freelancer-${Math.random().toString(36).substr(2, 9)}`;
 
@@ -91,16 +87,16 @@ export default function FreelancerCard({
           {/* Precio y disponibilidad */}
           <div className="text-right flex-shrink-0">
             <div className="text-base font-semibold text-primary leading-none">
-              {priceText}
+              {priceFormat === "absolute"
+                ? `$${hourlyRate}`
+                : `$${hourlyRate}/hr`}
             </div>
-            <div
-              className="flex items-center justify-end gap-1 text-xs text-muted-foreground mt-1"
-              title={hasAvailability ? availabilityRaw : undefined}
-            >
-              {/* Siempre mostramos el ícono; el texto solo si corresponde */}
-              <Clock className="h-3 w-3" />
-              {showAvailabilityLabel && hasAvailability && (
-                <span className="block">{availabilityRaw}</span>
+            <div className="flex items-center justify-end gap-1 text-xs text-muted-foreground mt-1">
+              {!hideAvailability && (
+                <>
+                  <Clock className="h-3 w-3" />
+                  <span className="text-xs">Available</span>
+                </>
               )}
             </div>
           </div>
@@ -117,7 +113,9 @@ export default function FreelancerCard({
               overflow: "hidden",
             }}
           >
-            Experienced {title?.toLowerCase?.() ?? "freelancer"} with {reviews}+ successful projects. Specialized in {skills.slice(0, 2).join(", ")} {""}
+            Experienced {title?.toLowerCase?.() ?? "freelancer"} with {reviews}+
+            successful projects. Specialized in {skills.slice(0, 2).join(", ")}{" "}
+            {""}
             and delivering high-quality results.
           </p>
         </div>

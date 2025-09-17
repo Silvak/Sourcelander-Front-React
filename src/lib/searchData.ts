@@ -183,6 +183,136 @@ export const popularCategories = [
   },
 ];
 
+// Recommended freelancers - curated list of top performers
+export const recommendedFreelancers = [
+  {
+    id: "rec-1",
+    name: "Sarah Johnson",
+    title: "Senior Frontend Developer",
+    description:
+      "Expert React developer with 8+ years of experience building scalable web applications. Specialized in modern frontend technologies and performance optimization.",
+    skills: ["React", "TypeScript", "Next.js", "Tailwind CSS", "GraphQL"],
+    hourlyRate: 85,
+    rating: 4.9,
+    reviews: 247,
+    avatar:
+      "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+    imageUrl:
+      "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+    location: "San Francisco, CA",
+    availability: "Available now",
+    verified: true,
+    profileUrl: "https://example.com/profile/sarah-johnson",
+    payRate: "$85/hr",
+  },
+  {
+    id: "rec-2",
+    name: "Michael Chen",
+    title: "Lead UI/UX Designer",
+    description:
+      "Award-winning designer with expertise in user-centered design and design systems. 6+ years creating exceptional digital experiences.",
+    skills: [
+      "Figma",
+      "Adobe Creative Suite",
+      "Design Systems",
+      "Prototyping",
+      "User Research",
+    ],
+    hourlyRate: 75,
+    rating: 4.8,
+    reviews: 189,
+    avatar:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    imageUrl:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    location: "New York, NY",
+    availability: "Available now",
+    verified: true,
+    profileUrl: "https://example.com/profile/michael-chen",
+    payRate: "$75/hr",
+  },
+  {
+    id: "rec-3",
+    name: "Emily Rodriguez",
+    title: "Full Stack Engineer",
+    description:
+      "Versatile full-stack developer with strong backend and frontend skills. Expert in building robust, scalable applications from concept to deployment.",
+    skills: ["Node.js", "React", "Python", "PostgreSQL", "AWS"],
+    hourlyRate: 90,
+    rating: 4.9,
+    reviews: 312,
+    avatar:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+    imageUrl:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+    location: "Austin, TX",
+    availability: "Available now",
+    verified: true,
+    profileUrl: "https://example.com/profile/emily-rodriguez",
+    payRate: "$90/hr",
+  },
+  {
+    id: "rec-4",
+    name: "David Kim",
+    title: "Mobile App Specialist",
+    description:
+      "Mobile development expert with 7+ years building high-performance iOS and Android applications. Specialized in React Native and native development.",
+    skills: ["React Native", "iOS", "Android", "Firebase", "Swift"],
+    hourlyRate: 80,
+    rating: 4.9,
+    reviews: 203,
+    avatar:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    imageUrl:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    location: "Seattle, WA",
+    availability: "Available now",
+    verified: true,
+    profileUrl: "https://example.com/profile/david-kim",
+    payRate: "$80/hr",
+  },
+  {
+    id: "rec-5",
+    name: "James Wilson",
+    title: "Senior Data Scientist",
+    description:
+      "Data science expert with PhD in Machine Learning. 5+ years transforming complex data into actionable business insights using cutting-edge AI techniques.",
+    skills: ["Python", "Machine Learning", "TensorFlow", "SQL", "R"],
+    hourlyRate: 95,
+    rating: 4.9,
+    reviews: 145,
+    avatar:
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face",
+    imageUrl:
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face",
+    location: "Boston, MA",
+    availability: "Available now",
+    verified: true,
+    profileUrl: "https://example.com/profile/james-wilson",
+    payRate: "$95/hr",
+  },
+  {
+    id: "rec-6",
+    name: "Alex Thompson",
+    title: "DevOps Architect",
+    description:
+      "Cloud infrastructure specialist with expertise in AWS, Docker, and Kubernetes. 6+ years optimizing deployment pipelines and system reliability.",
+    skills: ["AWS", "Docker", "Kubernetes", "Terraform", "CI/CD"],
+    hourlyRate: 88,
+    rating: 4.8,
+    reviews: 178,
+    avatar:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
+    imageUrl:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
+    location: "Denver, CO",
+    availability: "Available now",
+    verified: true,
+    profileUrl: "https://example.com/profile/alex-thompson",
+    payRate: "$88/hr",
+  },
+];
+
 // Mock freelancer data
 export const mockFreelancers = [
   {
