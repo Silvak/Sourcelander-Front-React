@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Star, MapPin, Clock, CheckCircle, ArrowLeft } from "lucide-react";
+import { Calendar, MapPin, Clock, CheckCircle, ArrowLeft } from "lucide-react";
 import { UnifiedFreelancer } from "@/interfaces";
 import { useFreelancerStorage } from "@/hooks/useFreelancerStorage";
 import MaintenanceModal from "@/components/modals/MaintenanceModal";
@@ -129,11 +129,8 @@ export default function HirePage() {
 
               <div className="flex items-center gap-4 text-sm">
                 <div className="flex items-center gap-1">
-                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <span className="font-medium">{freelancer.rating}</span>
-                  <span className="text-muted-foreground">
-                    ({freelancer.reviews} reviews)
-                  </span>
+                  <Calendar className="h-4 w-4 text-primary" />
+                  <span className="font-medium">{freelancer.experienceYears || 5}+ años de experiencia</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <MapPin className="h-4 w-4 text-muted-foreground" />

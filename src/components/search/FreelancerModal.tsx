@@ -29,6 +29,9 @@ export default function FreelancerModal({
   onClose,
   onHire,
 }: FreelancerModalProps) {
+  // Console log para ver los datos del freelancer
+  console.log("FreelancerModal - Datos del freelancer:", freelancer);
+  
   if (!isOpen) return null;
 
   return (
@@ -77,10 +80,9 @@ export default function FreelancerModal({
 
               <div className="flex items-center gap-4 text-sm">
                 <div className="flex items-center gap-1">
-                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <span className="font-medium">{freelancer.rating}</span>
-                  <span className="text-muted-foreground">
-                    ({freelancer.reviews} reviews)
+                  <Calendar className="h-4 w-4 text-primary" />
+                  <span className="font-medium">
+                    {freelancer.experienceYears || 5}+ años de experiencia
                   </span>
                 </div>
                 <div className="flex items-center gap-1">

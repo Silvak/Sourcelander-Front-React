@@ -37,6 +37,7 @@ import {
   CheckCircle2,
   Mail,
   Phone,
+  Calendar,
 } from "lucide-react";
 import { Freelancer, ProjectForm } from "./types";
 import { projectTypes } from "./config";
@@ -102,11 +103,8 @@ export const FreelancerHeader = ({
 
           <div className="flex items-center gap-6 text-sm">
             <div className="flex items-center gap-2">
-              <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
-              <span className="font-medium">{freelancer.rating}/5</span>
-              <span className="text-muted-foreground">
-                ({freelancer.reviews} reviews)
-              </span>
+              <Calendar className="h-4 w-4 text-primary" />
+              <span className="font-medium">{freelancer.experienceYears || 5}+ años de experiencia</span>
             </div>
             <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4 text-muted-foreground" />
@@ -568,14 +566,8 @@ export const FreelancerInfo = ({ freelancer }: { freelancer: Freelancer }) => (
         <span className="text-sm font-medium">{freelancer.availability}</span>
       </div>
       <div className="flex items-center justify-between">
-        <span className="text-sm">Rating:</span>
-        <span className="text-sm font-medium">
-          {freelancer.rating}/5 ({freelancer.reviews} reviews)
-        </span>
-      </div>
-      <div className="flex items-center justify-between">
         <span className="text-sm">Experience:</span>
-        <span className="text-sm font-medium">5+ years</span>
+        <span className="text-sm font-medium">{freelancer.experienceYears || 5}+ años</span>
       </div>
     </CardContent>
   </Card>

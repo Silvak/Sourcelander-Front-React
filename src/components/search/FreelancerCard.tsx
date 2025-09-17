@@ -1,4 +1,4 @@
-import { Star, MapPin, Clock, CheckCircle } from "lucide-react";
+import { Calendar, MapPin, Clock, CheckCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -74,11 +74,10 @@ export default function FreelancerCard({
               <span className="truncate">{location}</span>
             </div>
 
-            {/* Rating y reviews */}
+            {/* Años de experiencia */}
             <div className="flex items-center gap-1 text-sm">
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-              <span className="font-medium">{rating}</span>
-              <span className="text-muted-foreground">({reviews} reviews)</span>
+              <Calendar className="h-4 w-4 text-primary" />
+              <span className="font-medium">{freelancer.experienceYears || 5}+ años de experiencia</span>
             </div>
           </div>
 
