@@ -15,6 +15,8 @@ import {
   ArrowLeft,
   Target,
   GraduationCap,
+  Code,
+  Briefcase,
 } from "lucide-react";
 import { UnifiedFreelancer } from "@/interfaces";
 import { useFreelancerStorage } from "@/hooks/useFreelancerStorage";
@@ -210,7 +212,10 @@ export default function HirePage() {
             {/* Skills Section */}
             <Card>
               <CardHeader>
-                <CardTitle>Skills & Technologies</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Code className="h-5 w-5 text-primary" />
+                  Skills & Technologies
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
@@ -228,7 +233,10 @@ export default function HirePage() {
             {/* Professional Experience Section */}
             <Card>
               <CardHeader>
-                <CardTitle>Professional Experience</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Briefcase className="h-5 w-5 text-primary" />
+                  Professional Experience
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">

@@ -13,6 +13,8 @@ import {
   Target,
   BookUser,
   GraduationCap,
+  Code,
+  FolderOpen,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -337,7 +339,10 @@ export default function FreelancerModal({
           {/* Skills Section */}
           <Card>
             <CardHeader>
-              <CardTitle>Skills & Technologies</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Code className="h-5 w-5 text-primary" />
+                Skills & Technologies
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">
@@ -357,7 +362,10 @@ export default function FreelancerModal({
           {/* Recent Projects */}
           <Card>
             <CardHeader>
-              <CardTitle>Recent Projects</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <FolderOpen className="h-5 w-5 text-primary" />
+                Recent Projects
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">

@@ -182,7 +182,7 @@ export default function SearchInput({
         >
           {suggestions.map((suggestion, index) => (
             <button
-              key={suggestion}
+              key={`${suggestion}-${index}`}
               onClick={() => handleSuggestionClick(suggestion)}
               className={`w-full px-4 py-3 text-left hover:bg-muted transition-colors ${
                 index === selectedIndex ? "bg-muted" : ""
