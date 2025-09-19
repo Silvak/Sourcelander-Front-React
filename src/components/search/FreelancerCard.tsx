@@ -49,7 +49,7 @@ export default function FreelancerCard({
 
           <div className="flex-1 min-w-0">
             {/* Nombre y verificación */}
-            <div className="flex items-center gap-2 mb-2 min-w-0">
+            <div className="flex items-center gap-2 mt-6 sm:mt-0 mb-2 min-w-0">
               <h3
                 className="font-semibold text-lg leading-snug text-foreground"
                 title={name}
@@ -90,7 +90,7 @@ export default function FreelancerCard({
                 ? `$${hourlyRate}`
                 : `$${hourlyRate}/hr`}
             </div>
-            <div className="flex items-center justify-end gap-1 text-xs text-muted-foreground mt-1">
+            <div className="hidden sm:flex items-center justify-end gap-1 text-xs text-muted-foreground mt-1">
               {!hideAvailability && (
                 <>
                   <Clock className="h-3 w-3" />
