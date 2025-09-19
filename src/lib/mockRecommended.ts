@@ -15,7 +15,7 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     title: "Full Stack Developer",
     description:
       "Experienced developer specializing in React, Node.js, and cloud architecture. 8+ years building scalable web applications.",
-    skills: ["React", "Node.js", "TypeScript", "AWS", "MongoDB"],
+    skills: ["React", "Node.js", "TypeScript"],
     rating: 4.9,
     reviewCount: 127,
     hourlyRate: 85,
@@ -36,12 +36,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     memberSince: "2016-03-15",
     experienceYears: 12,
     professionalExperience: generateFreelancerExperience({
-      skills: ["React", "Node.js", "TypeScript", "AWS", "MongoDB"],
+      skills: ["React", "Node.js", "TypeScript"],
       experienceYears: 12,
       title: "Full Stack Developer"
     }),
     education: generateFreelancerEducation({
-      skills: ["React", "Node.js", "TypeScript", "AWS", "MongoDB"],
+      skills: ["React", "Node.js", "TypeScript"],
       experienceYears: 12,
       title: "Full Stack Developer"
     }),
@@ -56,7 +56,7 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     title: "UI/UX Designer",
     description:
       "Creative designer with expertise in user experience and interface design. Specialized in mobile and web applications.",
-    skills: ["Figma", "Adobe XD", "Sketch", "Prototyping", "User Research"],
+    skills: ["Figma", "Prototyping"],
     rating: 4.8,
     reviewCount: 94,
     hourlyRate: 30,
@@ -77,12 +77,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     memberSince: "2018-07-22",
     experienceYears: 10,
     professionalExperience: generateFreelancerExperience({
-      skills: ["Figma", "Adobe XD", "Sketch", "Prototyping", "User Research"],
+      skills: ["Figma", "Prototyping"],
       experienceYears: 10,
       title: "UI/UX Designer"
     }),
     education: generateFreelancerEducation({
-      skills: ["Figma", "Adobe XD", "Sketch", "Prototyping", "User Research"],
+      skills: ["Figma", "Prototyping"],
       experienceYears: 10,
       title: "UI/UX Designer"
     }),
@@ -97,7 +97,7 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     title: "DevOps Engineer",
     description:
       "Infrastructure specialist with deep knowledge in cloud platforms, CI/CD, and automation. Expert in AWS and Kubernetes.",
-    skills: ["AWS", "Docker", "Kubernetes", "Terraform", "Jenkins"],
+    skills: ["Docker", "Kubernetes"],
     rating: 4.9,
     reviewCount: 156,
     hourlyRate: 90,
@@ -118,12 +118,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     memberSince: "2014-01-10",
     experienceYears: 15,
     professionalExperience: generateFreelancerExperience({
-      skills: ["AWS", "Docker", "Kubernetes", "Terraform", "Jenkins"],
+      skills: ["Docker", "Kubernetes"],
       experienceYears: 15,
       title: "DevOps Engineer"
     }),
     education: generateFreelancerEducation({
-      skills: ["AWS", "Docker", "Kubernetes", "Terraform", "Jenkins"],
+      skills: ["Docker", "Kubernetes"],
       experienceYears: 15,
       title: "DevOps Engineer"
     }),
@@ -138,13 +138,7 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     title: "Digital Marketing Specialist",
     description:
       "Results-driven marketing expert with proven track record in SEO, PPC, and social media marketing. Helping businesses grow online presence.",
-    skills: [
-      "SEO",
-      "Google Ads",
-      "Facebook Ads",
-      "Content Marketing",
-      "Analytics",
-    ],
+    skills: ["SEO", "Google Ads"],
     rating: 4.9,
     reviewCount: 156,
     hourlyRate: 65,
@@ -165,12 +159,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     memberSince: "2017-09-08",
     experienceYears: 10,
     professionalExperience: generateFreelancerExperience({
-      skills: ["SEO", "Google Ads", "Facebook Ads", "Content Marketing", "Analytics"],
+      skills: ["SEO", "Google Ads"],
       experienceYears: 10,
       title: "Digital Marketing Specialist"
     }),
     education: generateFreelancerEducation({
-      skills: ["SEO", "Google Ads", "Facebook Ads", "Content Marketing", "Analytics"],
+      skills: ["SEO", "Google Ads"],
       experienceYears: 10,
       title: "Digital Marketing Specialist"
     }),
@@ -185,13 +179,7 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     title: "Data Scientist",
     description:
       "PhD in Computer Science with expertise in machine learning, data analysis, and AI solutions. 5+ years in enterprise data projects.",
-    skills: [
-      "Python",
-      "Machine Learning",
-      "TensorFlow",
-      "SQL",
-      "Data Visualization",
-    ],
+    skills: ["TensorFlow", "Machine Learning"],
     rating: 4.8,
     reviewCount: 43,
     hourlyRate: 95,
@@ -212,14 +200,629 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     memberSince: "2019-11-03",
     experienceYears: 8,
     professionalExperience: generateFreelancerExperience({
-      skills: ["Python", "Machine Learning", "TensorFlow", "SQL", "Data Visualization"],
+      skills: ["TensorFlow", "Machine Learning"],
       experienceYears: 8,
       title: "Data Scientist"
     }),
     education: generateFreelancerEducation({
-      skills: ["Python", "Machine Learning", "TensorFlow", "SQL", "Data Visualization"],
+      skills: ["TensorFlow", "Machine Learning"],
       experienceYears: 8,
       title: "Data Scientist"
+    }),
+  },
+  {
+    id: "rec-emma-thompson-006",
+    name: "Emma Thompson",
+    profileUrl: "/freelancer/emma-thompson",
+    payRate: "$75/hr",
+    imageUrl:
+      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face",
+    title: "Mobile App Developer",
+    description:
+      "iOS and Android developer with 6+ years of experience. Specialized in React Native and Flutter for cross-platform solutions.",
+    skills: ["React Native", "Flutter"],
+    rating: 4.9,
+    reviewCount: 78,
+    hourlyRate: 75,
+    location: "London, UK",
+    profileImage:
+      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face",
+    isOnline: true,
+    responseTime: "45 minutes",
+    completedProjects: 56,
+    successRate: 98,
+    languages: ["English", "French"],
+    verified: true,
+    topRated: true,
+    category: "Mobile Development",
+    subcategory: "Cross-Platform Development",
+    experience: "6+ years",
+    availability: "Available",
+    memberSince: "2018-04-12",
+    experienceYears: 8,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["React Native", "Flutter"],
+      experienceYears: 8,
+      title: "Mobile App Developer"
+    }),
+    education: generateFreelancerEducation({
+      skills: ["React Native", "Flutter"],
+      experienceYears: 8,
+      title: "Mobile App Developer"
+    }),
+  },
+  {
+    id: "rec-david-kim-007",
+    name: "David Kim",
+    profileUrl: "/freelancer/david-kim",
+    payRate: "$80/hr",
+    imageUrl:
+      "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=150&h=150&fit=crop&crop=face",
+    title: "Blockchain Developer",
+    description:
+      "Blockchain specialist with expertise in Ethereum, Solidity, and DeFi protocols. 4+ years building decentralized applications.",
+    skills: ["Solidity", "Web3"],
+    rating: 4.8,
+    reviewCount: 32,
+    hourlyRate: 80,
+    location: "Toronto, CA",
+    profileImage:
+      "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=150&h=150&fit=crop&crop=face",
+    isOnline: false,
+    responseTime: "2 hours",
+    completedProjects: 24,
+    successRate: 96,
+    languages: ["English", "Korean"],
+    verified: true,
+    topRated: false,
+    category: "Blockchain",
+    subcategory: "Smart Contracts",
+    experience: "4+ years",
+    availability: "Available",
+    memberSince: "2020-01-15",
+    experienceYears: 5,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["Solidity", "Web3"],
+      experienceYears: 5,
+      title: "Blockchain Developer"
+    }),
+    education: generateFreelancerEducation({
+      skills: ["Solidity", "Web3"],
+      experienceYears: 5,
+      title: "Blockchain Developer"
+    }),
+  },
+  {
+    id: "rec-lisa-garcia-008",
+    name: "Lisa Garcia",
+    profileUrl: "/freelancer/lisa-garcia",
+    payRate: "$55/hr",
+    imageUrl:
+      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop&crop=face",
+    title: "Content Writer & Copywriter",
+    description:
+      "Professional writer with 7+ years creating compelling content for tech companies. Specialized in technical writing and marketing copy.",
+    skills: ["Content Writing", "Copywriting"],
+    rating: 4.9,
+    reviewCount: 145,
+    hourlyRate: 55,
+    location: "Barcelona, ES",
+    profileImage:
+      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop&crop=face",
+    isOnline: true,
+    responseTime: "1 hour",
+    completedProjects: 198,
+    successRate: 99,
+    languages: ["English", "Spanish", "Catalan"],
+    verified: true,
+    topRated: true,
+    category: "Writing",
+    subcategory: "Content Writing",
+    experience: "7+ years",
+    availability: "Available",
+    memberSince: "2017-06-20",
+    experienceYears: 9,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["Content Writing", "Copywriting"],
+      experienceYears: 9,
+      title: "Content Writer & Copywriter"
+    }),
+    education: generateFreelancerEducation({
+      skills: ["Content Writing", "Copywriting"],
+      experienceYears: 9,
+      title: "Content Writer & Copywriter"
+    }),
+  },
+  {
+    id: "rec-robert-johnson-009",
+    name: "Robert Johnson",
+    profileUrl: "/freelancer/robert-johnson",
+    payRate: "$70/hr",
+    imageUrl:
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&h=150&fit=crop&crop=face",
+    title: "Cybersecurity Consultant",
+    description:
+      "Security expert with 9+ years protecting enterprise systems. Specialized in penetration testing and security audits.",
+    skills: ["Penetration Testing", "Ethical Hacking"],
+    rating: 4.9,
+    reviewCount: 67,
+    hourlyRate: 70,
+    location: "Washington, DC",
+    profileImage:
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&h=150&fit=crop&crop=face",
+    isOnline: false,
+    responseTime: "4 hours",
+    completedProjects: 45,
+    successRate: 100,
+    languages: ["English"],
+    verified: true,
+    topRated: true,
+    category: "Cybersecurity",
+    subcategory: "Security Consulting",
+    experience: "9+ years",
+    availability: "Available",
+    memberSince: "2015-11-08",
+    experienceYears: 12,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["Penetration Testing", "Ethical Hacking"],
+      experienceYears: 12,
+      title: "Cybersecurity Consultant"
+    }),
+    education: generateFreelancerEducation({
+      skills: ["Penetration Testing", "Ethical Hacking"],
+      experienceYears: 12,
+      title: "Cybersecurity Consultant"
+    }),
+  },
+  {
+    id: "rec-anna-petrov-010",
+    name: "Anna Petrov",
+    profileUrl: "/freelancer/anna-petrov",
+    payRate: "$60/hr",
+    imageUrl:
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&fit=crop&crop=face",
+    title: "Product Manager",
+    description:
+      "Strategic product manager with 8+ years launching successful digital products. Expert in agile methodologies and user research.",
+    skills: ["Product Strategy", "Agile"],
+    rating: 4.8,
+    reviewCount: 89,
+    hourlyRate: 60,
+    location: "Berlin, DE",
+    profileImage:
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&fit=crop&crop=face",
+    isOnline: true,
+    responseTime: "2 hours",
+    completedProjects: 73,
+    successRate: 97,
+    languages: ["English", "German", "Russian"],
+    verified: true,
+    topRated: true,
+    category: "Product Management",
+    subcategory: "Digital Products",
+    experience: "8+ years",
+    availability: "Available",
+    memberSince: "2016-08-14",
+    experienceYears: 11,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["Product Strategy", "Agile"],
+      experienceYears: 11,
+      title: "Product Manager"
+    }),
+    education: generateFreelancerEducation({
+      skills: ["Product Strategy", "Agile"],
+      experienceYears: 11,
+      title: "Product Manager"
+    }),
+  },
+  {
+    id: "rec-carlos-mendez-011",
+    name: "Carlos Mendez",
+    profileUrl: "/freelancer/carlos-mendez",
+    payRate: "$45/hr",
+    imageUrl:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
+    title: "WordPress Developer",
+    description:
+      "WordPress specialist with 6+ years creating custom themes and plugins. Expert in PHP and WooCommerce development.",
+    skills: ["WordPress", "PHP"],
+    rating: 4.7,
+    reviewCount: 112,
+    hourlyRate: 45,
+    location: "Mexico City, MX",
+    profileImage:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
+    isOnline: true,
+    responseTime: "2 hours",
+    completedProjects: 156,
+    successRate: 95,
+    languages: ["English", "Spanish"],
+    verified: true,
+    topRated: false,
+    category: "Web Development",
+    subcategory: "WordPress Development",
+    experience: "6+ years",
+    availability: "Available",
+    memberSince: "2018-02-14",
+    experienceYears: 7,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["WordPress", "PHP"],
+      experienceYears: 7,
+      title: "WordPress Developer"
+    }),
+    education: generateFreelancerEducation({
+      skills: ["WordPress", "PHP"],
+      experienceYears: 7,
+      title: "WordPress Developer"
+    }),
+  },
+  {
+    id: "rec-nina-kowalski-012",
+    name: "Nina Kowalski",
+    profileUrl: "/freelancer/nina-kowalski",
+    payRate: "$65/hr",
+    imageUrl:
+      "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+    title: "Video Editor",
+    description:
+      "Creative video editor with 5+ years in post-production. Specialized in Adobe Premiere Pro and motion graphics.",
+    skills: ["Premiere Pro", "After Effects"],
+    rating: 4.8,
+    reviewCount: 87,
+    hourlyRate: 65,
+    location: "Warsaw, PL",
+    profileImage:
+      "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+    isOnline: false,
+    responseTime: "3 hours",
+    completedProjects: 94,
+    successRate: 97,
+    languages: ["English", "Polish"],
+    verified: true,
+    topRated: true,
+    category: "Video & Animation",
+    subcategory: "Video Editing",
+    experience: "5+ years",
+    availability: "Available",
+    memberSince: "2019-05-20",
+    experienceYears: 6,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["Premiere Pro", "After Effects"],
+      experienceYears: 6,
+      title: "Video Editor"
+    }),
+    education: generateFreelancerEducation({
+      skills: ["Premiere Pro", "After Effects"],
+      experienceYears: 6,
+      title: "Video Editor"
+    }),
+  },
+  {
+    id: "rec-ahmed-hassan-013",
+    name: "Ahmed Hassan",
+    profileUrl: "/freelancer/ahmed-hassan",
+    payRate: "$75/hr",
+    imageUrl:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    title: "Backend Developer",
+    description:
+      "Backend specialist with expertise in Python and Django. 7+ years building robust APIs and microservices.",
+    skills: ["Python", "Django"],
+    rating: 4.9,
+    reviewCount: 134,
+    hourlyRate: 75,
+    location: "Cairo, EG",
+    profileImage:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    isOnline: true,
+    responseTime: "1 hour",
+    completedProjects: 178,
+    successRate: 98,
+    languages: ["English", "Arabic"],
+    verified: true,
+    topRated: true,
+    category: "Web Development",
+    subcategory: "Backend Development",
+    experience: "7+ years",
+    availability: "Available",
+    memberSince: "2017-03-10",
+    experienceYears: 8,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["Python", "Django"],
+      experienceYears: 8,
+      title: "Backend Developer"
+    }),
+    education: generateFreelancerEducation({
+      skills: ["Python", "Django"],
+      experienceYears: 8,
+      title: "Backend Developer"
+    }),
+  },
+  {
+    id: "rec-sophie-dubois-014",
+    name: "Sophie Dubois",
+    profileUrl: "/freelancer/sophie-dubois",
+    payRate: "$55/hr",
+    imageUrl:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+    title: "Graphic Designer",
+    description:
+      "Creative graphic designer with 8+ years in branding and print design. Expert in Adobe Creative Suite.",
+    skills: ["Photoshop", "Illustrator"],
+    rating: 4.8,
+    reviewCount: 156,
+    hourlyRate: 55,
+    location: "Paris, FR",
+    profileImage:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+    isOnline: true,
+    responseTime: "2 hours",
+    completedProjects: 203,
+    successRate: 96,
+    languages: ["English", "French"],
+    verified: true,
+    topRated: true,
+    category: "Design & Creative",
+    subcategory: "Graphic Design",
+    experience: "8+ years",
+    availability: "Available",
+    memberSince: "2016-09-15",
+    experienceYears: 9,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["Photoshop", "Illustrator"],
+      experienceYears: 9,
+      title: "Graphic Designer"
+    }),
+    education: generateFreelancerEducation({
+      skills: ["Photoshop", "Illustrator"],
+      experienceYears: 9,
+      title: "Graphic Designer"
+    }),
+  },
+  {
+    id: "rec-raj-patel-015",
+    name: "Raj Patel",
+    profileUrl: "/freelancer/raj-patel",
+    payRate: "$80/hr",
+    imageUrl:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    title: "QA Engineer",
+    description:
+      "Quality assurance specialist with 6+ years in automated testing. Expert in Selenium and test automation frameworks.",
+    skills: ["Selenium", "Automation Testing"],
+    rating: 4.7,
+    reviewCount: 98,
+    hourlyRate: 80,
+    location: "Mumbai, IN",
+    profileImage:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    isOnline: false,
+    responseTime: "4 hours",
+    completedProjects: 87,
+    successRate: 94,
+    languages: ["English", "Hindi"],
+    verified: true,
+    topRated: false,
+    category: "Quality Assurance",
+    subcategory: "Test Automation",
+    experience: "6+ years",
+    availability: "Available",
+    memberSince: "2018-11-22",
+    experienceYears: 7,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["Selenium", "Automation Testing"],
+      experienceYears: 7,
+      title: "QA Engineer"
+    }),
+    education: generateFreelancerEducation({
+      skills: ["Selenium", "Automation Testing"],
+      experienceYears: 7,
+      title: "QA Engineer"
+    }),
+  },
+  {
+    id: "rec-elena-rossi-016",
+    name: "Elena Rossi",
+    profileUrl: "/freelancer/elena-rossi",
+    payRate: "$50/hr",
+    imageUrl:
+      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face",
+    title: "Social Media Manager",
+    description:
+      "Social media strategist with 4+ years growing brand presence. Specialized in Instagram and TikTok marketing.",
+    skills: ["Instagram Marketing", "TikTok"],
+    rating: 4.6,
+    reviewCount: 76,
+    hourlyRate: 50,
+    location: "Milan, IT",
+    profileImage:
+      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face",
+    isOnline: true,
+    responseTime: "1 hour",
+    completedProjects: 124,
+    successRate: 93,
+    languages: ["English", "Italian"],
+    verified: true,
+    topRated: false,
+    category: "Digital Marketing",
+    subcategory: "Social Media Marketing",
+    experience: "4+ years",
+    availability: "Available",
+    memberSince: "2020-07-08",
+    experienceYears: 5,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["Instagram Marketing", "TikTok"],
+      experienceYears: 5,
+      title: "Social Media Manager"
+    }),
+    education: generateFreelancerEducation({
+      skills: ["Instagram Marketing", "TikTok"],
+      experienceYears: 5,
+      title: "Social Media Manager"
+    }),
+  },
+  {
+    id: "rec-lucas-silva-017",
+    name: "Lucas Silva",
+    profileUrl: "/freelancer/lucas-silva",
+    payRate: "$70/hr",
+    imageUrl:
+      "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=150&h=150&fit=crop&crop=face",
+    title: "Game Developer",
+    description:
+      "Indie game developer with 5+ years creating mobile and PC games. Expert in Unity and C# programming.",
+    skills: ["Unity", "C#"],
+    rating: 4.8,
+    reviewCount: 54,
+    hourlyRate: 70,
+    location: "São Paulo, BR",
+    profileImage:
+      "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=150&h=150&fit=crop&crop=face",
+    isOnline: true,
+    responseTime: "2 hours",
+    completedProjects: 43,
+    successRate: 96,
+    languages: ["English", "Portuguese"],
+    verified: true,
+    topRated: true,
+    category: "Game Development",
+    subcategory: "Unity Development",
+    experience: "5+ years",
+    availability: "Available",
+    memberSince: "2019-01-12",
+    experienceYears: 6,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["Unity", "C#"],
+      experienceYears: 6,
+      title: "Game Developer"
+    }),
+    education: generateFreelancerEducation({
+      skills: ["Unity", "C#"],
+      experienceYears: 6,
+      title: "Game Developer"
+    }),
+  },
+  {
+    id: "rec-yuki-tanaka-018",
+    name: "Yuki Tanaka",
+    profileUrl: "/freelancer/yuki-tanaka",
+    payRate: "$85/hr",
+    imageUrl:
+      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop&crop=face",
+    title: "UX Researcher",
+    description:
+      "User experience researcher with 7+ years conducting user studies. Expert in usability testing and user interviews.",
+    skills: ["User Testing", "Research"],
+    rating: 4.9,
+    reviewCount: 67,
+    hourlyRate: 85,
+    location: "Tokyo, JP",
+    profileImage:
+      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop&crop=face",
+    isOnline: false,
+    responseTime: "5 hours",
+    completedProjects: 89,
+    successRate: 99,
+    languages: ["English", "Japanese"],
+    verified: true,
+    topRated: true,
+    category: "Design & Creative",
+    subcategory: "UX Research",
+    experience: "7+ years",
+    availability: "Available",
+    memberSince: "2017-08-30",
+    experienceYears: 8,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["User Testing", "Research"],
+      experienceYears: 8,
+      title: "UX Researcher"
+    }),
+    education: generateFreelancerEducation({
+      skills: ["User Testing", "Research"],
+      experienceYears: 8,
+      title: "UX Researcher"
+    }),
+  },
+  {
+    id: "rec-magnus-larsson-019",
+    name: "Magnus Larsson",
+    profileUrl: "/freelancer/magnus-larsson",
+    payRate: "$95/hr",
+    imageUrl:
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&h=150&fit=crop&crop=face",
+    title: "Cloud Architect",
+    description:
+      "Cloud infrastructure architect with 10+ years designing scalable systems. Expert in Azure and cloud migrations.",
+    skills: ["Azure", "Cloud Architecture"],
+    rating: 4.9,
+    reviewCount: 45,
+    hourlyRate: 95,
+    location: "Stockholm, SE",
+    profileImage:
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&h=150&fit=crop&crop=face",
+    isOnline: true,
+    responseTime: "3 hours",
+    completedProjects: 67,
+    successRate: 100,
+    languages: ["English", "Swedish"],
+    verified: true,
+    topRated: true,
+    category: "Cloud Computing",
+    subcategory: "Cloud Architecture",
+    experience: "10+ years",
+    availability: "Available",
+    memberSince: "2014-12-05",
+    experienceYears: 11,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["Azure", "Cloud Architecture"],
+      experienceYears: 11,
+      title: "Cloud Architect"
+    }),
+    education: generateFreelancerEducation({
+      skills: ["Azure", "Cloud Architecture"],
+      experienceYears: 11,
+      title: "Cloud Architect"
+    }),
+  },
+  {
+    id: "rec-priya-sharma-020",
+    name: "Priya Sharma",
+    profileUrl: "/freelancer/priya-sharma",
+    payRate: "$40/hr",
+    imageUrl:
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&fit=crop&crop=face",
+    title: "Virtual Assistant",
+    description:
+      "Professional virtual assistant with 6+ years supporting executives. Expert in project management and administrative tasks.",
+    skills: ["Project Management", "Administrative"],
+    rating: 4.7,
+    reviewCount: 189,
+    hourlyRate: 40,
+    location: "Delhi, IN",
+    profileImage:
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&fit=crop&crop=face",
+    isOnline: true,
+    responseTime: "30 minutes",
+    completedProjects: 267,
+    successRate: 97,
+    languages: ["English", "Hindi"],
+    verified: true,
+    topRated: true,
+    category: "Business Consulting",
+    subcategory: "Virtual Assistance",
+    experience: "6+ years",
+    availability: "Available",
+    memberSince: "2018-04-18",
+    experienceYears: 7,
+    professionalExperience: generateFreelancerExperience({
+      skills: ["Project Management", "Administrative"],
+      experienceYears: 7,
+      title: "Virtual Assistant"
+    }),
+    education: generateFreelancerEducation({
+      skills: ["Project Management", "Administrative"],
+      experienceYears: 7,
+      title: "Virtual Assistant"
     }),
   },
 ];

@@ -428,6 +428,7 @@ export default function FreelancerPage() {
           <RecommendedFreelancersCarousel
             freelancers={generateExtendedRecommended()}
             onViewProfile={handleViewProfile}
+            searchTerm={searchQuery}
           />
         </ContainerSmall>
       )}

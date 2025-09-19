@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import FreelancerCard from "./FreelancerCard";
@@ -9,14 +9,64 @@ import { UnifiedFreelancer } from "@/interfaces";
 interface RecommendedFreelancersCarouselProps {
   freelancers: UnifiedFreelancer[];
   onViewProfile: (id: string) => void;
+  searchTerm?: string;
 }
 
 export default function RecommendedFreelancersCarousel({
   freelancers,
   onViewProfile,
+  searchTerm = "",
 }: RecommendedFreelancersCarouselProps) {
-  // Usar directamente los freelancers sin filtros
-  const filteredFreelancers = freelancers;
+  // Estado para controlar las animaciones de entrada
+  const [showEntryAnimation, setShowEntryAnimation] = useState(true);
+  const [lastSearchTerm, setLastSearchTerm] = useState(searchTerm);
+  
+  // Generar una lista aleatoria estable usando useMemo para evitar re-renderizados
+  const stableRandomFreelancers = useMemo(() => {
+    const shuffled = [...freelancers].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, 10);
+  }, [freelancers]);
+
+  // Filtrar freelancers basado en el término de búsqueda
+  const getFilteredFreelancers = () => {
+    if (!searchTerm.trim()) {
+      return { freelancers: freelancers, hasRealMatches: true };
+    }
+
+    const query = searchTerm.toLowerCase().trim();
+    const filtered = freelancers.filter((freelancer) => {
+      // Solo buscar en las skills del freelancer
+      return freelancer.skills?.some((skill) => {
+        const skillLower = skill.toLowerCase();
+        // Coincidencia exacta o que empiece con el término buscado
+        return skillLower === query || skillLower.startsWith(query);
+      }) || false;
+    });
+
+    // Si no hay coincidencias, usar la lista aleatoria estable
+    if (filtered.length === 0) {
+      return { freelancers: stableRandomFreelancers, hasRealMatches: false };
+    }
+
+    return { freelancers: filtered, hasRealMatches: true };
+  };
+
+  const { freelancers: filteredFreelancers, hasRealMatches } = getFilteredFreelancers();
+
+  // Detectar cambios en el término de búsqueda para controlar animaciones
+  useEffect(() => {
+    if (searchTerm !== lastSearchTerm) {
+      setShowEntryAnimation(true);
+      setLastSearchTerm(searchTerm);
+      
+      // Desactivar animaciones de entrada después de un tiempo
+      const timer = setTimeout(() => {
+        setShowEntryAnimation(false);
+      }, 1000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [searchTerm, lastSearchTerm]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -74,7 +124,8 @@ export default function RecommendedFreelancersCarousel({
   // Reset currentIndex when filters change
   useEffect(() => {
     setCurrentIndex(0);
-  }, []);
+    setIsTransitioning(false); // Asegurar que no quede en estado de transición
+  }, [filteredFreelancers.length]);
 
   const maxIndex = Math.max(0, filteredFreelancers.length - cardsPerView);
 
@@ -83,7 +134,7 @@ export default function RecommendedFreelancersCarousel({
     setIsTransitioning(true);
     setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
     restartAutoScroll(); // Reiniciar auto-scroll
-    setTimeout(() => setIsTransitioning(false), 300);
+    setTimeout(() => setIsTransitioning(false), 400);
   };
 
   const prevSlide = () => {
@@ -91,7 +142,7 @@ export default function RecommendedFreelancersCarousel({
     setIsTransitioning(true);
     setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
     restartAutoScroll(); // Reiniciar auto-scroll
-    setTimeout(() => setIsTransitioning(false), 300);
+    setTimeout(() => setIsTransitioning(false), 400);
   };
 
   const goToSlide = (index: number) => {
@@ -99,7 +150,7 @@ export default function RecommendedFreelancersCarousel({
     setIsTransitioning(true);
     setCurrentIndex(Math.min(index, maxIndex));
     restartAutoScroll(); // Reiniciar auto-scroll
-    setTimeout(() => setIsTransitioning(false), 300);
+    setTimeout(() => setIsTransitioning(false), 400);
   };
 
   const handleViewProfile = (id: string) => {
@@ -116,7 +167,10 @@ export default function RecommendedFreelancersCarousel({
           Recommended Freelancers
         </h2>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Discover top-rated freelancers handpicked for your projects
+          {hasRealMatches 
+            ? "Discover top-rated freelancers handpicked for your projects"
+            : "You might also be interested in"
+          }
         </p>
       </div>
 
@@ -148,40 +202,7 @@ export default function RecommendedFreelancersCarousel({
 
         {/* Grid de freelancers - contenido limitado al ancho del contenedor */}
         <div className="px-8">
-          {filteredFreelancers.length === 0 ? (
-            /* Mensaje cuando no hay resultados filtrados */
-            <div className="text-center py-16">
-              <div className="mb-6">
-                <div className="relative">
-                  <div className="text-gray-300 mb-4">
-                    <svg
-                      className="h-16 w-16 mx-auto"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1}
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                      />
-                    </svg>
-                  </div>
-                  <div className="absolute top-0 right-1/2 translate-x-8 w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center">
-                    <span className="text-blue-600 text-xs">?</span>
-                  </div>
-                </div>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                No hay recomendaciones disponibles
-              </h3>
-              <p className="text-gray-600 mb-6 max-w-sm mx-auto leading-relaxed">
-                No se encontraron freelancers recomendados en este momento.
-              </p>
-            </div>
-          ) : (
-            <div
+          <div
               className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-full transition-all duration-500 ease-in-out ${
                 isTransitioning
                   ? "opacity-75 scale-[0.98]"
@@ -193,25 +214,29 @@ export default function RecommendedFreelancersCarousel({
             >
               {filteredFreelancers
                 .slice(currentIndex, currentIndex + cardsPerView)
-                .map((freelancer, index) => (
-                  <div
-                    key={freelancer.id}
-                    className="animate-fadeInUp"
-                    style={{
-                      animationDelay: `${index * 100}ms`,
-                      animationFillMode: "both",
-                    }}
-                  >
-                    <FreelancerCard
-                      freelancer={freelancer}
-                      onViewProfile={onViewProfile}
-                      priceFormat="hourly"
-                      hideAvailability={true}
-                    />
-                  </div>
-                ))}
+                .map((freelancer, index) => {
+                  // Crear un key estable que combine el ID del freelancer con el estado de búsqueda
+                  const stableKey = `${freelancer.id}-${hasRealMatches ? 'match' : 'random'}-${currentIndex}`;
+                  
+                  return (
+                    <div
+                      key={stableKey}
+                      className={showEntryAnimation ? "animate-fadeInUp" : ""}
+                      style={{
+                        animationDelay: showEntryAnimation ? `${index * 100}ms` : "0ms",
+                        animationFillMode: "both",
+                      }}
+                    >
+                      <FreelancerCard
+                        freelancer={freelancer}
+                        onViewProfile={onViewProfile}
+                        priceFormat="hourly"
+                        hideAvailability={true}
+                      />
+                    </div>
+                  );
+                })}
             </div>
-          )}
         </div>
 
         {/* Contenedor fijo para indicadores de navegación */}
