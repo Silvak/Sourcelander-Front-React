@@ -22,10 +22,7 @@ import { UnifiedFreelancer } from "@/interfaces";
 import { useFreelancerStorage } from "@/hooks/useFreelancerStorage";
 import MaintenanceModal from "@/components/modals/MaintenanceModal";
 import AddToCartButton from "@/components/search/AddToCartButton";
-import {
-  formatMembershipYears,
-  calculateMembershipYears,
-} from "@/utils/membershipUtils";
+import { formatMembershipYears } from "@/utils/membershipUtils";
 import { generateFreelancerExperience } from "@/utils/experienceGenerator";
 import { generateFreelancerEducation } from "@/utils/educationGenerator";
 
@@ -41,7 +38,7 @@ export default function HirePage() {
     // Try to get freelancer from localStorage first
     const storedFreelancers = getStoredFreelancers();
     const foundFreelancer = storedFreelancers.find(
-      (f) => f.id === freelancerId,
+      (f) => f.id === freelancerId
     );
 
     if (foundFreelancer) {
@@ -71,13 +68,13 @@ export default function HirePage() {
         professionalExperience: generateFreelancerExperience({
           skills: ["JavaScript", "React", "Node.js"],
           experienceYears: 5,
-          title: "Professional"
+          title: "Professional",
         }),
         education: generateFreelancerEducation({
           skills: ["JavaScript", "React", "Node.js"],
           experienceYears: 5,
-          title: "Professional"
-        })
+          title: "Professional",
+        }),
       };
       setFreelancer(mockFreelancer);
     }
@@ -286,8 +283,7 @@ export default function HirePage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  {freelancer.education &&
-                  freelancer.education.length > 0 ? (
+                  {freelancer.education && freelancer.education.length > 0 ? (
                     freelancer.education.map((edu, index) => (
                       <div
                         key={index}

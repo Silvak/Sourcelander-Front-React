@@ -29,7 +29,6 @@ import {
   Target,
   FileText,
   Globe,
-  Star,
   MapPin,
   TrendingUp,
   Shield,

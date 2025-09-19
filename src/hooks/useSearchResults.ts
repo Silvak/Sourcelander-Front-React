@@ -8,7 +8,7 @@ import {
 } from "@/interfaces";
 import { useQuery } from "@tanstack/react-query";
 import { apiInstance } from "@/services/axiosConfig";
-import { calculateMembershipYears } from "@/utils/membershipUtils";
+// import { calculateMembershipYears } from "@/utils/membershipUtils";
 import { getRandomCompanies } from "@/lib/mockCompanies";
 import { generateFreelancerEducation } from "@/utils/educationGenerator";
 
@@ -40,7 +40,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     education: generateFreelancerEducation({
       skills: ["React", "TypeScript", "Next.js", "Tailwind CSS", "GraphQL"],
       experienceYears: 5,
-      title: "Frontend Developer"
+      title: "Frontend Developer",
     }),
   },
   {
@@ -69,7 +69,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     education: generateFreelancerEducation({
       skills: ["Figma", "Adobe XD", "Sketch", "Prototyping", "Design Systems"],
       experienceYears: 7,
-      title: "UI/UX Designer"
+      title: "UI/UX Designer",
     }),
   },
   {
@@ -98,7 +98,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     education: generateFreelancerEducation({
       skills: ["Node.js", "Python", "PostgreSQL", "AWS", "Docker"],
       experienceYears: 9,
-      title: "Backend Developer"
+      title: "Backend Developer",
     }),
   },
   {
@@ -127,7 +127,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     education: generateFreelancerEducation({
       skills: ["Swift", "Kotlin", "React Native", "Flutter", "Firebase"],
       experienceYears: 6,
-      title: "Mobile Developer"
+      title: "Mobile Developer",
     }),
   },
   {
@@ -156,7 +156,7 @@ const mockFreelancers: UnifiedFreelancer[] = [
     education: generateFreelancerEducation({
       skills: ["React", "Node.js", "MongoDB", "Express", "AWS"],
       experienceYears: 8,
-      title: "Full Stack Developer"
+      title: "Full Stack Developer",
     }),
   },
   {
@@ -185,14 +185,14 @@ const mockFreelancers: UnifiedFreelancer[] = [
     education: generateFreelancerEducation({
       skills: ["Docker", "Kubernetes", "AWS", "Jenkins", "Terraform"],
       experienceYears: 10,
-      title: "DevOps Engineer"
+      title: "DevOps Engineer",
     }),
   },
 ];
 
 // Función para marcar datos como mockeados
 const markAsMockData = (
-  freelancers: UnifiedFreelancer[],
+  freelancers: UnifiedFreelancer[]
 ): UnifiedFreelancer[] => {
   return freelancers.map((freelancer) => ({
     ...freelancer,
@@ -214,9 +214,9 @@ const filterMockData = (filters: SearchFilters): UnifiedFreelancer[] => {
         (freelancer.title?.toLowerCase() || "").includes(query) ||
         freelancer.description.toLowerCase().includes(query) ||
         freelancer.skills?.some((skill) =>
-          skill.toLowerCase().includes(query),
+          skill.toLowerCase().includes(query)
         ) ||
-        false,
+        false
     );
   }
 
@@ -229,10 +229,10 @@ const filterMockData = (filters: SearchFilters): UnifiedFreelancer[] => {
           (freelancer.title?.toLowerCase() || "").includes(keyword) ||
           freelancer.description.toLowerCase().includes(keyword) ||
           freelancer.skills?.some((skill) =>
-            skill.toLowerCase().includes(keyword),
+            skill.toLowerCase().includes(keyword)
           ) ||
-          false,
-      ),
+          false
+      )
     );
   }
 
@@ -240,20 +240,20 @@ const filterMockData = (filters: SearchFilters): UnifiedFreelancer[] => {
   if (filters.location) {
     const location = filters.location.toLowerCase();
     filteredData = filteredData.filter((freelancer) =>
-      freelancer.location.toLowerCase().includes(location),
+      freelancer.location.toLowerCase().includes(location)
     );
   }
 
   // Filtrar por rango de precios
   if (filters.minRate) {
     filteredData = filteredData.filter(
-      (freelancer) => (freelancer.hourlyRate || 0) >= filters.minRate!,
+      (freelancer) => (freelancer.hourlyRate || 0) >= filters.minRate!
     );
   }
 
   if (filters.maxRate) {
     filteredData = filteredData.filter(
-      (freelancer) => (freelancer.hourlyRate || 0) <= filters.maxRate!,
+      (freelancer) => (freelancer.hourlyRate || 0) <= filters.maxRate!
     );
   }
 
@@ -262,7 +262,7 @@ const filterMockData = (filters: SearchFilters): UnifiedFreelancer[] => {
 
 // Función para mapear WorkanaFreelancer a UnifiedFreelancer
 const mapWorkanaFreelancer = (
-  freelancer: WorkanaFreelancer,
+  freelancer: WorkanaFreelancer
 ): UnifiedFreelancer => ({
   id: `workana-${freelancer.name.replace(/\s+/g, "-").toLowerCase()}`,
   name: freelancer.name,
@@ -288,13 +288,13 @@ const mapWorkanaFreelancer = (
   education: generateFreelancerEducation({
     skills: [],
     experienceYears: Math.floor(Math.random() * 8) + 3,
-    title: freelancer.name
+    title: freelancer.name,
   }),
 });
 
 // Función para mapear HubstaffFreelancer a UnifiedFreelancer
 const mapHubstaffFreelancer = (
-  freelancer: HubstaffFreelancer,
+  freelancer: HubstaffFreelancer
 ): UnifiedFreelancer => ({
   id: `hubstaff-${freelancer.name.replace(/\s+/g, "-").toLowerCase()}`,
   name: freelancer.name,
@@ -320,12 +320,12 @@ const mapHubstaffFreelancer = (
   education: generateFreelancerEducation({
     skills: [],
     experienceYears: Math.floor(Math.random() * 8) + 3,
-    title: freelancer.name
+    title: freelancer.name,
   }),
 });
 
 const fetchSearchResults = async (
-  filters: SearchFilters,
+  filters: SearchFilters
 ): Promise<UnifiedFreelancer[]> => {
   try {
     let hubstaffFreelancers: UnifiedFreelancer[] = [];
@@ -356,7 +356,7 @@ const fetchSearchResults = async (
     } catch (hubstaffError) {
       console.warn(
         "❌ Hubstaff API failed, will use mock data:",
-        hubstaffError,
+        hubstaffError
       );
 
       // Log more detailed error information
@@ -426,12 +426,12 @@ const fetchSearchResults = async (
     // Log results from APIs
     if (hubstaffFreelancers.length > 0) {
       console.log(
-        `✅ Hubstaff API: ${hubstaffFreelancers.length} freelancers found`,
+        `✅ Hubstaff API: ${hubstaffFreelancers.length} freelancers found`
       );
     }
     if (workanaFreelancers.length > 0) {
       console.log(
-        `✅ Workana API: ${workanaFreelancers.length} freelancers found`,
+        `✅ Workana API: ${workanaFreelancers.length} freelancers found`
       );
     }
 
@@ -439,11 +439,11 @@ const fetchSearchResults = async (
     if (hubstaffFreelancers.length === 0 && workanaFreelancers.length === 0) {
       console.log("❌ Both APIs failed, using MOCK DATA");
       console.log(
-        "💡 To fix this, ensure your backend is running and NEXT_PUBLIC_API_URL is configured correctly",
+        "💡 To fix this, ensure your backend is running and NEXT_PUBLIC_API_URL is configured correctly"
       );
       console.log(
         "💡 Current API URL:",
-        process.env.NEXT_PUBLIC_API_URL || "NOT CONFIGURED",
+        process.env.NEXT_PUBLIC_API_URL || "NOT CONFIGURED"
       );
       return markAsMockData(filterMockData(filters));
     }
@@ -462,10 +462,10 @@ const fetchSearchResults = async (
             (freelancer.title?.toLowerCase() || "").includes(keyword) ||
             freelancer.description.toLowerCase().includes(keyword) ||
             freelancer.skills?.some((skill) =>
-              skill.toLowerCase().includes(keyword),
+              skill.toLowerCase().includes(keyword)
             ) ||
-            false,
-        ),
+            false
+        )
       );
     }
 

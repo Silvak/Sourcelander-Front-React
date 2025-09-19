@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Filter, Check } from "lucide-react";
+import { UnifiedFreelancer } from "@/interfaces";
 
 export interface IFilterOptions {
   priceRange: string | null;
@@ -48,7 +49,7 @@ export default function FilterDropdown({
 
   const handleFilterChange = (
     filterType: keyof IFilterOptions,
-    value: string,
+    value: string
   ) => {
     const newFilters = {
       ...currentFilters,
@@ -58,7 +59,7 @@ export default function FilterDropdown({
   };
 
   const hasActiveFilters = Object.values(currentFilters).some(
-    (filter) => filter !== null,
+    (filter) => filter !== null
   );
 
   return (
@@ -135,8 +136,8 @@ export default function FilterDropdown({
 
 // Función helper para filtrar freelancers basado en los filtros
 export const applyVisualFilters = (
-  freelancers: any[],
-  filters: IFilterOptions,
+  freelancers: UnifiedFreelancer[],
+  filters: IFilterOptions
 ) => {
   let filtered = [...freelancers];
 

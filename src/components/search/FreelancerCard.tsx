@@ -1,4 +1,4 @@
-import { Calendar, MapPin, Clock, CheckCircle } from "lucide-react";
+import { Calendar, MapPin, Clock } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -27,7 +27,6 @@ export default function FreelancerCard({
   // const rating = freelancer.rating ?? "N/A";
   const reviews = freelancer.reviews ?? "N/A";
   const hourlyRate = freelancer.hourlyRate ?? freelancer.payRate ?? "N/A";
-  const availability = freelancer.availability ?? "N/A";
   const skills = freelancer.skills ?? [];
   const id =
     freelancer.id || `freelancer-${Math.random().toString(36).substr(2, 9)}`;

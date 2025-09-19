@@ -1,7 +1,6 @@
 import { UnifiedFreelancer } from "@/interfaces";
-import { getRandomCompanies } from './mockCompanies';
-import { generateFreelancerExperience } from '@/utils/experienceGenerator';
-import { generateFreelancerEducation } from '@/utils/educationGenerator';
+import { generateFreelancerExperience } from "@/utils/experienceGenerator";
+import { generateFreelancerEducation } from "@/utils/educationGenerator";
 
 // Mock data para freelancers recomendados - 5 freelancers únicos
 export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
@@ -38,12 +37,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     professionalExperience: generateFreelancerExperience({
       skills: ["React", "Node.js", "TypeScript"],
       experienceYears: 12,
-      title: "Full Stack Developer"
+      title: "Full Stack Developer",
     }),
     education: generateFreelancerEducation({
       skills: ["React", "Node.js", "TypeScript"],
       experienceYears: 12,
-      title: "Full Stack Developer"
+      title: "Full Stack Developer",
     }),
   },
   {
@@ -79,12 +78,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     professionalExperience: generateFreelancerExperience({
       skills: ["Figma", "Prototyping"],
       experienceYears: 10,
-      title: "UI/UX Designer"
+      title: "UI/UX Designer",
     }),
     education: generateFreelancerEducation({
       skills: ["Figma", "Prototyping"],
       experienceYears: 10,
-      title: "UI/UX Designer"
+      title: "UI/UX Designer",
     }),
   },
   {
@@ -120,12 +119,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     professionalExperience: generateFreelancerExperience({
       skills: ["Docker", "Kubernetes"],
       experienceYears: 15,
-      title: "DevOps Engineer"
+      title: "DevOps Engineer",
     }),
     education: generateFreelancerEducation({
       skills: ["Docker", "Kubernetes"],
       experienceYears: 15,
-      title: "DevOps Engineer"
+      title: "DevOps Engineer",
     }),
   },
   {
@@ -161,12 +160,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     professionalExperience: generateFreelancerExperience({
       skills: ["SEO", "Google Ads"],
       experienceYears: 10,
-      title: "Digital Marketing Specialist"
+      title: "Digital Marketing Specialist",
     }),
     education: generateFreelancerEducation({
       skills: ["SEO", "Google Ads"],
       experienceYears: 10,
-      title: "Digital Marketing Specialist"
+      title: "Digital Marketing Specialist",
     }),
   },
   {
@@ -202,12 +201,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     professionalExperience: generateFreelancerExperience({
       skills: ["TensorFlow", "Machine Learning"],
       experienceYears: 8,
-      title: "Data Scientist"
+      title: "Data Scientist",
     }),
     education: generateFreelancerEducation({
       skills: ["TensorFlow", "Machine Learning"],
       experienceYears: 8,
-      title: "Data Scientist"
+      title: "Data Scientist",
     }),
   },
   {
@@ -243,12 +242,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     professionalExperience: generateFreelancerExperience({
       skills: ["React Native", "Flutter"],
       experienceYears: 8,
-      title: "Mobile App Developer"
+      title: "Mobile App Developer",
     }),
     education: generateFreelancerEducation({
       skills: ["React Native", "Flutter"],
       experienceYears: 8,
-      title: "Mobile App Developer"
+      title: "Mobile App Developer",
     }),
   },
   {
@@ -284,12 +283,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     professionalExperience: generateFreelancerExperience({
       skills: ["Solidity", "Web3"],
       experienceYears: 5,
-      title: "Blockchain Developer"
+      title: "Blockchain Developer",
     }),
     education: generateFreelancerEducation({
       skills: ["Solidity", "Web3"],
       experienceYears: 5,
-      title: "Blockchain Developer"
+      title: "Blockchain Developer",
     }),
   },
   {
@@ -325,12 +324,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     professionalExperience: generateFreelancerExperience({
       skills: ["Content Writing", "Copywriting"],
       experienceYears: 9,
-      title: "Content Writer & Copywriter"
+      title: "Content Writer & Copywriter",
     }),
     education: generateFreelancerEducation({
       skills: ["Content Writing", "Copywriting"],
       experienceYears: 9,
-      title: "Content Writer & Copywriter"
+      title: "Content Writer & Copywriter",
     }),
   },
   {
@@ -366,12 +365,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     professionalExperience: generateFreelancerExperience({
       skills: ["Penetration Testing", "Ethical Hacking"],
       experienceYears: 12,
-      title: "Cybersecurity Consultant"
+      title: "Cybersecurity Consultant",
     }),
     education: generateFreelancerEducation({
       skills: ["Penetration Testing", "Ethical Hacking"],
       experienceYears: 12,
-      title: "Cybersecurity Consultant"
+      title: "Cybersecurity Consultant",
     }),
   },
   {
@@ -407,12 +406,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     professionalExperience: generateFreelancerExperience({
       skills: ["Product Strategy", "Agile"],
       experienceYears: 11,
-      title: "Product Manager"
+      title: "Product Manager",
     }),
     education: generateFreelancerEducation({
       skills: ["Product Strategy", "Agile"],
       experienceYears: 11,
-      title: "Product Manager"
+      title: "Product Manager",
     }),
   },
   {
@@ -448,12 +447,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     professionalExperience: generateFreelancerExperience({
       skills: ["WordPress", "PHP"],
       experienceYears: 7,
-      title: "WordPress Developer"
+      title: "WordPress Developer",
     }),
     education: generateFreelancerEducation({
       skills: ["WordPress", "PHP"],
       experienceYears: 7,
-      title: "WordPress Developer"
+      title: "WordPress Developer",
     }),
   },
   {
@@ -489,12 +488,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     professionalExperience: generateFreelancerExperience({
       skills: ["Premiere Pro", "After Effects"],
       experienceYears: 6,
-      title: "Video Editor"
+      title: "Video Editor",
     }),
     education: generateFreelancerEducation({
       skills: ["Premiere Pro", "After Effects"],
       experienceYears: 6,
-      title: "Video Editor"
+      title: "Video Editor",
     }),
   },
   {
@@ -530,12 +529,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     professionalExperience: generateFreelancerExperience({
       skills: ["Python", "Django"],
       experienceYears: 8,
-      title: "Backend Developer"
+      title: "Backend Developer",
     }),
     education: generateFreelancerEducation({
       skills: ["Python", "Django"],
       experienceYears: 8,
-      title: "Backend Developer"
+      title: "Backend Developer",
     }),
   },
   {
@@ -571,12 +570,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     professionalExperience: generateFreelancerExperience({
       skills: ["Photoshop", "Illustrator"],
       experienceYears: 9,
-      title: "Graphic Designer"
+      title: "Graphic Designer",
     }),
     education: generateFreelancerEducation({
       skills: ["Photoshop", "Illustrator"],
       experienceYears: 9,
-      title: "Graphic Designer"
+      title: "Graphic Designer",
     }),
   },
   {
@@ -612,12 +611,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     professionalExperience: generateFreelancerExperience({
       skills: ["Selenium", "Automation Testing"],
       experienceYears: 7,
-      title: "QA Engineer"
+      title: "QA Engineer",
     }),
     education: generateFreelancerEducation({
       skills: ["Selenium", "Automation Testing"],
       experienceYears: 7,
-      title: "QA Engineer"
+      title: "QA Engineer",
     }),
   },
   {
@@ -653,12 +652,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     professionalExperience: generateFreelancerExperience({
       skills: ["Instagram Marketing", "TikTok"],
       experienceYears: 5,
-      title: "Social Media Manager"
+      title: "Social Media Manager",
     }),
     education: generateFreelancerEducation({
       skills: ["Instagram Marketing", "TikTok"],
       experienceYears: 5,
-      title: "Social Media Manager"
+      title: "Social Media Manager",
     }),
   },
   {
@@ -694,12 +693,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     professionalExperience: generateFreelancerExperience({
       skills: ["Unity", "C#"],
       experienceYears: 6,
-      title: "Game Developer"
+      title: "Game Developer",
     }),
     education: generateFreelancerEducation({
       skills: ["Unity", "C#"],
       experienceYears: 6,
-      title: "Game Developer"
+      title: "Game Developer",
     }),
   },
   {
@@ -735,12 +734,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     professionalExperience: generateFreelancerExperience({
       skills: ["User Testing", "Research"],
       experienceYears: 8,
-      title: "UX Researcher"
+      title: "UX Researcher",
     }),
     education: generateFreelancerEducation({
       skills: ["User Testing", "Research"],
       experienceYears: 8,
-      title: "UX Researcher"
+      title: "UX Researcher",
     }),
   },
   {
@@ -776,12 +775,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     professionalExperience: generateFreelancerExperience({
       skills: ["Azure", "Cloud Architecture"],
       experienceYears: 11,
-      title: "Cloud Architect"
+      title: "Cloud Architect",
     }),
     education: generateFreelancerEducation({
       skills: ["Azure", "Cloud Architecture"],
       experienceYears: 11,
-      title: "Cloud Architect"
+      title: "Cloud Architect",
     }),
   },
   {
@@ -817,12 +816,12 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     professionalExperience: generateFreelancerExperience({
       skills: ["Project Management", "Administrative"],
       experienceYears: 7,
-      title: "Virtual Assistant"
+      title: "Virtual Assistant",
     }),
     education: generateFreelancerEducation({
       skills: ["Project Management", "Administrative"],
       experienceYears: 7,
-      title: "Virtual Assistant"
+      title: "Virtual Assistant",
     }),
   },
 ];

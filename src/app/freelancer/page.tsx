@@ -11,7 +11,7 @@ import FreelancerModal from "@/components/search/FreelancerModal";
 import { Button } from "@/components/ui/button";
 import { popularCategories } from "@/lib/searchData";
 import { generateExtendedRecommended } from "@/lib/mockRecommended";
-import { Search, Users, Filter, Loader2 } from "lucide-react";
+import { Search, Users, Loader2 } from "lucide-react";
 import { generateFreelancerExperience } from "@/utils/experienceGenerator";
 import { generateFreelancerEducation } from "@/utils/educationGenerator";
 import { Badge } from "@/components/ui/badge";
@@ -250,7 +250,6 @@ export default function FreelancerPage() {
 
   // Aplicar filtros visuales
   const displayFreelancers = applyVisualFilters(baseFreelancers, filters);
-  const showMockData = !isLoading && !isError && freelancers.length === 0;
 
   // Check if we have any active search criteria
   const hasActiveSearch =
@@ -292,11 +291,13 @@ export default function FreelancerPage() {
           freelancer.profileImage ||
           "",
         // Ensure education is preserved or generated if missing
-        education: freelancer.education || generateFreelancerEducation({
-          skills: freelancer.skills || [],
-          experienceYears: freelancer.experienceYears || 5,
-          title: freelancer.title || freelancer.speciality || freelancer.name
-        }),
+        education:
+          freelancer.education ||
+          generateFreelancerEducation({
+            skills: freelancer.skills || [],
+            experienceYears: freelancer.experienceYears || 5,
+            title: freelancer.title || freelancer.speciality || freelancer.name,
+          }),
       };
       saveFreelancer(freelancerWithCompleteData);
       setSelectedFreelancer(freelancerWithCompleteData);
@@ -316,11 +317,13 @@ export default function FreelancerPage() {
       avatar: freelancer.avatar || freelancer.imageUrl || "",
       imageUrl: freelancer.imageUrl || freelancer.avatar || "",
       // Ensure education is preserved or generated if missing
-      education: freelancer.education || generateFreelancerEducation({
-        skills: freelancer.skills || [],
-        experienceYears: freelancer.experienceYears || 5,
-        title: freelancer.title || freelancer.speciality || freelancer.name
-      }),
+      education:
+        freelancer.education ||
+        generateFreelancerEducation({
+          skills: freelancer.skills || [],
+          experienceYears: freelancer.experienceYears || 5,
+          title: freelancer.title || freelancer.speciality || freelancer.name,
+        }),
     };
     saveFreelancer(freelancerWithCompleteData, "hire");
 
