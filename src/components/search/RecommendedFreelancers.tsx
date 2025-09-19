@@ -17,9 +17,6 @@ export default function RecommendedFreelancersCarousel({
   onViewProfile,
   searchTerm = "",
 }: RecommendedFreelancersCarouselProps) {
-  // Estado para controlar las animaciones de entrada
-  const [showEntryAnimation, setShowEntryAnimation] = useState(true);
-  const [lastSearchTerm, setLastSearchTerm] = useState(searchTerm);
   
   // Generar una lista aleatoria estable usando useMemo para evitar re-renderizados
   const stableRandomFreelancers = useMemo(() => {
@@ -53,23 +50,9 @@ export default function RecommendedFreelancersCarousel({
 
   const { freelancers: filteredFreelancers, hasRealMatches } = getFilteredFreelancers();
 
-  // Detectar cambios en el término de búsqueda para controlar animaciones
-  useEffect(() => {
-    if (searchTerm !== lastSearchTerm) {
-      setShowEntryAnimation(true);
-      setLastSearchTerm(searchTerm);
-      
-      // Desactivar animaciones de entrada después de un tiempo
-      const timer = setTimeout(() => {
-        setShowEntryAnimation(false);
-      }, 1000);
-      
-      return () => clearTimeout(timer);
-    }
-  }, [searchTerm, lastSearchTerm]);
+
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Número de cards visibles por dispositivo - igual que el grid de resultados
@@ -124,44 +107,31 @@ export default function RecommendedFreelancersCarousel({
   // Reset currentIndex when filters change
   useEffect(() => {
     setCurrentIndex(0);
-    setIsTransitioning(false); // Asegurar que no quede en estado de transición
   }, [filteredFreelancers.length]);
 
   const maxIndex = Math.max(0, filteredFreelancers.length - cardsPerView);
 
   const nextSlide = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
     setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
     restartAutoScroll(); // Reiniciar auto-scroll
-    setTimeout(() => setIsTransitioning(false), 400);
   };
 
   const prevSlide = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
     setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
     restartAutoScroll(); // Reiniciar auto-scroll
-    setTimeout(() => setIsTransitioning(false), 400);
   };
 
   const goToSlide = (index: number) => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
     setCurrentIndex(Math.min(index, maxIndex));
     restartAutoScroll(); // Reiniciar auto-scroll
-    setTimeout(() => setIsTransitioning(false), 400);
   };
 
-  const handleViewProfile = (id: string) => {
-    // Aquí puedes implementar la lógica para abrir el modal del freelancer
-    console.log("View profile:", id);
-  };
+
 
   // No ocultar la sección completa, solo mostrar mensaje cuando no hay resultados
 
   return (
-    <section className="mb-16 animate-slideIn">
+    <section className="mb-16">
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">
           Recommended Freelancers
@@ -202,16 +172,7 @@ export default function RecommendedFreelancersCarousel({
 
         {/* Grid de freelancers - contenido limitado al ancho del contenedor */}
         <div className="px-8">
-          <div
-              className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-full transition-all duration-500 ease-in-out ${
-                isTransitioning
-                  ? "opacity-75 scale-[0.98]"
-                  : "opacity-100 scale-100"
-              }`}
-              style={{
-                transform: "translateX(0)",
-              }}
-            >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-full">
               {filteredFreelancers
                 .slice(currentIndex, currentIndex + cardsPerView)
                 .map((freelancer, index) => {
@@ -219,14 +180,7 @@ export default function RecommendedFreelancersCarousel({
                   const stableKey = `${freelancer.id}-${hasRealMatches ? 'match' : 'random'}-${currentIndex}`;
                   
                   return (
-                    <div
-                      key={stableKey}
-                      className={showEntryAnimation ? "animate-fadeInUp" : ""}
-                      style={{
-                        animationDelay: showEntryAnimation ? `${index * 100}ms` : "0ms",
-                        animationFillMode: "both",
-                      }}
-                    >
+                    <div key={stableKey}>
                       <FreelancerCard
                         freelancer={freelancer}
                         onViewProfile={onViewProfile}
