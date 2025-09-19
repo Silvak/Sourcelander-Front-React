@@ -30,7 +30,7 @@ export default function RecommendedFreelancersCarousel({
       (f.skills || []).some((s) => {
         const sl = s.toLowerCase();
         return sl === q || sl.startsWith(q);
-      }),
+      })
     );
     if (found.length === 0)
       return { filtered: stableRandomFreelancers, hasRealMatches: false };
@@ -138,7 +138,7 @@ export default function RecommendedFreelancersCarousel({
       <div className={`relative w-full ${viewportHeightClass} px-4 md:px-8`}>
         {filtered.length > cardsPerView && (
           <>
-            <div className="absolute -left-3 md:left-3 top-1/2 -translate-y-1/2 z-20">
+            <div className="absolute -left-3 md:left-3 top-1/2 -translate-y-1/2 z-20 bg-background">
               <Button
                 size="icon"
                 variant="outline"
@@ -149,7 +149,7 @@ export default function RecommendedFreelancersCarousel({
               </Button>
             </div>
 
-            <div className="absolute -right-3 md:right-3 top-1/2 -translate-y-1/2 z-20">
+            <div className="absolute -right-3 md:right-3 top-1/2 -translate-y-1/2 z-20 bg-background">
               <Button
                 size="icon"
                 variant="outline"

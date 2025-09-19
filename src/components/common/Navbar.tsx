@@ -226,8 +226,6 @@ export default function Navbar() {
             {isAuthenticated && user ? (
               // User is authenticated - show user menu
               <div className="flex items-center space-x-4">
-                <CartButton />
-
                 <Link className="hidden" href="/contact">
                   <Button variant="outline" className="h-[40px]">
                     Contact
