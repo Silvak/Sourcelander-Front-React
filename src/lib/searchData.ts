@@ -1,4 +1,5 @@
 import { getRandomCompanies } from './mockCompanies';
+import { generateFreelancerEducation } from '@/utils/educationGenerator';
 
 // Search suggestions and related terms for intelligent search
 export const searchSuggestions = {
@@ -207,6 +208,11 @@ export const recommendedFreelancers = [
     profileUrl: "https://example.com/profile/sarah-johnson",
     payRate: "$85/hr",
     professionalExperience: getRandomCompanies(4),
+    education: generateFreelancerEducation({
+      skills: ["React", "TypeScript", "Next.js", "Tailwind CSS", "GraphQL"],
+      experienceYears: 8,
+      title: "Senior Frontend Developer"
+    }),
   },
   {
     id: "rec-2",
@@ -234,6 +240,11 @@ export const recommendedFreelancers = [
     profileUrl: "https://example.com/profile/michael-chen",
     payRate: "$75/hr",
     professionalExperience: getRandomCompanies(3),
+    education: generateFreelancerEducation({
+      skills: ["Figma", "Adobe Creative Suite", "Design Systems", "Prototyping", "User Research"],
+      experienceYears: 6,
+      title: "Lead UI/UX Designer"
+    }),
   },
   {
     id: "rec-3",
@@ -338,6 +349,11 @@ export const mockFreelancers = [
     availability: "Available now",
     verified: true,
     professionalExperience: getRandomCompanies(4),
+    education: generateFreelancerEducation({
+      skills: ["React", "TypeScript", "Next.js", "Tailwind CSS"],
+      experienceYears: 8,
+      title: "Senior Frontend Developer"
+    }),
   },
   {
     id: 2,
@@ -354,6 +370,11 @@ export const mockFreelancers = [
     availability: "Available now",
     verified: true,
     professionalExperience: getRandomCompanies(3),
+    education: generateFreelancerEducation({
+      skills: ["Figma", "Adobe Creative Suite", "Prototyping", "User Research"],
+      experienceYears: 6,
+      title: "UI/UX Designer"
+    }),
   },
   {
     id: 3,
@@ -370,6 +391,11 @@ export const mockFreelancers = [
     availability: "Available now",
     verified: true,
     professionalExperience: getRandomCompanies(5),
+    education: generateFreelancerEducation({
+      skills: ["Node.js", "React", "Python", "PostgreSQL"],
+      experienceYears: 10,
+      title: "Full Stack Developer"
+    }),
   },
   {
     id: 4,
@@ -386,6 +412,11 @@ export const mockFreelancers = [
     availability: "Available now",
     verified: true,
     professionalExperience: getRandomCompanies(6),
+    education: generateFreelancerEducation({
+      skills: ["React Native", "iOS", "Android", "Firebase"],
+      experienceYears: 12,
+      title: "Mobile App Developer"
+    }),
   },
   {
     id: 5,
@@ -402,6 +433,11 @@ export const mockFreelancers = [
     availability: "Available now",
     verified: true,
     professionalExperience: getRandomCompanies(3),
+    education: generateFreelancerEducation({
+      skills: ["SEO", "Google Ads", "Social Media", "Analytics"],
+      experienceYears: 5,
+      title: "Digital Marketing Specialist"
+    }),
   },
   {
     id: 6,
@@ -418,6 +454,11 @@ export const mockFreelancers = [
     availability: "Available now",
     verified: true,
     professionalExperience: getRandomCompanies(4),
+    education: generateFreelancerEducation({
+      skills: ["Python", "Django", "AWS", "Docker"],
+      experienceYears: 9,
+      title: "Backend Developer"
+    }),
   },
   {
     id: 7,
@@ -434,6 +475,11 @@ export const mockFreelancers = [
     availability: "Available now",
     verified: true,
     professionalExperience: getRandomCompanies(2),
+    education: generateFreelancerEducation({
+      skills: ["Content Writing", "SEO", "Copywriting", "Blogging"],
+      experienceYears: 4,
+      title: "Content Writer"
+    }),
   },
   {
     id: 8,
@@ -450,6 +496,11 @@ export const mockFreelancers = [
     availability: "Available now",
     verified: true,
     professionalExperience: getRandomCompanies(5),
+    education: generateFreelancerEducation({
+      skills: ["Python", "Machine Learning", "SQL", "TensorFlow"],
+      experienceYears: 11,
+      title: "Data Scientist"
+    }),
   },
   {
     id: 9,
@@ -466,6 +517,11 @@ export const mockFreelancers = [
     availability: "Available now",
     verified: true,
     professionalExperience: getRandomCompanies(2),
+    education: generateFreelancerEducation({
+      skills: ["Adobe Creative Suite", "Branding", "Logo Design", "Print Design"],
+      experienceYears: 3,
+      title: "Graphic Designer"
+    }),
   },
   {
     id: 10,
@@ -482,6 +538,11 @@ export const mockFreelancers = [
     availability: "Available now",
     verified: true,
     professionalExperience: getRandomCompanies(4),
+    education: generateFreelancerEducation({
+      skills: ["AWS", "Docker", "Kubernetes", "CI/CD"],
+      experienceYears: 7,
+      title: "DevOps Engineer"
+    }),
   },
   {
     id: 11,
@@ -503,6 +564,11 @@ export const mockFreelancers = [
     availability: "Available now",
     verified: true,
     professionalExperience: getRandomCompanies(3),
+    education: generateFreelancerEducation({
+      skills: ["Premiere Pro", "After Effects", "Motion Graphics", "Color Grading"],
+      experienceYears: 6,
+      title: "Video Editor"
+    }),
   },
   {
     id: 12,
@@ -519,6 +585,11 @@ export const mockFreelancers = [
     availability: "Available now",
     verified: true,
     professionalExperience: getRandomCompanies(3),
+    education: generateFreelancerEducation({
+      skills: ["WordPress", "PHP", "CSS", "Plugin Development"],
+      experienceYears: 5,
+      title: "WordPress Developer"
+    }),
   },
   {
     id: 13,
@@ -535,6 +606,11 @@ export const mockFreelancers = [
     availability: "Available now",
     verified: true,
     professionalExperience: getRandomCompanies(4),
+    education: generateFreelancerEducation({
+      skills: ["User Research", "Usability Testing", "Analytics", "Personas"],
+      experienceYears: 8,
+      title: "UX Researcher"
+    }),
   },
   {
     id: 14,
@@ -551,6 +627,11 @@ export const mockFreelancers = [
     availability: "Available now",
     verified: true,
     professionalExperience: getRandomCompanies(4),
+    education: generateFreelancerEducation({
+      skills: ["React Native", "JavaScript", "Redux", "Firebase"],
+      experienceYears: 9,
+      title: "React Native Developer"
+    }),
   },
   {
     id: 15,
@@ -567,6 +648,11 @@ export const mockFreelancers = [
     availability: "Available now",
     verified: true,
     professionalExperience: getRandomCompanies(2),
+    education: generateFreelancerEducation({
+      skills: ["SEO", "Google Analytics", "Keyword Research", "Technical SEO"],
+      experienceYears: 4,
+      title: "SEO Specialist"
+    }),
   },
   {
     id: 16,
@@ -583,5 +669,10 @@ export const mockFreelancers = [
     availability: "Available now",
     verified: true,
     professionalExperience: getRandomCompanies(5),
+    education: generateFreelancerEducation({
+      skills: ["Python", "Django", "Flask", "PostgreSQL"],
+      experienceYears: 10,
+      title: "Python Developer"
+    }),
   },
 ];

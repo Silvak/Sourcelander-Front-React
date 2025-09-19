@@ -14,6 +14,7 @@ import {
   CheckCircle,
   ArrowLeft,
   Target,
+  GraduationCap,
 } from "lucide-react";
 import { UnifiedFreelancer } from "@/interfaces";
 import { useFreelancerStorage } from "@/hooks/useFreelancerStorage";
@@ -24,6 +25,7 @@ import {
   calculateMembershipYears,
 } from "@/utils/membershipUtils";
 import { generateFreelancerExperience } from "@/utils/experienceGenerator";
+import { generateFreelancerEducation } from "@/utils/educationGenerator";
 
 export default function HirePage() {
   const params = useParams();
@@ -65,6 +67,11 @@ export default function HirePage() {
         experienceYears: 5,
         memberSince: "2020-01-01",
         professionalExperience: generateFreelancerExperience({
+          skills: ["JavaScript", "React", "Node.js"],
+          experienceYears: 5,
+          title: "Professional"
+        }),
+        education: generateFreelancerEducation({
           skills: ["JavaScript", "React", "Node.js"],
           experienceYears: 5,
           title: "Professional"
@@ -255,6 +262,52 @@ export default function HirePage() {
                   ) : (
                     <div className="text-base text-muted-foreground">
                       No professional experience available
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Education Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <GraduationCap className="h-5 w-5 text-primary" />
+                  Education
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {freelancer.education &&
+                  freelancer.education.length > 0 ? (
+                    freelancer.education.map((edu, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between p-3 py-2 bg-muted/30 rounded-lg border-l-4 border-primary/20"
+                      >
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="font-semibold text-base">
+                              {edu.institution}
+                            </span>
+                            {!edu.isCompleted && (
+                              <span className="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded-full font-medium">
+                                En curso
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                            {edu.area}
+                          </div>
+                        </div>
+                        <div className="text-base font-medium text-muted-foreground">
+                          {edu.year}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="text-base text-muted-foreground">
+                      No education information available
                     </div>
                   )}
                 </div>

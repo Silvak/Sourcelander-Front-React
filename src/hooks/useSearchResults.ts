@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { apiInstance } from "@/services/axiosConfig";
 import { calculateMembershipYears } from "@/utils/membershipUtils";
 import { getRandomCompanies } from "@/lib/mockCompanies";
+import { generateFreelancerEducation } from "@/utils/educationGenerator";
 
 // Datos mockeados como fallback - marcados con "MOCK" en el ID
 const mockFreelancers: UnifiedFreelancer[] = [
@@ -36,6 +37,11 @@ const mockFreelancers: UnifiedFreelancer[] = [
     memberSince: "2021-03-15",
     experienceYears: 5,
     professionalExperience: getRandomCompanies(3),
+    education: generateFreelancerEducation({
+      skills: ["React", "TypeScript", "Next.js", "Tailwind CSS", "GraphQL"],
+      experienceYears: 5,
+      title: "Frontend Developer"
+    }),
   },
   {
     id: "mock-2",
@@ -60,6 +66,11 @@ const mockFreelancers: UnifiedFreelancer[] = [
     memberSince: "2019-08-22",
     experienceYears: 7,
     professionalExperience: getRandomCompanies(4),
+    education: generateFreelancerEducation({
+      skills: ["Figma", "Adobe XD", "Sketch", "Prototyping", "Design Systems"],
+      experienceYears: 7,
+      title: "UI/UX Designer"
+    }),
   },
   {
     id: "mock-3",
@@ -84,6 +95,11 @@ const mockFreelancers: UnifiedFreelancer[] = [
     memberSince: "2020-11-10",
     experienceYears: 9,
     professionalExperience: getRandomCompanies(5),
+    education: generateFreelancerEducation({
+      skills: ["Node.js", "Python", "PostgreSQL", "AWS", "Docker"],
+      experienceYears: 9,
+      title: "Backend Developer"
+    }),
   },
   {
     id: "mock-4",
@@ -108,6 +124,11 @@ const mockFreelancers: UnifiedFreelancer[] = [
     memberSince: "2020-05-18",
     experienceYears: 6,
     professionalExperience: getRandomCompanies(3),
+    education: generateFreelancerEducation({
+      skills: ["Swift", "Kotlin", "React Native", "Flutter", "Firebase"],
+      experienceYears: 6,
+      title: "Mobile Developer"
+    }),
   },
   {
     id: "mock-5",
@@ -132,6 +153,11 @@ const mockFreelancers: UnifiedFreelancer[] = [
     memberSince: "2018-12-03",
     experienceYears: 8,
     professionalExperience: getRandomCompanies(4),
+    education: generateFreelancerEducation({
+      skills: ["React", "Node.js", "MongoDB", "Express", "AWS"],
+      experienceYears: 8,
+      title: "Full Stack Developer"
+    }),
   },
   {
     id: "mock-6",
@@ -156,6 +182,11 @@ const mockFreelancers: UnifiedFreelancer[] = [
     memberSince: "2017-09-14",
     experienceYears: 10,
     professionalExperience: getRandomCompanies(5),
+    education: generateFreelancerEducation({
+      skills: ["Docker", "Kubernetes", "AWS", "Jenkins", "Terraform"],
+      experienceYears: 10,
+      title: "DevOps Engineer"
+    }),
   },
 ];
 
@@ -254,6 +285,11 @@ const mapWorkanaFreelancer = (
   memberSince: "2021-01-01", // Default member since date
   experienceYears: Math.floor(Math.random() * 8) + 3, // 3-10 years
   professionalExperience: getRandomCompanies(Math.floor(Math.random() * 4) + 2), // 2-5 companies
+  education: generateFreelancerEducation({
+    skills: [],
+    experienceYears: Math.floor(Math.random() * 8) + 3,
+    title: freelancer.name
+  }),
 });
 
 // Función para mapear HubstaffFreelancer a UnifiedFreelancer
@@ -281,6 +317,11 @@ const mapHubstaffFreelancer = (
   memberSince: "2020-01-01", // Default member since date
   experienceYears: Math.floor(Math.random() * 8) + 3, // 3-10 years
   professionalExperience: getRandomCompanies(Math.floor(Math.random() * 4) + 2), // 2-5 companies
+  education: generateFreelancerEducation({
+    skills: [],
+    experienceYears: Math.floor(Math.random() * 8) + 3,
+    title: freelancer.name
+  }),
 });
 
 const fetchSearchResults = async (

@@ -1,6 +1,7 @@
 import { UnifiedFreelancer } from "@/interfaces";
 import { useMemo } from "react";
 import { generateFreelancerExperience } from "@/utils/experienceGenerator";
+import { generateFreelancerEducation } from "@/utils/educationGenerator";
 
 const STORAGE_KEY = "sourcelander_freelancers";
 
@@ -70,6 +71,25 @@ export const useFreelancerStorage = () => {
                       freelancers[index].speciality,
                   });
 
+          const incomingEducation = freelancer.education;
+          const existingEducation = freelancers[index].education;
+          const mergedEducation =
+            (existingEducation && existingEducation.length > 0)
+              ? existingEducation
+              : (incomingEducation && incomingEducation.length > 0)
+                ? incomingEducation
+                : generateFreelancerEducation({
+                    skills: freelancer.skills ?? freelancers[index].skills ?? [],
+                    experienceYears:
+                      freelancer.experienceYears ??
+                      freelancers[index].experienceYears ??
+                      5,
+                    title:
+                      freelancer.title ??
+                      freelancers[index].title ??
+                      freelancers[index].speciality,
+                  });
+
           freelancers[index] = {
             ...freelancers[index],
             // Update image fields if they exist
@@ -82,6 +102,7 @@ export const useFreelancerStorage = () => {
               freelancer.avatar ||
               freelancers[index].imageUrl,
             professionalExperience: mergedExperience,
+            education: mergedEducation,
             lastViewed: new Date().toISOString(),
             viewCount:
               (freelancers[index].viewCount || 0) + (action === "view" ? 1 : 0),

@@ -9,6 +9,7 @@ import {
 import { apiInstance } from "@/services/axiosConfig";
 import { getRandomCompanies } from "@/lib/mockCompanies";
 import { generateFreelancerExperience } from "@/utils/experienceGenerator";
+import { generateFreelancerEducation } from "@/utils/educationGenerator";
 
 // Extract experience years from Workana skill strings like "SEO (5 to 10 years)" or "Graphic Design (+10 years)"
 function parseExperienceYearsFromSkills(skills?: string[]): number | undefined {
@@ -64,6 +65,11 @@ const mapWorkanaFreelancer = (
     skills: freelancer.skills,
     experienceYears: parseExperienceYearsFromSkills(freelancer.skills) || Math.floor(Math.random() * 8) + 3,
     title: freelancer.title
+  }),
+  education: generateFreelancerEducation({
+    skills: freelancer.skills || [],
+    experienceYears: parseExperienceYearsFromSkills(freelancer.skills) || Math.floor(Math.random() * 8) + 3,
+    title: freelancer.title || freelancer.name
   })
 });
 
@@ -91,6 +97,11 @@ const mapHubstaffFreelancer = (
     skills: freelancer.skills,
     experienceYears: parseExperienceYearsFromSkills(freelancer.skills) || Math.floor(Math.random() * 8) + 3,
     title: freelancer.speciality || freelancer.employmentType
+  }),
+  education: generateFreelancerEducation({
+    skills: freelancer.skills || [],
+    experienceYears: parseExperienceYearsFromSkills(freelancer.skills) || Math.floor(Math.random() * 8) + 3,
+    title: freelancer.speciality || freelancer.employmentType || freelancer.name
   })
 });
 

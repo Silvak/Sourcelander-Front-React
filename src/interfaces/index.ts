@@ -1,4 +1,4 @@
-import { IProfessionalExperience } from '../types';
+import { IProfessionalExperience, IEducation } from '../types';
 
 // Unified Freelancer type
 export interface UnifiedFreelancer {
@@ -23,6 +23,7 @@ export interface UnifiedFreelancer {
   verified?: boolean;
   experienceYears?: number;
   professionalExperience?: IProfessionalExperience[]; // Array de experiencias profesionales
+  education?: IEducation[]; // Array de educación
   memberSince?: string; // Antigüedad en la app (fecha de registro)
   // Storage-related properties
   storedAt?: string;

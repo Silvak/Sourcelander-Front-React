@@ -1,6 +1,7 @@
 import { UnifiedFreelancer } from "@/interfaces";
 import { getRandomCompanies } from './mockCompanies';
 import { generateFreelancerExperience } from '@/utils/experienceGenerator';
+import { generateFreelancerEducation } from '@/utils/educationGenerator';
 
 // Mock data para freelancers recomendados - 5 freelancers únicos
 export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
@@ -35,6 +36,11 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     memberSince: "2016-03-15",
     experienceYears: 12,
     professionalExperience: generateFreelancerExperience({
+      skills: ["React", "Node.js", "TypeScript", "AWS", "MongoDB"],
+      experienceYears: 12,
+      title: "Full Stack Developer"
+    }),
+    education: generateFreelancerEducation({
       skills: ["React", "Node.js", "TypeScript", "AWS", "MongoDB"],
       experienceYears: 12,
       title: "Full Stack Developer"
@@ -75,6 +81,11 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
       experienceYears: 10,
       title: "UI/UX Designer"
     }),
+    education: generateFreelancerEducation({
+      skills: ["Figma", "Adobe XD", "Sketch", "Prototyping", "User Research"],
+      experienceYears: 10,
+      title: "UI/UX Designer"
+    }),
   },
   {
     id: "rec-michael-rodriguez-003",
@@ -107,6 +118,11 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     memberSince: "2014-01-10",
     experienceYears: 15,
     professionalExperience: generateFreelancerExperience({
+      skills: ["AWS", "Docker", "Kubernetes", "Terraform", "Jenkins"],
+      experienceYears: 15,
+      title: "DevOps Engineer"
+    }),
+    education: generateFreelancerEducation({
       skills: ["AWS", "Docker", "Kubernetes", "Terraform", "Jenkins"],
       experienceYears: 15,
       title: "DevOps Engineer"
@@ -153,6 +169,11 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
       experienceYears: 10,
       title: "Digital Marketing Specialist"
     }),
+    education: generateFreelancerEducation({
+      skills: ["SEO", "Google Ads", "Facebook Ads", "Content Marketing", "Analytics"],
+      experienceYears: 10,
+      title: "Digital Marketing Specialist"
+    }),
   },
   {
     id: "rec-james-wilson-005",
@@ -191,6 +212,11 @@ export const mockRecommendedFreelancers: UnifiedFreelancer[] = [
     memberSince: "2019-11-03",
     experienceYears: 8,
     professionalExperience: generateFreelancerExperience({
+      skills: ["Python", "Machine Learning", "TensorFlow", "SQL", "Data Visualization"],
+      experienceYears: 8,
+      title: "Data Scientist"
+    }),
+    education: generateFreelancerEducation({
       skills: ["Python", "Machine Learning", "TensorFlow", "SQL", "Data Visualization"],
       experienceYears: 8,
       title: "Data Scientist"

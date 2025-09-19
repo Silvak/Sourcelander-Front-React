@@ -5,8 +5,6 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import FreelancerCard from "./FreelancerCard";
 import { UnifiedFreelancer } from "@/interfaces";
-import { applyVisualFilters, IFilterOptions } from "@/components/common/FilterDropdown";
-import FilterDropdown from "@/components/common/FilterDropdown";
 
 interface RecommendedFreelancersCarouselProps {
   freelancers: UnifiedFreelancer[];
@@ -17,14 +15,9 @@ export default function RecommendedFreelancersCarousel({
   freelancers,
   onViewProfile,
 }: RecommendedFreelancersCarouselProps) {
-  const [filters, setFilters] = useState<IFilterOptions>({
-    priceRange: null,
-    experience: null,
-  });
-  
-  // Aplicar filtros visuales a los freelancers
-  const filteredFreelancers = applyVisualFilters(freelancers, filters);
-  
+  // Usar directamente los freelancers sin filtros
+  const filteredFreelancers = freelancers;
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -81,7 +74,7 @@ export default function RecommendedFreelancersCarousel({
   // Reset currentIndex when filters change
   useEffect(() => {
     setCurrentIndex(0);
-  }, [filters]);
+  }, []);
 
   const maxIndex = Math.max(0, filteredFreelancers.length - cardsPerView);
 
@@ -119,19 +112,9 @@ export default function RecommendedFreelancersCarousel({
   return (
     <section className="mb-16 animate-slideIn">
       <div className="text-center mb-12">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex-1"></div>
-          <h2 className="text-3xl font-bold text-gray-900">
-            Recommended Freelancers
-          </h2>
-          <div className="flex-1 flex justify-end">
-            <FilterDropdown 
-              onFiltersChange={setFilters}
-              currentFilters={filters}
-              className="ml-4"
-            />
-          </div>
-        </div>
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          Recommended Freelancers
+        </h2>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
           Discover top-rated freelancers handpicked for your projects
         </p>
@@ -171,8 +154,18 @@ export default function RecommendedFreelancersCarousel({
               <div className="mb-6">
                 <div className="relative">
                   <div className="text-gray-300 mb-4">
-                    <svg className="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    <svg
+                      className="h-16 w-16 mx-auto"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1}
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                      />
                     </svg>
                   </div>
                   <div className="absolute top-0 right-1/2 translate-x-8 w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center">
@@ -181,18 +174,11 @@ export default function RecommendedFreelancersCarousel({
                 </div>
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                No hay recomendaciones con estos filtros
+                No hay recomendaciones disponibles
               </h3>
               <p className="text-gray-600 mb-6 max-w-sm mx-auto leading-relaxed">
-                Ajusta los filtros para ver más freelancers recomendados que se adapten a tu proyecto.
+                No se encontraron freelancers recomendados en este momento.
               </p>
-              <Button 
-                variant="outline" 
-                onClick={() => setFilters({ priceRange: null, experience: null })}
-                className="text-sm"
-              >
-                Limpiar filtros
-              </Button>
             </div>
           ) : (
             <div

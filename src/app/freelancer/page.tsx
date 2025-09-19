@@ -13,6 +13,7 @@ import { popularCategories } from "@/lib/searchData";
 import { generateExtendedRecommended } from "@/lib/mockRecommended";
 import { Search, Users, Filter, Loader2 } from "lucide-react";
 import { generateFreelancerExperience } from "@/utils/experienceGenerator";
+import { generateFreelancerEducation } from "@/utils/educationGenerator";
 import { Badge } from "@/components/ui/badge";
 import { useInfiniteSearchResults } from "@/hooks/useInfiniteSearchResults";
 import { useFreelancerStorage } from "@/hooks/useFreelancerStorage";
@@ -48,6 +49,11 @@ const mockFreelancers: UnifiedFreelancer[] = [
       experienceYears: 8,
       title: "Full Stack Developer",
     }),
+    education: generateFreelancerEducation({
+      skills: ["React", "Node.js", "Python", "TypeScript", "MongoDB"],
+      experienceYears: 8,
+      title: "Full Stack Developer",
+    }),
   },
   {
     id: "fl-michael-chen-002",
@@ -68,6 +74,11 @@ const mockFreelancers: UnifiedFreelancer[] = [
     payRate: "$35/hr",
     experienceYears: 6,
     professionalExperience: generateFreelancerExperience({
+      skills: ["Figma", "Adobe XD", "Sketch", "Prototyping", "User Research"],
+      experienceYears: 6,
+      title: "UI/UX Designer",
+    }),
+    education: generateFreelancerEducation({
       skills: ["Figma", "Adobe XD", "Sketch", "Prototyping", "User Research"],
       experienceYears: 6,
       title: "UI/UX Designer",
@@ -96,6 +107,11 @@ const mockFreelancers: UnifiedFreelancer[] = [
       experienceYears: 10,
       title: "Mobile App Developer",
     }),
+    education: generateFreelancerEducation({
+      skills: ["React Native", "Flutter", "Swift", "Kotlin", "Firebase"],
+      experienceYears: 10,
+      title: "Mobile App Developer",
+    }),
   },
   {
     id: "fl-david-thompson-004",
@@ -116,6 +132,11 @@ const mockFreelancers: UnifiedFreelancer[] = [
     payRate: "$60/hr",
     experienceYears: 5,
     professionalExperience: generateFreelancerExperience({
+      skills: ["AWS", "Docker", "Kubernetes", "Terraform", "Jenkins"],
+      experienceYears: 5,
+      title: "DevOps Engineer",
+    }),
+    education: generateFreelancerEducation({
       skills: ["AWS", "Docker", "Kubernetes", "Terraform", "Jenkins"],
       experienceYears: 5,
       title: "DevOps Engineer",
@@ -144,6 +165,11 @@ const mockFreelancers: UnifiedFreelancer[] = [
       experienceYears: 7,
       title: "Data Scientist",
     }),
+    education: generateFreelancerEducation({
+      skills: ["Python", "R", "SQL", "TensorFlow", "Tableau"],
+      experienceYears: 7,
+      title: "Data Scientist",
+    }),
   },
   {
     id: "fl-james-wilson-006",
@@ -164,6 +190,11 @@ const mockFreelancers: UnifiedFreelancer[] = [
     payRate: "$48/hr",
     experienceYears: 9,
     professionalExperience: generateFreelancerExperience({
+      skills: ["Java", "Spring Boot", "PostgreSQL", "Redis", "Kafka"],
+      experienceYears: 9,
+      title: "Backend Developer",
+    }),
+    education: generateFreelancerEducation({
       skills: ["Java", "Spring Boot", "PostgreSQL", "Redis", "Kafka"],
       experienceYears: 9,
       title: "Backend Developer",
@@ -260,6 +291,12 @@ export default function FreelancerPage() {
           freelancer.avatar ||
           freelancer.profileImage ||
           "",
+        // Ensure education is preserved or generated if missing
+        education: freelancer.education || generateFreelancerEducation({
+          skills: freelancer.skills || [],
+          experienceYears: freelancer.experienceYears || 5,
+          title: freelancer.title || freelancer.speciality || freelancer.name
+        }),
       };
       saveFreelancer(freelancerWithCompleteData);
       setSelectedFreelancer(freelancerWithCompleteData);
@@ -278,6 +315,12 @@ export default function FreelancerPage() {
       ...freelancer,
       avatar: freelancer.avatar || freelancer.imageUrl || "",
       imageUrl: freelancer.imageUrl || freelancer.avatar || "",
+      // Ensure education is preserved or generated if missing
+      education: freelancer.education || generateFreelancerEducation({
+        skills: freelancer.skills || [],
+        experienceYears: freelancer.experienceYears || 5,
+        title: freelancer.title || freelancer.speciality || freelancer.name
+      }),
     };
     saveFreelancer(freelancerWithCompleteData, "hire");
 
