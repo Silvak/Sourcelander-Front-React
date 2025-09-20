@@ -41,16 +41,16 @@ export default function FreelancerModal({
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-2 sm:p-4"
       onClick={onClose}
     >
       <div
-        className="bg-background rounded-lg shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+        className="bg-background rounded-lg shadow-lg w-full max-w-2xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b">
-          <h2 className="text-xl font-bold">Freelancer Profile</h2>
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b">
+          <h2 className="text-lg sm:text-xl font-bold">Freelancer Profile</h2>
           <Button
             variant="ghost"
             size="sm"
@@ -62,51 +62,55 @@ export default function FreelancerModal({
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-6">
+        <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
           {/* Profile Header */}
-          <div className="flex items-start gap-6">
-            <Avatar className="h-20 w-20">
-              <AvatarImage
-                src={freelancer.avatar || freelancer.imageUrl || ""}
-                alt={freelancer.name}
-              />
-              <AvatarFallback className="text-lg">
-                {freelancer.name
-                  .split(" ")
-                  .map((n) => n[0])
-                  .join("")}
-              </AvatarFallback>
-            </Avatar>
+          <div className="flex flex-col sm:flex-row items-start md:justify-between gap-4 sm:gap-6 w-full ">
+            <div className="flex items-start gap-4 w-full sm:w-auto">
+              <Avatar className="h-16 w-16 sm:h-20 sm:w-20">
+                <AvatarImage
+                  src={freelancer.avatar || freelancer.imageUrl || ""}
+                  alt={freelancer.name}
+                />
+                <AvatarFallback className="text-sm sm:text-lg">
+                  {freelancer.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")}
+                </AvatarFallback>
+              </Avatar>
 
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-2">
-                <h3 className="text-lg font-bold">{freelancer.name}</h3>
-                {freelancer.verified && (
-                  <CheckCircle className="h-5 w-5 text-primary" />
-                )}
-              </div>
-              <p className="text-base text-muted-foreground mb-3">
-                {freelancer.title}
-              </p>
-
-              <div className="flex items-center gap-4 text-sm">
-                <div className="flex items-center gap-1">
-                  <Calendar className="h-4 w-4 text-primary" />
-                  <span className="font-medium">
-                    {formatMembershipYears(freelancer.memberSince)}
-                  </span>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1 sm:mb-2">
+                  <h3 className="text-base sm:text-lg font-bold truncate">
+                    {freelancer.name}
+                  </h3>
+                  {freelancer.verified && (
+                    <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-primary flex-shrink-0" />
+                  )}
                 </div>
-                <div className="flex items-center gap-1">
-                  <MapPin className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-muted-foreground">
-                    {freelancer.location}
-                  </span>
+                <p className="text-sm sm:text-base text-muted-foreground mb-2 sm:mb-3 line-clamp-2">
+                  {freelancer.title}
+                </p>
+
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm">
+                  <div className="flex items-center gap-1">
+                    <Calendar className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
+                    <span className="font-medium">
+                      {formatMembershipYears(freelancer.memberSince)}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <MapPin className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
+                    <span className="text-muted-foreground truncate">
+                      {freelancer.location}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-col justify-end items-center gap-2">
-              <div className="text-lg font-bold text-primary">
+            <div className="flex flex-row sm:flex-col justify-between sm:justify-end items-center gap-2 sm:gap-2 w-auto">
+              <div className="text-lg sm:text-lg font-bold text-primary">
                 ${freelancer.hourlyRate}/hr
               </div>
               <div
@@ -120,13 +124,13 @@ export default function FreelancerModal({
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <Card>
-              <CardContent className="p-4 text-center">
-                <div className="flex items-center justify-center mb-2">
-                  <Award className="h-6 w-6 text-primary" />
+              <CardContent className="p-3 sm:p-4 text-center">
+                <div className="flex items-center justify-center mb-1 sm:mb-2">
+                  <Award className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                 </div>
-                <div className="text-lg font-bold">
+                <div className="text-base sm:text-lg font-bold">
                   {freelancer.completedProjects || freelancer.reviews}+
                 </div>
                 <div className="text-xs text-muted-foreground">Projects</div>
@@ -134,11 +138,11 @@ export default function FreelancerModal({
             </Card>
 
             <Card>
-              <CardContent className="p-4 text-center">
-                <div className="flex items-center justify-center mb-2">
-                  <Users className="h-6 w-6 text-primary" />
+              <CardContent className="p-3 sm:p-4 text-center">
+                <div className="flex items-center justify-center mb-1 sm:mb-2">
+                  <Users className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                 </div>
-                <div className="text-lg font-bold">98%</div>
+                <div className="text-base sm:text-lg font-bold">98%</div>
                 <div className="text-xs text-muted-foreground">
                   Success Rate
                 </div>
@@ -146,11 +150,11 @@ export default function FreelancerModal({
             </Card>
 
             <Card>
-              <CardContent className="p-4 text-center">
-                <div className="flex items-center justify-center mb-2">
-                  <Calendar className="h-6 w-6 text-primary" />
+              <CardContent className="p-3 sm:p-4 text-center">
+                <div className="flex items-center justify-center mb-1 sm:mb-2">
+                  <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                 </div>
-                <div className="text-lg font-bold">
+                <div className="text-base sm:text-lg font-bold">
                   {freelancer.experienceYears || 5}+
                 </div>
                 <div className="text-xs text-muted-foreground">
@@ -160,11 +164,11 @@ export default function FreelancerModal({
             </Card>
 
             <Card>
-              <CardContent className="p-4 text-center">
-                <div className="flex items-center justify-center mb-2">
-                  <Globe className="h-6 w-6 text-primary" />
+              <CardContent className="p-3 sm:p-4 text-center">
+                <div className="flex items-center justify-center mb-1 sm:mb-2">
+                  <Globe className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                 </div>
-                <div className="text-lg font-bold">
+                <div className="text-base sm:text-lg font-bold">
                   {freelancer.skills?.length || 0}
                 </div>
                 <div className="text-xs text-muted-foreground">Skills</div>
@@ -209,24 +213,24 @@ export default function FreelancerModal({
                   freelancer.professionalExperience.map((exp, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between p-3 py-2 bg-muted/30 rounded-lg border-l-4 border-primary/20"
+                      className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 py-2 bg-muted/30 rounded-lg border-l-4 border-primary/20 gap-2 sm:gap-0"
                     >
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="font-semibold text-sm">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1">
+                          <span className="font-semibold text-sm truncate">
                             {exp.position}
                           </span>
                           {exp.isCurrent && (
-                            <span className="px-2 py-1 text-xs bg-green-100 text-green-700 rounded-full font-medium">
+                            <span className="px-2 py-1 text-xs bg-green-100 text-green-700 rounded-full font-medium self-start">
                               Current
                             </span>
                           )}
                         </div>
-                        <div className="text-sm text-muted-foreground">
+                        <div className="text-sm text-muted-foreground truncate">
                           {exp.company}
                         </div>
                       </div>
-                      <div className="text-sm font-medium text-muted-foreground">
+                      <div className="text-sm font-medium text-muted-foreground sm:text-right">
                         {exp.period}
                       </div>
                     </div>
@@ -254,24 +258,24 @@ export default function FreelancerModal({
                   freelancer.education.map((edu, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between p-3 py-2 bg-muted/30 rounded-lg border-l-4 border-primary/20"
+                      className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 py-2 bg-muted/30 rounded-lg border-l-4 border-primary/20 gap-2 sm:gap-0"
                     >
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="font-semibold text-sm">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1">
+                          <span className="font-semibold text-sm truncate">
                             {edu.institution}
                           </span>
                           {!edu.isCompleted && (
-                            <span className="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded-full font-medium">
+                            <span className="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded-full font-medium self-start">
                               En curso
                             </span>
                           )}
                         </div>
-                        <div className="text-sm text-muted-foreground">
+                        <div className="text-sm text-muted-foreground truncate">
                           {edu.area}
                         </div>
                       </div>
-                      <div className="text-sm font-medium text-muted-foreground">
+                      <div className="text-sm font-medium text-muted-foreground sm:text-right">
                         {edu.year}
                       </div>
                     </div>
@@ -295,15 +299,15 @@ export default function FreelancerModal({
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="p-4 bg-muted/30 rounded-lg">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                  <div className="p-3 sm:p-4 bg-muted/30 rounded-lg">
                     <h4 className="font-semibold mb-2 text-sm">Methodology</h4>
                     <p className="text-sm text-muted-foreground">
                       Agile development with regular check-ins and iterative
                       delivery
                     </p>
                   </div>
-                  <div className="p-4 bg-muted/30 rounded-lg">
+                  <div className="p-3 sm:p-4 bg-muted/30 rounded-lg">
                     <h4 className="font-semibold mb-2 text-sm">
                       Communication
                     </h4>
@@ -311,7 +315,7 @@ export default function FreelancerModal({
                       Daily updates and transparent progress reporting
                     </p>
                   </div>
-                  <div className="p-4 bg-muted/30 rounded-lg">
+                  <div className="p-3 sm:p-4 bg-muted/30 rounded-lg">
                     <h4 className="font-semibold mb-2 text-sm">
                       Quality Focus
                     </h4>
@@ -319,7 +323,7 @@ export default function FreelancerModal({
                       Code reviews, testing, and documentation included
                     </p>
                   </div>
-                  <div className="p-4 bg-muted/30 rounded-lg">
+                  <div className="p-3 sm:p-4 bg-muted/30 rounded-lg">
                     <h4 className="font-semibold mb-2 text-sm">Timeline</h4>
                     <p className="text-sm text-muted-foreground">
                       Realistic estimates with buffer time for revisions
@@ -363,30 +367,32 @@ export default function FreelancerModal({
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 border rounded-lg">
-                  <div>
-                    <h4 className="text-sm font-medium">E-commerce Platform</h4>
-                    <p className="text-sm text-muted-foreground">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 border rounded-lg gap-2 sm:gap-0">
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-sm font-medium truncate">
+                      E-commerce Platform
+                    </h4>
+                    <p className="text-sm text-muted-foreground truncate">
                       React, Node.js, MongoDB
                     </p>
                   </div>
-                  <div className="text-right">
+                  <div className="text-left sm:text-right">
                     <div className="text-sm font-medium">$8,500</div>
                     <div className="text-sm text-muted-foreground">
                       Completed
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center justify-between p-3 border rounded-lg">
-                  <div>
-                    <h4 className="text-sm font-medium">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 border rounded-lg gap-2 sm:gap-0">
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-sm font-medium truncate">
                       Mobile App Development
                     </h4>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted-foreground truncate">
                       React Native, Firebase
                     </p>
                   </div>
-                  <div className="text-right">
+                  <div className="text-left sm:text-right">
                     <div className="text-sm font-medium">$12,000</div>
                     <div className="text-sm text-muted-foreground">
                       Completed
@@ -399,19 +405,26 @@ export default function FreelancerModal({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between p-6 border-t">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 sm:p-6 border-t gap-4 sm:gap-0">
           <div className="flex items-center gap-2">
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <DollarSign className="h-4 w-4 text-muted-foreground flex-shrink-0" />
             <span className="text-sm text-muted-foreground">
               Average project value: $
               {((freelancer.hourlyRate || 0) * 40).toLocaleString()}
             </span>
           </div>
-          <div className="flex gap-3">
-            <Button variant="outline" onClick={onClose}>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button
+              variant="outline"
+              onClick={onClose}
+              className="w-full sm:w-auto"
+            >
               Close
             </Button>
-            <Button onClick={() => onHire(freelancer)}>
+            <Button
+              onClick={() => onHire(freelancer)}
+              className="w-full sm:w-auto"
+            >
               Hire {freelancer.name.split(" ")[0]}
             </Button>
           </div>
