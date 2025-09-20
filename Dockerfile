@@ -3,7 +3,7 @@ FROM node:20-alpine AS builder
 
 # Establece directorio de trabajo
 WORKDIR /app
-
+ENV NEXT_TELEMETRY_DISABLED=1
 # Copia package.json y package-lock.json (si existe)
 COPY package.json ./
 COPY package-lock.json ./
@@ -41,4 +41,5 @@ EXPOSE 3000
 
 # Comando de inicio
 #CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
-CMD ["npm", "run", "build"]
+#CMD ["npm", "run", "build"]
+CMD ["node", "server.js"]
