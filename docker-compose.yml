@@ -1,0 +1,23 @@
+services:
+  sourcelander:
+    build:
+      context: .
+    image: sourcelander:prod
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+    networks:
+      sourcelander:
+        ipv4_address: 192.168.10.12
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    ports:
+      - "3020:3000"
+
+networks:
+  sourcelander:
+    external:
+      name: nginx_nginx
