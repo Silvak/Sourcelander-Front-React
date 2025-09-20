@@ -1,45 +1,25 @@
 # Etapa 1: Build
 FROM node:20-alpine AS builder
-
-# Establece directorio de trabajo
 WORKDIR /app
-ENV NEXT_TELEMETRY_DISABLED=1
-# Copia package.json y package-lock.json (si existe)
-COPY package.json ./
-COPY package-lock.json ./
-
-# Instala dependencias solo de producción y desarrollo necesarias para el build
+RUN apk add --no-cache libc6-compat
+COPY package*.json ./
+# Para builds reproducibles y más rápidos en CI:
 RUN npm install
-
-# Copia el resto del código fuente
 COPY . .
-
-# Ejecuta el build de Next.js
+ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
 # Etapa 2: Producción
 FROM node:20-alpine AS runner
-
-# Establece directorio de trabajo
 WORKDIR /app
-
-COPY . .
-
-#COPY next.config.js .
-# Copia solo lo necesario desde el builder
-COPY --from=builder /app/package.json ./
+RUN apk add --no-cache libc6-compat curl
+ENV NODE_ENV=production
+# Copiamos solo lo necesario
+COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
-#COPY --from=builder /app/next.config.js ./
 
-# Variable de entorno para producción
-ENV NODE_ENV=production
-
-# Puerto por defecto que expone Next.js
 EXPOSE 3000
-
-# Comando de inicio
-#CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
-CMD ["npm", "run", "build"]
-#CMD ["node", "server.js"]
+# ✅ Ejecuta el servidor, no el build
+CMD ["npm", "run", "start"]
