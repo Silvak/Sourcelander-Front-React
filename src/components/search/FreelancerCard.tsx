@@ -32,11 +32,11 @@ export default function FreelancerCard({
     freelancer.id || `freelancer-${Math.random().toString(36).substr(2, 9)}`;
 
   return (
-    <Card className="hover:border-primary transition-all rounded-[0px] duration-200 h-full flex flex-col group cursor-pointer hover-lift">
-      <CardContent className="p-6 flex flex-col h-full">
+    <Card className="hover:border-primary transition-all rounded-[0px] duration-200 h-full flex flex-col group cursor-pointer hover-lift min-h-[450px]">
+      <CardContent className="flex flex-col h-full">
         {/* Header con avatar y información principal */}
-        <div className="flex items-start gap-4 mb-6">
-          <Avatar className="h-16 w-16 flex-shrink-0 border-2 border-muted group-hover:border-primary/20 transition-colors">
+        <div className="flex items-start mb-6">
+          <Avatar className="h-16 w-16 border-2 border-none ">
             <AvatarImage src={avatar} alt={name} />
             <AvatarFallback className="text-lg font-semibold bg-primary/10">
               {name
@@ -46,9 +46,9 @@ export default function FreelancerCard({
             </AvatarFallback>
           </Avatar>
 
-          <div className="flex-1 min-w-0">
+          <div className="flex flex-col w-full gap-2 h-[125px] ml-3">
             {/* Nombre y verificación */}
-            <div className="flex items-center gap-2 mt-6 sm:mt-0 mb-2 min-w-0">
+            <div className="flex items-center gap-1  min-w-0">
               <h3
                 className="font-semibold text-lg leading-snug text-foreground"
                 title={name}
@@ -59,14 +59,14 @@ export default function FreelancerCard({
 
             {/* Título */}
             <p
-              className="text-muted-foreground text-sm mb-3 leading-snug"
+              className="text-muted-foreground text-sm leading-snug"
               title={title}
             >
               {title}
             </p>
 
             {/* Ubicación */}
-            <div className="flex items-center gap-1 mb-3 text-sm text-muted-foreground">
+            <div className="flex items-center gap-1 text-xs text-muted-foreground">
               <MapPin className="h-4 w-4 flex-shrink-0" />
               <span className="whitespace-normal break-words" title={location}>
                 {location}
@@ -83,7 +83,7 @@ export default function FreelancerCard({
           </div>
 
           {/* Precio y disponibilidad */}
-          <div className="text-right flex-shrink-0">
+          <div className="text-right flex-shrink-0 pt-1">
             <div className="text-base font-semibold text-primary leading-none">
               {priceFormat === "absolute"
                 ? `$${hourlyRate}`
@@ -101,7 +101,7 @@ export default function FreelancerCard({
         </div>
 
         {/* Descripción */}
-        <div className="mb-6 flex-1">
+        <div className=" h-[90px] overflow-hidden">
           <p
             className="text-sm text-muted-foreground leading-relaxed"
             style={{
@@ -142,7 +142,7 @@ export default function FreelancerCard({
         </div>
 
         {/* Button fijo en la parte inferior */}
-        <div className="mt-auto pt-4 border-t border-muted/20">
+        <div className="mt-auto border-muted/20">
           <div className="flex flex-col  items-center gap-2">
             <Button
               onClick={() => onViewProfile(id)}
