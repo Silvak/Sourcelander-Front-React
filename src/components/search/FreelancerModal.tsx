@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   MapPin,
   Clock,
@@ -35,7 +36,29 @@ export default function FreelancerModal({
   onClose,
   onHire,
 }: FreelancerModalProps) {
-  // Console log para ver los datos del freelancer
+  // Bloquear el scroll del body cuando la modal está abierta
+  useEffect(() => {
+    if (isOpen) {
+      // Guardar el scroll actual
+      const scrollY = window.scrollY;
+
+      // Aplicar estilos para bloquear el scroll
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
+      document.body.style.overflow = "hidden";
+
+      return () => {
+        // Restaurar el scroll cuando se cierre la modal
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.width = "";
+        document.body.style.overflow = "";
+        // Usar behavior: 'instant' para evitar animación
+        window.scrollTo({ top: scrollY, left: 0, behavior: "instant" });
+      };
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
