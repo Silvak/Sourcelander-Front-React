@@ -1,0 +1,12 @@
+services:
+  sourcelander-front:
+    build:
+      context: .
+    networks:
+      sourcelander:
+        ipv4_address: 192.168.10.74
+
+networks:
+  sourcelander:
+    external: 
+      name: nginx_nginx
