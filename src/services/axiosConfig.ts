@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const apiInstance = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_API_URL}/api`,
-  timeout: 15000, // Increased timeout to 15 seconds
+  timeout: 30000, // Increased timeout to 20 seconds
   headers: {
     "Content-Type": "application/json",
     ...(process.env.NEXT_PUBLIC_API_KEY
@@ -13,7 +13,7 @@ export const apiInstance = axios.create({
 
 export const apiInstanceStrapi = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_STRAPI_URL}/api`,
-  timeout: 15000,
+  timeout: 30000, // Timeout set to 20 seconds
   headers: {
     "Content-Type": "application/json",
     ...(process.env.NEXT_PUBLIC_API_KEY
