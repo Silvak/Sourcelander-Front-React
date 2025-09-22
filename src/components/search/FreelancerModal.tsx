@@ -1,5 +1,4 @@
 import {
-  Star,
   MapPin,
   Clock,
   CheckCircle,
@@ -21,10 +20,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UnifiedFreelancer } from "@/interfaces";
-import {
-  formatMembershipYears,
-  calculateMembershipYears,
-} from "@/utils/membershipUtils";
+import { formatMembershipYears } from "@/utils/membershipUtils";
 
 interface FreelancerModalProps {
   freelancer: UnifiedFreelancer;
@@ -40,7 +36,6 @@ export default function FreelancerModal({
   onHire,
 }: FreelancerModalProps) {
   // Console log para ver los datos del freelancer
-
 
   if (!isOpen) return null;
 
@@ -255,8 +250,7 @@ export default function FreelancerModal({
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                {freelancer.education &&
-                freelancer.education.length > 0 ? (
+                {freelancer.education && freelancer.education.length > 0 ? (
                   freelancer.education.map((edu, index) => (
                     <div
                       key={index}
