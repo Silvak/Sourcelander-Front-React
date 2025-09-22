@@ -36,6 +36,7 @@ interface CartActions {
   getTotalCost: () => number;
   getTotalHours: () => number;
   getItemCount: () => number;
+  getManagementFee: () => number;
 }
 
 type CartStore = CartState & CartActions;
@@ -133,6 +134,20 @@ export const useCartStore = create<CartStore>()(
       getItemCount: () => {
         const { items } = get();
         return items.length;
+      },
+
+      getManagementFee: () => {
+        const { items } = get();
+        const laborCost = items.reduce(
+          (total, item) => total + item.totalCost,
+          0
+        );
+        const standardFee = laborCost * 0.2; // 20% standard fee
+
+        // Minimum personnel management fee of $1,500
+        const minimumFee = 1500;
+
+        return Math.max(standardFee, minimumFee);
       },
     }),
     {

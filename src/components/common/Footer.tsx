@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { BiWorld } from "react-icons/bi";
 
 export default function Footer({ className = "" }: { className?: string }) {
   return (
@@ -154,26 +155,47 @@ export default function Footer({ className = "" }: { className?: string }) {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pt-8 ">
             <div>
               <h3 className="font-semibold text-lg mb-2">Supported by</h3>
-              <Link
-                href="https://sinergy-alliance.com/"
-                className="cursor-pointer outline-none"
-                prefetch={true}
-                passHref
-              >
-                <Image
-                  src="/logoSinergy.png"
-                  alt="logo"
-                  width={80}
-                  height={70}
-                  style={{ height: "auto" }}
-                  priority
-                  className="ml-4"
-                />
-              </Link>
+              <div className="flex flex-col md:flex-row items-center gap-8">
+                <Link
+                  href="https://sinergy-alliance.com/"
+                  className="cursor-pointer outline-none"
+                  prefetch={true}
+                  passHref
+                >
+                  <Image
+                    src="/logoSinergy.png"
+                    alt="logo"
+                    width={80}
+                    height={70}
+                    style={{ height: "auto" }}
+                    priority
+                    className="ml-4"
+                  />
+                </Link>
+
+                <Link
+                  href="https://www.koolinart.com"
+                  className="cursor-pointer outline-none"
+                  prefetch={true}
+                  passHref
+                >
+                  <Image
+                    src="/koolinartlogo.svg"
+                    alt="logo"
+                    width={120}
+                    height={70}
+                    style={{ height: "auto" }}
+                    priority
+                    className="ml-4"
+                  />
+                </Link>
+              </div>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-secondary/10 rounded-lg flex items-center justify-center">
-                <span className="text-secondary font-bold text-sm">G</span>
+                <span className="font-bold text-lg text-muted-foreground">
+                  <BiWorld />
+                </span>
               </div>
               <span className="text-muted-foreground">Global Partners</span>
             </div>

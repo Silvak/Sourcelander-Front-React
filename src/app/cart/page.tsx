@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -25,22 +24,15 @@ import {
   FileText,
 } from "lucide-react";
 import { useCartStore, type CartItem } from "@/store/cart/cartStore";
+import {
+  useProjectStore,
+  type ProjectData,
+} from "@/store/project/projectStore";
 import { toast } from "sonner";
 import { useAuthStore } from "@/store/auth/authStore";
-import EmailVerificationModal from "@/components/modals/EmailVerificationModal";
-import CheckoutSuccessModal from "@/components/modals/CheckoutSuccessModal";
 import Link from "next/link";
 import Container from "@/components/common/Container";
-
-interface ProjectData {
-  name: string;
-  description: string;
-  startDate: string;
-  duration: string;
-  budget: string;
-  industry: string;
-  complexity: string;
-}
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
   const {
@@ -50,60 +42,41 @@ export default function CartPage() {
     getTotalCost,
     getTotalHours,
     getItemCount,
-    clearCart,
+    getManagementFee,
   } = useCartStore();
 
+  const { projectData, setProjectData } = useProjectStore();
   const { isAuthenticated } = useAuthStore();
-  const [showEmailModal, setShowEmailModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [projectData, setProjectData] = useState<ProjectData>({
-    name: "",
-    description: "",
-    startDate: "",
-    duration: "",
-    budget: "",
-    industry: "",
-    complexity: "",
-  });
+  const router = useRouter();
 
   const handleProjectDataChange = (field: keyof ProjectData, value: string) => {
-    setProjectData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    setProjectData({ [field]: value });
   };
 
   const handleCreateProjectTeam = async () => {
     if (!isAuthenticated) {
-      toast.error("Please log in to create your project team");
+      toast.error("Por favor inicia sesión para crear tu equipo de proyecto");
       return;
     }
 
     // Validate required fields
     if (!projectData.name.trim()) {
-      toast.error("Please enter a project name");
+      toast.error("Por favor ingresa un nombre para el proyecto");
       return;
     }
 
     if (!projectData.description.trim()) {
-      toast.error("Please enter a project description");
+      toast.error("Por favor ingresa una descripción del proyecto");
       return;
     }
 
     if (!projectData.startDate) {
-      toast.error("Please select a start date");
+      toast.error("Por favor selecciona una fecha de inicio");
       return;
     }
 
-    // For demo purposes, always show email verification modal
-    setShowEmailModal(true);
-  };
-
-  const handleEmailVerified = () => {
-    setShowEmailModal(false);
-    // Simulate successful project team creation
-    setShowSuccessModal(true);
-    clearCart();
+    // Redirect to payments page
+    router.push("/payments");
   };
 
   const formatCurrency = (amount: number) => {
@@ -111,16 +84,6 @@ export default function CartPage() {
       style: "currency",
       currency: "USD",
     }).format(amount);
-  };
-
-  const getManagementFee = () => {
-    const laborCost = getTotalCost();
-    const standardFee = laborCost * 0.2; // 20% standard fee
-
-    // Minimum personnel management fee of $1,500
-    const minimumFee = 1500;
-
-    return Math.max(standardFee, minimumFee);
   };
 
   const getTotalWithManagement = () => {
@@ -365,7 +328,7 @@ export default function CartPage() {
                     className="w-full h-12"
                   >
                     <CreditCard className="h-4 w-4 mr-2" />
-                    Create Project Team
+                    Continuar al Pago
                   </Button>
                 </CardContent>
               </Card>
@@ -373,22 +336,6 @@ export default function CartPage() {
           </div>
         </div>
       </Container>
-
-      <EmailVerificationModal
-        isOpen={showEmailModal}
-        onClose={() => setShowEmailModal(false)}
-        onVerified={handleEmailVerified}
-      />
-
-      <CheckoutSuccessModal
-        isOpen={showSuccessModal}
-        onClose={() => setShowSuccessModal(false)}
-        projectDetails={{
-          totalCost: getTotalWithManagement(),
-          totalHours: getTotalHours(),
-          itemCount: getItemCount(),
-        }}
-      />
     </>
   );
 }
