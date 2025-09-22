@@ -1,31 +1,39 @@
-# Etapa 1: Build 
-FROM node:20-alpine AS builder 
-# Establece directorio de trabajo 
-WORKDIR /app 
-# Copia package.json y package-lock.json (si existe) 
-COPY package.json ./  
-# Instala dependencias solo de producción y desarrollo necesarias para el build 
-RUN npm install 
-# Copia el resto del código fuente 
-COPY . . 
-# Ejecuta el build de Next.js 
-RUN npm run build 
+# syntax=docker/dockerfile:1
 
-# Etapa 2: Producción 
-FROM node:20-alpine AS runner 
-# Establece directorio de trabajo
-WORKDIR /app 
-COPY . . 
-#COPY next.config.js . 
-# Copia solo lo necesario desde el builder 
-COPY --from=builder /app/package.json ./ 
-COPY --from=builder /app/.next ./.next 
-COPY --from=builder /app/public ./public 
-COPY --from=builder /app/node_modules ./node_modules 
-#COPY --from=builder /app/next.config.js ./ 
-# Variable de entorno para producción 
-ENV NODE_ENV=production 
-# Puerto por defecto que expone Next.js 
-EXPOSE 3000 
-# Comando de inicio 
-CMD ["npm", "run", "dev"]"
+# 1) Dependencias
+FROM node:20-alpine AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN npm ci --ignore-scripts
+
+# 2) Build
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+# Opcional: generar salida standalone para runtime más liviano
+# (añade output: 'standalone' en next.config.js)
+RUN npm run build
+
+# 3) Runtime
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+ENV PORT=3000
+# Si usas output: 'standalone'
+# COPY --from=builder /app/.next/standalone ./
+# COPY --from=builder /app/public ./public
+# COPY --from=builder /app/.next/static ./.next/static
+# CMD ["node", "server.js"]
+
+# Si NO usas 'standalone', copia artefactos necesarios:
+COPY --from=builder /app/next.config.ts ./next.config.ts
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/.next ./.next
+
+EXPOSE 3000
+
+CMD ["npm", "run", "start"]
