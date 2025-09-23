@@ -1,25 +1,39 @@
-# Etapa 1: Build
+# syntax=docker/dockerfile:1
+
+# 1) Dependencias
+FROM node:20-alpine AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN npm ci --ignore-scripts
+
+# 2) Build
 FROM node:20-alpine AS builder
 WORKDIR /app
-RUN apk add --no-cache libc6-compat
-COPY package*.json ./
-# Para builds reproducibles y más rápidos en CI:
-RUN npm install
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-ENV NEXT_TELEMETRY_DISABLED=1
+# Opcional: generar salida standalone para runtime más liviano
+# (añade output: 'standalone' en next.config.js)
 RUN npm run build
 
-# Etapa 2: Producción
+# 3) Runtime
 FROM node:20-alpine AS runner
 WORKDIR /app
-RUN apk add --no-cache libc6-compat curl
 ENV NODE_ENV=production
-# Copiamos solo lo necesario
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/.next ./.next
+ENV PORT=3000
+# Si usas output: 'standalone'
+# COPY --from=builder /app/.next/standalone ./
+# COPY --from=builder /app/public ./public
+# COPY --from=builder /app/.next/static ./.next/static
+# CMD ["node", "server.js"]
+
+# Si NO usas 'standalone', copia artefactos necesarios:
+COPY --from=builder /app/next.config.ts ./next.config.ts
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/.next ./.next
 
 EXPOSE 3000
-# ✅ Ejecuta el servidor, no el build
+
 CMD ["npm", "run", "start"]
