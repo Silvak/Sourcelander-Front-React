@@ -340,7 +340,6 @@ const fetchSearchResults = async (
           ...(filters.minRate && { min_rate: filters.minRate }),
           ...(filters.maxRate && { max_rate: filters.maxRate }),
         },
-        timeout: 10000, // Increase timeout to 10 seconds
       });
 
       const hubstaffData = hubstaffResponse.data as HubstaffResponse;
@@ -366,6 +365,11 @@ const fetchSearchResults = async (
           name: hubstaffError.name,
           stack: hubstaffError.stack,
         });
+        
+        // Check for timeout specifically
+        if (hubstaffError.message.includes('timeout')) {
+          console.error('🕐 Hubstaff API timeout - consider checking backend performance');
+        }
       }
 
       // Check if it's a network error
@@ -388,7 +392,6 @@ const fetchSearchResults = async (
           ...(filters.minRate && { min_rate: filters.minRate }),
           ...(filters.maxRate && { max_rate: filters.maxRate }),
         },
-        timeout: 10000, // Increase timeout to 10 seconds
       });
 
       const workanaData = workanaResponse.data as WorkanaResponse;
@@ -411,6 +414,11 @@ const fetchSearchResults = async (
           name: workanaError.name,
           stack: workanaError.stack,
         });
+        
+        // Check for timeout specifically
+        if (workanaError.message.includes('timeout')) {
+          console.error('🕐 Workana API timeout - consider checking backend performance');
+        }
       }
 
       // Check if it's a network error

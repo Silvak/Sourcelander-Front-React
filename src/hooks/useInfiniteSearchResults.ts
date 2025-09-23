@@ -141,6 +141,11 @@ async function fetchHubstaff(query: string, page: number) {
         name: error.name,
         stack: error.stack,
       });
+      
+      // Check for timeout specifically
+      if (error.message.includes('timeout')) {
+        console.error('🕐 Hubstaff API timeout - consider checking backend performance');
+      }
     }
 
     // Check if it's a network error
@@ -195,6 +200,11 @@ async function fetchWorkana(query: string, page: number) {
           data: error.response?.data,
           url,
         });
+        
+        // Check for timeout specifically
+        if (error.message?.includes('timeout')) {
+          console.error('🕐 Workana API timeout - consider checking backend performance');
+        }
       }
       throw error;
     }
@@ -226,6 +236,11 @@ async function fetchWorkana(query: string, page: number) {
         name: error.name,
         stack: error.stack,
       });
+      
+      // Check for timeout specifically
+      if (error.message.includes('timeout')) {
+        console.error('🕐 Workana API timeout - consider checking backend performance');
+      }
     }
 
     if (isAxiosError(error)) {
