@@ -130,7 +130,7 @@ export default function CareersPage() {
         {/* Background gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 -z-10" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-100/20 via-transparent to-purple-100/20 -z-10" />
-        
+
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center py-12">
             <div className="space-y-8">
@@ -138,7 +138,7 @@ export default function CareersPage() {
                 <span className="w-2 h-2 bg-primary rounded-full mr-2 animate-pulse"></span>
                 Join Our Team
               </div>
-              
+
               <div className="space-y-6">
                 <h1 className="text-4xl md:text-6xl font-bold leading-tight">
                   Build the Future of{" "}
@@ -146,23 +146,32 @@ export default function CareersPage() {
                     Global Work
                   </span>
                 </h1>
-                
+
                 <p className="text-xl text-gray-600 leading-relaxed max-w-lg">
                   Join a passionate team of innovators who are reshaping how the
-                  world works. We&apos;re building the platform that connects exceptional
-                  talent with amazing opportunities.
+                  world works. We&apos;re building the platform that connects
+                  exceptional talent with amazing opportunities.
                 </p>
               </div>
-              
+
               <div className="flex gap-4 flex-wrap">
-                <Button size="lg" className="shadow-lg hover:shadow-xl transition-shadow" asChild>
+                <Button
+                  size="lg"
+                  className="shadow-lg hover:shadow-xl transition-shadow"
+                  asChild
+                >
                   <a href="#open-positions">View Open Positions</a>
                 </Button>
-                <Button variant="outline" size="lg" className="border-2 hover:bg-gray-50" asChild>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-2 hover:bg-gray-50"
+                  asChild
+                >
                   <Link href="/about">Learn About Us</Link>
                 </Button>
               </div>
-              
+
               {/* Stats */}
               <div className="flex gap-8 pt-8 border-t border-gray-200">
                 <div>
@@ -179,7 +188,7 @@ export default function CareersPage() {
                 </div>
               </div>
             </div>
-            
+
             <div className="relative">
               <div className="relative h-[400px] lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl">
                 <Image
@@ -192,7 +201,7 @@ export default function CareersPage() {
                 {/* Overlay gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
               </div>
-              
+
               {/* Floating elements */}
               <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-primary to-purple-600 rounded-full opacity-20 blur-xl" />
               <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full opacity-20 blur-xl" />
@@ -208,8 +217,9 @@ export default function CareersPage() {
             Our Values Drive Everything We Do
           </h2>
           <p className="text-lg text-muted-foreground">
-            We&apos;re not just building a platform; we&apos;re creating a culture that
-            empowers people to do their best work and make a meaningful impact.
+            We&apos;re not just building a platform; we&apos;re creating a
+            culture that empowers people to do their best work and make a
+            meaningful impact.
           </p>
         </div>
       </ContainerSmall>
@@ -320,8 +330,8 @@ export default function CareersPage() {
 
         <div className="text-center mt-12">
           <p className="text-muted-foreground mb-4">
-            Don&apos;t see a position that fits? We&apos;re always looking for exceptional
-            talent.
+            Don&apos;t see a position that fits? We&apos;re always looking for
+            exceptional talent.
           </p>
           <Button variant="outline" size="lg" asChild>
             <Link href="/contact?subject=General Application">
@@ -448,9 +458,9 @@ export default function CareersPage() {
         <div className="text-center py-16 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl">
           <h2 className="text-3xl font-bold mb-4">Ready to Make an Impact?</h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Join us in building the future of work. Whether you&apos;re just starting
-            your career or you&apos;re a seasoned professional, we&apos;d love to hear
-            from you.
+            Join us in building the future of work. Whether you&apos;re just
+            starting your career or you&apos;re a seasoned professional,
+            we&apos;d love to hear from you.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Button size="lg" asChild>

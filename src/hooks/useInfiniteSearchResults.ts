@@ -77,8 +77,6 @@ const mapWorkanaFreelancer = (
   }),
 });
 
-
-
 // Individual fetchers
 
 async function fetchWorkana(query: string, page: number) {
@@ -103,7 +101,7 @@ async function fetchWorkana(query: string, page: number) {
       const response = await apiInstance.get(url);
       const data = response.data as WorkanaResponse;
       const dataArray = Array.isArray(data.data) ? data.data : [];
-      
+
       // Filter out freelancers with empty or invalid data
       const validFreelancers = dataArray.filter((freelancer) => {
         return (
@@ -117,7 +115,7 @@ async function fetchWorkana(query: string, page: number) {
           freelancer.hourlyRate.trim() !== ""
         );
       });
-      
+
       const freelancers = validFreelancers.map(mapWorkanaFreelancer);
       return {
         ok: true as const,
@@ -205,12 +203,9 @@ const fetchSearchResults = async (
   const freelancers = [...workanaResult.freelancers];
   const hasMore = workanaResult.hasMore;
 
-  console.log(
-    `[PAGE ${page}] Workana: ${workanaResult.freelancers.length}`,
-    {
-      workanaError: workanaResult.freelancers.length === 0,
-    },
-  );
+  console.log(`[PAGE ${page}] Workana: ${workanaResult.freelancers.length}`, {
+    workanaError: workanaResult.freelancers.length === 0,
+  });
 
   return { freelancers, hasMore };
 };
