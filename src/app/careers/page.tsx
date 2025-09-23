@@ -107,19 +107,19 @@ export default function CareersPage() {
       title: "Innovation First",
       description:
         "We embrace new technologies and creative solutions to solve complex problems.",
-      image: "/innovation.jpg",
+      image: "/innovation.avif",
     },
     {
       title: "Global Mindset",
       description:
         "We think globally and act locally, building bridges across cultures and time zones.",
-      image: "/global-mindset.jpg",
+      image: "/global-mindset.avif",
     },
     {
       title: "Continuous Growth",
       description:
         "We invest in our people's growth and celebrate learning from both successes and failures.",
-      image: "/continuous-growth.jpg",
+      image: "/continuous-growth.avif",
     },
   ];
 
@@ -127,20 +127,17 @@ export default function CareersPage() {
     <div>
       {/* Hero Section */}
       <div className="relative overflow-hidden">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 -z-10" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-100/20 via-transparent to-purple-100/20 -z-10" />
 
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center py-8">
             <div className="space-y-8">
-              <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
-                <span className="w-2 h-2 bg-primary rounded-full mr-2 animate-pulse"></span>
+              <span className="w-2 h-2 text-primary rounded-full mr-2">
                 Join Our Team
-              </div>
+              </span>
 
               <div className="space-y-6">
-                <h1 className="text-4xl md:text-6xl font-bold leading-tight">
+                <h1 className="text-4xl md:text-6xl font-bold leading-tight mt-4">
                   Build the Future of{" "}
                   <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
                     Global Work
@@ -173,7 +170,7 @@ export default function CareersPage() {
               </div>
 
               {/* Stats */}
-              <div className="flex gap-8 pt-8 border-t border-gray-200">
+              <div className="hidden xl:flex gap-8 pt-8 border-t border-gray-200">
                 <div>
                   <div className="text-2xl font-bold text-gray-900">50+</div>
                   <div className="text-sm text-gray-600">Team Members</div>
@@ -192,7 +189,7 @@ export default function CareersPage() {
             <div className="relative">
               <div className="relative h-[400px] lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl">
                 <Image
-                  src="/team-collaboration.jpg"
+                  src="/team-collaboration.avif"
                   alt="Team collaboration"
                   fill
                   className="object-cover"
@@ -399,7 +396,7 @@ export default function CareersPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="relative h-[400px] rounded-2xl overflow-hidden">
             <Image
-              src="/team-culture.jpg"
+              src="/team-culture.avif"
               alt="Team working together"
               fill
               className="object-cover"
