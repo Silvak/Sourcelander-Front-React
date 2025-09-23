@@ -64,30 +64,14 @@ export interface WorkanaFreelancer {
   title?: string;
 }
 
-// Interface para freelancers de Hubstaff
-export interface HubstaffFreelancer {
-  name: string;
-  profileUrl: string;
-  employmentType: string;
-  payRate: string; // Mantiene el formato "$5/hr"
-  location: string;
-  bio: string;
-  skills: string[];
-  imageUrl: string;
-  speciality?: string;
-  rating?: number;
-  projectsCompleted?: number;
-  title?: string;
-}
+
 
 // Interface para la respuesta completa de cada API
 export interface WorkanaResponse {
   data: WorkanaFreelancer[];
 }
 
-export interface HubstaffResponse {
-  data: HubstaffFreelancer[];
-}
 
-// Tipo unión para manejar ambos tipos de freelancers
-export type Freelancer = WorkanaFreelancer | HubstaffFreelancer;
+
+// Tipo para manejar freelancers de Workana
+export type Freelancer = WorkanaFreelancer;

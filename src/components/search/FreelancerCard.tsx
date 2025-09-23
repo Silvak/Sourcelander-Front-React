@@ -50,7 +50,7 @@ export default function FreelancerCard({
             {/* Nombre y verificación */}
             <div className="flex items-center gap-1  min-w-0">
               <h3
-                className="font-semibold text-lg leading-snug text-foreground"
+                className="font-semibold text-lg leading-snug text-foreground truncate max-w-[130px]"
                 title={name}
               >
                 {name}
@@ -59,7 +59,7 @@ export default function FreelancerCard({
 
             {/* Título */}
             <p
-              className="text-muted-foreground text-sm leading-snug"
+              className="text-muted-foreground text-sm leading-snug truncate max-w-[100px]"
               title={title}
             >
               {title}

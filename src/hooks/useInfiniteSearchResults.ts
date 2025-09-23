@@ -1,7 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import {
-  HubstaffFreelancer,
-  HubstaffResponse,
   UnifiedFreelancer,
   WorkanaFreelancer,
   WorkanaResponse,
@@ -39,7 +37,7 @@ function parseExperienceYearsFromSkills(skills?: string[]): number | undefined {
 
 // Mapping helpers
 const mapWorkanaFreelancer = (
-  freelancer: WorkanaFreelancer
+  freelancer: WorkanaFreelancer,
 ): UnifiedFreelancer => ({
   id: `workana-${freelancer.id || Math.random().toString(36).substr(2, 9)}`,
   name: freelancer.name ?? "",
@@ -79,86 +77,7 @@ const mapWorkanaFreelancer = (
   }),
 });
 
-const mapHubstaffFreelancer = (
-  freelancer: HubstaffFreelancer
-): UnifiedFreelancer => ({
-  id: `hubstaff-${freelancer.id || Math.random().toString(36).substr(2, 9)}`,
-  name: freelancer.name ?? "",
-  payRate: freelancer.payRate ?? "",
-  profileUrl: freelancer.profileUrl ?? "",
-  imageUrl: freelancer.imageUrl ?? "",
-  description: freelancer.bio ?? "",
-  location: freelancer.location ?? "N/A",
-  speciality: freelancer.speciality ?? freelancer.employmentType ?? "N/A",
-  rating: freelancer.rating ?? "N/A",
-  projectsCompleted: freelancer.projectsCompleted ?? "N/A",
-  skills: freelancer.skills ?? [],
-  reviews: freelancer.projectsCompleted || 0,
-  hourlyRate: parseFloat(freelancer.payRate?.replace(/[^\d.]/g, "")) || 0,
-  availability: "Available",
-  verified: false,
-  memberSince: "2020-01-01", // Default member since date
-  experienceYears:
-    parseExperienceYearsFromSkills(freelancer.skills) ||
-    Math.floor(Math.random() * 8) + 3, // 3-10 years if not found
-  professionalExperience: generateFreelancerExperience({
-    skills: freelancer.skills,
-    experienceYears:
-      parseExperienceYearsFromSkills(freelancer.skills) ||
-      Math.floor(Math.random() * 8) + 3,
-    title: freelancer.speciality || freelancer.employmentType,
-  }),
-  education: generateFreelancerEducation({
-    skills: freelancer.skills || [],
-    experienceYears:
-      parseExperienceYearsFromSkills(freelancer.skills) ||
-      Math.floor(Math.random() * 8) + 3,
-    title:
-      freelancer.speciality || freelancer.employmentType || freelancer.name,
-  }),
-});
-
 // Individual fetchers
-async function fetchHubstaff(query: string, page: number) {
-  const safeQuery = query.trim();
-  const url = `/hubstaff/freelancers?keywords=${encodeURIComponent(
-    safeQuery
-  )}&page=${page}`;
-  try {
-    const response = await apiInstance.get(url);
-    const data = response.data as HubstaffResponse;
-    // Validar que data.data sea un array antes de usar map
-    const dataArray = Array.isArray(data.data) ? data.data : [];
-    const freelancers = dataArray.map(mapHubstaffFreelancer);
-    return { freelancers, hasMore: !!data.hasMore };
-  } catch (error) {
-    console.warn("Hubstaff fetch failed:", error);
-
-    // Log more detailed error information
-    if (error instanceof Error) {
-      console.error("Hubstaff Error Details:", {
-        message: error.message,
-        name: error.name,
-        stack: error.stack,
-      });
-    }
-
-    // Check if it's a network error
-    if (isAxiosError(error)) {
-      console.error("Network Error Code:", error.code);
-    }
-
-    console.log(
-      "💡 To fix this, ensure your backend is running and NEXT_PUBLIC_API_URL is configured correctly"
-    );
-    console.log(
-      "💡 Current API URL:",
-      process.env.NEXT_PUBLIC_API_URL || "NOT CONFIGURED"
-    );
-
-    return { freelancers: [], hasMore: false };
-  }
-}
 
 async function fetchWorkana(query: string, page: number) {
   const safeQuery = query.trim();
@@ -182,7 +101,22 @@ async function fetchWorkana(query: string, page: number) {
       const response = await apiInstance.get(url);
       const data = response.data as WorkanaResponse;
       const dataArray = Array.isArray(data.data) ? data.data : [];
-      const freelancers = dataArray.map(mapWorkanaFreelancer);
+
+      // Filter out freelancers with empty or invalid data
+      const validFreelancers = dataArray.filter((freelancer) => {
+        return (
+          freelancer &&
+          freelancer.name &&
+          freelancer.name.trim() !== "" &&
+          freelancer.description &&
+          freelancer.description.trim() !== "" &&
+          !freelancer.description.includes("Workana Freelancers") && // Filter out page content
+          freelancer.hourlyRate &&
+          freelancer.hourlyRate.trim() !== ""
+        );
+      });
+
+      const freelancers = validFreelancers.map(mapWorkanaFreelancer);
       return {
         ok: true as const,
         result: { freelancers, hasMore: freelancers.length > 0 },
@@ -195,6 +129,13 @@ async function fetchWorkana(query: string, page: number) {
           data: error.response?.data,
           url,
         });
+
+        // Check for timeout specifically
+        if (error.message?.includes("timeout")) {
+          console.error(
+            "🕐 Workana API timeout - consider checking backend performance",
+          );
+        }
       }
       throw error;
     }
@@ -208,7 +149,7 @@ async function fetchWorkana(query: string, page: number) {
     // Si el backend responde 400, reintentamos sin worker_type
     if (isAxiosError(error) && error.response?.status === 400) {
       console.warn(
-        "Workana 400 with worker_type=0, retrying without worker_type..."
+        "Workana 400 with worker_type=0, retrying without worker_type...",
       );
       try {
         const second = await tryRequest(false);
@@ -226,6 +167,13 @@ async function fetchWorkana(query: string, page: number) {
         name: error.name,
         stack: error.stack,
       });
+
+      // Check for timeout specifically
+      if (error.message.includes("timeout")) {
+        console.error(
+          "🕐 Workana API timeout - consider checking backend performance",
+        );
+      }
     }
 
     if (isAxiosError(error)) {
@@ -233,11 +181,11 @@ async function fetchWorkana(query: string, page: number) {
     }
 
     console.log(
-      "💡 To fix this, ensure your backend is running and NEXT_PUBLIC_API_URL is configured correctly"
+      "💡 To fix this, ensure your backend is running and NEXT_PUBLIC_API_URL is configured correctly",
     );
     console.log(
       "💡 Current API URL:",
-      process.env.NEXT_PUBLIC_API_URL || "NOT CONFIGURED"
+      process.env.NEXT_PUBLIC_API_URL || "NOT CONFIGURED",
     );
 
     return { freelancers: [], hasMore: false };
@@ -247,28 +195,17 @@ async function fetchWorkana(query: string, page: number) {
 // Unified fetch logic
 const fetchSearchResults = async (
   query: string,
-  page: number
+  page: number,
 ): Promise<{ freelancers: UnifiedFreelancer[]; hasMore: boolean }> => {
-  // Fetch both in parallel, but handle error from each independently
-  const [hubstaffResult, workanaResult] = await Promise.all([
-    fetchHubstaff(query, page),
-    fetchWorkana(query, page),
-  ]);
+  // Fetch only from Workana
+  const workanaResult = await fetchWorkana(query, page);
 
-  // Prefer results from both, but if one failed, still return the other's data
-  const freelancers = [
-    ...hubstaffResult.freelancers,
-    ...workanaResult.freelancers,
-  ];
-  const hasMore = hubstaffResult.hasMore || workanaResult.hasMore;
+  const freelancers = [...workanaResult.freelancers];
+  const hasMore = workanaResult.hasMore;
 
-  console.log(
-    `[PAGE ${page}] Hubstaff: ${hubstaffResult.freelancers.length}, Workana: ${workanaResult.freelancers.length}`,
-    {
-      hubstaffError: hubstaffResult.freelancers.length === 0,
-      workanaError: workanaResult.freelancers.length === 0,
-    }
-  );
+  console.log(`[PAGE ${page}] Workana: ${workanaResult.freelancers.length}`, {
+    workanaError: workanaResult.freelancers.length === 0,
+  });
 
   return { freelancers, hasMore };
 };
