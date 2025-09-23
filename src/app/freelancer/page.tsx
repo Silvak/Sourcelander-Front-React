@@ -242,18 +242,22 @@ export default function FreelancerPage() {
   // Junta todos los freelancers de las páginas
   const freelancers = data?.pages.flatMap((page) => page.freelancers) ?? [];
 
-  // Si no hay resultados y no está cargando, mostrar datos mockeados
+  // Check if we have any active search criteria
+  const hasActiveSearch =
+    searchQuery.trim() !== "" || selectedCategory !== null;
+
+  // Check if filters are in their initial state (no filters applied)
+  const hasNoFiltersApplied = 
+    filters.priceRange === null && filters.experience === null;
+
+  // Si no hay resultados y no está cargando, mostrar datos mockeados si hay búsqueda activa O si no hay filtros aplicados
   const baseFreelancers =
-    !isLoading && !isError && freelancers.length === 0
+    !isLoading && !isError && freelancers.length === 0 && (hasActiveSearch || hasNoFiltersApplied)
       ? mockFreelancers
       : freelancers;
 
   // Aplicar filtros visuales
   const displayFreelancers = applyVisualFilters(baseFreelancers, filters);
-
-  // Check if we have any active search criteria
-  const hasActiveSearch =
-    searchQuery.trim() !== "" || selectedCategory !== null;
 
   // Show recommended freelancers carousel when searching
   const showRecommendedFreelancers = hasActiveSearch;

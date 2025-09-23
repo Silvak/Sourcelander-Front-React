@@ -1,6 +1,4 @@
 import {
-  HubstaffFreelancer,
-  HubstaffResponse,
   UnifiedFreelancer,
   WorkanaFreelancer,
   WorkanaResponse,
@@ -292,95 +290,13 @@ const mapWorkanaFreelancer = (
   }),
 });
 
-// Función para mapear HubstaffFreelancer a UnifiedFreelancer
-const mapHubstaffFreelancer = (
-  freelancer: HubstaffFreelancer
-): UnifiedFreelancer => ({
-  id: `hubstaff-${freelancer.name.replace(/\s+/g, "-").toLowerCase()}`,
-  name: freelancer.name,
-  title: freelancer.name, // Usar name como title por defecto
-  payRate: freelancer.payRate,
-  profileUrl: freelancer.profileUrl,
-  imageUrl: freelancer.imageUrl,
-  description: freelancer.bio,
-  location: freelancer.location,
-  rating: 4.0, // Default rating
-  projectsCompleted: 5, // Default value
-  skills: [], // Will be populated based on bio analysis
-  speciality: "N/A", // Valor por defecto
-  // Additional properties for compatibility
-  avatar: freelancer.imageUrl,
-  reviews: 5, // Default value
-  hourlyRate: parseFloat(freelancer.payRate.replace(/[^0-9.]/g, "")) || 25,
-  availability: "Available",
-  verified: true,
-  memberSince: "2020-01-01", // Default member since date
-  experienceYears: Math.floor(Math.random() * 8) + 3, // 3-10 years
-  professionalExperience: getRandomCompanies(Math.floor(Math.random() * 4) + 2), // 2-5 companies
-  education: generateFreelancerEducation({
-    skills: [],
-    experienceYears: Math.floor(Math.random() * 8) + 3,
-    title: freelancer.name,
-  }),
-});
+
 
 const fetchSearchResults = async (
   filters: SearchFilters
 ): Promise<UnifiedFreelancer[]> => {
   try {
-    let hubstaffFreelancers: UnifiedFreelancer[] = [];
     let workanaFreelancers: UnifiedFreelancer[] = [];
-
-    // Try to fetch from Hubstaff API with timeout handling
-    try {
-      const hubstaffResponse = await apiInstance.get("/hubstaff/freelancers", {
-        params: {
-          "search[keywords]": filters.query,
-          ...(filters.location && { location: filters.location }),
-          ...(filters.minRate && { min_rate: filters.minRate }),
-          ...(filters.maxRate && { max_rate: filters.maxRate }),
-        },
-      });
-
-      const hubstaffData = hubstaffResponse.data as HubstaffResponse;
-      if (hubstaffData?.data) {
-        // Validar que data sea un array antes de usar filter y map
-        const dataArray = Array.isArray(hubstaffData.data)
-          ? hubstaffData.data
-          : [];
-        hubstaffFreelancers = dataArray
-          .filter((freelancer) => freelancer && freelancer.name) // Filter out null/undefined
-          .map(mapHubstaffFreelancer);
-      }
-    } catch (hubstaffError) {
-      console.warn(
-        "❌ Hubstaff API failed, will use mock data:",
-        hubstaffError
-      );
-
-      // Log more detailed error information
-      if (hubstaffError instanceof Error) {
-        console.error("Hubstaff Error Details:", {
-          message: hubstaffError.message,
-          name: hubstaffError.name,
-          stack: hubstaffError.stack,
-        });
-        
-        // Check for timeout specifically
-        if (hubstaffError.message.includes('timeout')) {
-          console.error('🕐 Hubstaff API timeout - consider checking backend performance');
-        }
-      }
-
-      // Check if it's a network error
-      if (
-        hubstaffError &&
-        typeof hubstaffError === "object" &&
-        "code" in hubstaffError
-      ) {
-        console.error("Network Error Code:", hubstaffError.code);
-      }
-    }
 
     // Try to fetch from Workana API with timeout handling
     try {
@@ -400,9 +316,21 @@ const fetchSearchResults = async (
         const dataArray = Array.isArray(workanaData.data)
           ? workanaData.data
           : [];
-        workanaFreelancers = dataArray
-          .filter((freelancer) => freelancer && freelancer.name) // Filter out null/undefined
-          .map(mapWorkanaFreelancer);
+        // Filter out freelancers with empty or invalid data
+        const validFreelancers = dataArray.filter((freelancer) => {
+          return (
+            freelancer &&
+            freelancer.name &&
+            freelancer.name.trim() !== "" &&
+            freelancer.description &&
+            freelancer.description.trim() !== "" &&
+            !freelancer.description.includes("Workana Freelancers") && // Filter out page content
+            freelancer.hourlyRate &&
+            freelancer.hourlyRate.trim() !== ""
+          );
+        });
+        
+        workanaFreelancers = validFreelancers.map(mapWorkanaFreelancer);
       }
     } catch (workanaError) {
       console.warn("❌ Workana API failed, will use mock data:", workanaError);
@@ -431,21 +359,16 @@ const fetchSearchResults = async (
       }
     }
 
-    // Log results from APIs
-    if (hubstaffFreelancers.length > 0) {
-      console.log(
-        `✅ Hubstaff API: ${hubstaffFreelancers.length} freelancers found`
-      );
-    }
+    // Log results from API
     if (workanaFreelancers.length > 0) {
       console.log(
         `✅ Workana API: ${workanaFreelancers.length} freelancers found`
       );
     }
 
-    // If both APIs failed, return filtered mock data
-    if (hubstaffFreelancers.length === 0 && workanaFreelancers.length === 0) {
-      console.log("❌ Both APIs failed, using MOCK DATA");
+    // If API failed, return filtered mock data
+    if (workanaFreelancers.length === 0) {
+      console.log("❌ Workana API failed, using MOCK DATA");
       console.log(
         "💡 To fix this, ensure your backend is running and NEXT_PUBLIC_API_URL is configured correctly"
       );
@@ -456,8 +379,8 @@ const fetchSearchResults = async (
       return markAsMockData(filterMockData(filters));
     }
 
-    // Combine results
-    const totalResults = [...hubstaffFreelancers, ...workanaFreelancers];
+    // Use Workana results
+    const totalResults = [...workanaFreelancers];
 
     // Apply additional filters if needed
     let filteredResults = totalResults;

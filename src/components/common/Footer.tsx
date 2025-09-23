@@ -105,7 +105,7 @@ export default function Footer({ className = "" }: { className?: string }) {
               <h3 className="font-semibold text-lg mb-4">Company Info</h3>
               <div className="space-y-2">
                 <Link
-                  href="/contact"
+                  href="/about"
                   className="block text-muted-foreground hover:text-foreground transition-colors"
                 >
                   About
@@ -117,7 +117,7 @@ export default function Footer({ className = "" }: { className?: string }) {
                   Contact
                 </Link>
                 <Link
-                  href="/contact"
+                  href="/careers"
                   className="block text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Careers
