@@ -246,9 +246,12 @@ export default function FreelancerPage() {
   const hasActiveSearch =
     searchQuery.trim() !== "" || selectedCategory !== null;
 
-  // Check if filters are in their initial state (no filters applied)
-  const hasNoFiltersApplied = 
-    filters.priceRange === null && filters.experience === null;
+  // Check if all filters are reset (no search, no category, no visual filters)
+  const hasNoFiltersApplied =
+    searchQuery.trim() === "" &&
+    selectedCategory === null &&
+    filters.priceRange === null &&
+    filters.experience === null;
 
   // Si no hay resultados y no está cargando, mostrar datos mockeados si hay búsqueda activa O si no hay filtros aplicados
   const baseFreelancers =
