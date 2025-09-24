@@ -11,7 +11,7 @@ export default function Footer({ className = "" }: { className?: string }) {
         <div
           className={cn(
             "relative border-x max-w-[900px] xl:max-w-[1120px] mx-auto min-h-[400px] px-4 sm:px-8 flex flex-col gap-8 md:gap-8 py-4 md:py-8 pl-4",
-            className
+            className,
           )}
         >
           {/* Top Row - Logo and Social Media */}
@@ -74,7 +74,7 @@ export default function Footer({ className = "" }: { className?: string }) {
           </div>
 
           {/* Main Content - Navigation, Company Info, Policies */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
             {/* Navigation */}
             <div>
               <h3 className="font-semibold text-lg mb-4">Navigation</h3>
@@ -206,11 +206,14 @@ export default function Footer({ className = "" }: { className?: string }) {
       <section className="w-full px-4 sm:px-8 md:px-12 h-min ">
         <div
           className={cn(
-            "relative border-x text-sm text-gray-400 max-w-[900px] xl:max-w-[1120px] mx-auto min-h-[52px] px-4 sm:px-8 flex flex-wrap items-center justify-between gap-1 md:gap-4 py-4",
-            className
+            "relative border-x text-sm text-gray-400 max-w-[900px] xl:max-w-[1120px] mx-auto min-h-[52px] px-4 sm:px-8 flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 py-4 text-center",
+            className,
           )}
         >
           <p>© {new Date().getFullYear()} Sourcelander. All rights reserved</p>
+          <span className="hidden md:inline">•</span>
+          <p>USA: 1032 E Brandon Blvd #7182, Brandon, FL 33511</p>
+          <span className="hidden md:inline">•</span>
           <p>Sourcelander is a registered trademark.</p>
         </div>
       </section>
