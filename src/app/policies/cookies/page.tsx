@@ -290,8 +290,9 @@ export default function CookiesPolicyPage() {
               </p>
               <div className="space-y-2 text-muted-foreground">
                 <p>Email: privacy@sourcelander.com</p>
-                <p>Address: 123 Business Street, Tech City, TC 12345</p>
-                <p>Phone: +1 (555) 123-4567</p>
+                <p>
+                  Address: 1032 E Brandon Blvd #7182, Brandon, FL 33511 (USA)
+                </p>
               </div>
             </CardContent>
           </Card>

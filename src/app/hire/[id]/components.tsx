@@ -741,15 +741,6 @@ export const MaintenanceModal = ({
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-lg">
-              <Phone className="h-5 w-5 text-primary" />
-              <div>
-                <p className="font-medium">Phone</p>
-                <p className="text-sm text-muted-foreground">
-                  +1 (555) 123-4567
-                </p>
-              </div>
-            </div>
           </div>
         </div>
 
