@@ -35,7 +35,6 @@ import {
   AlertCircle,
   CheckCircle2,
   Mail,
-  Phone,
   Calendar,
 } from "lucide-react";
 import { Freelancer, ProjectForm } from "./types";
